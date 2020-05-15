@@ -155,6 +155,24 @@
             "config/packages/prod/jms_serializer.yaml"
         ]
     },
+    "lcobucci/jwt": {
+        "version": "3.3.1"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+        },
+        "files": [
+            "config/packages/lexik_jwt_authentication.yaml"
+        ]
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
+    },
     "nikic/php-parser": {
         "version": "v4.4.0"
     },
@@ -293,9 +311,6 @@
     "symfony/polyfill-php73": {
         "version": "v1.17.0"
     },
-    "symfony/process": {
-        "version": "v5.0.8"
-    },
     "symfony/property-access": {
         "version": "v5.0.8"
     },
@@ -368,15 +383,6 @@
     },
     "symfony/var-exporter": {
         "version": "v5.0.8"
-    },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.6",

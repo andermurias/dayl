@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use JMS\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -31,17 +32,66 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{date}", name="tasks", requirements={"date"="^[0-9]{4}\-[01][0-9]\-[0-3][0-9]$"})
+     * @Route(
+     *     "/tasks/pending",
+     *     name="tasks_pending"
+     *     )
      */
-    public function tasks($date)
+    public function tasksPending()
     {
-        $user = $this->userRepository->findOneBy(['id' => 1]);
-        $datetime = new \DateTime($date);
-
-        $userTasks = $this->taskRepository->finByUserAndDate($user, $datetime);
+        $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), null);
 
         $serializedTask = $this->serializer->serialize($userTasks, 'json');
 
-        return new Response($serializedTask);
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
+     * @Route(
+     *     "/tasks/toggle/{id}",
+     *     name="tasks_toggle",
+     *     requirements={"id"="\d+"}
+     *     )
+     */
+    public function tasksToggle($id, Request $request)
+    {
+        $task = $this->taskRepository->findOneBy(['id' => $id]);
+
+        if ($task->getUser()->getId() === $this->getUser()->getId()) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $task->setDate($task->getDate() ?  null : new \DateTime());
+            if ($request->get('start')) {
+                $task->setStart(new \DateTime($request->get('start')));
+            }
+
+            if ($request->get('end')) {
+                $task->setEnd(new \DateTime($request->get('end')));
+            }
+            $entityManager->persist($task);
+            $entityManager->flush();
+        }
+
+        $serializedTask = $this->serializer->serialize(['status' => 200], 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
+     * @Route(
+     *     "/tasks/{year}/{month}/{day}",
+     *     name="tasks_for_day",
+     *     requirements={"year"="\d{4}", "month"="\d{2}", "day"="\d{2}"}
+     *     )
+     */
+    public function tasksForDay($year, $month, $day)
+    {
+        $datetime = new \DateTime("$year-$month-$day");
+
+        $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
+
+        $serializedTask = $this->serializer->serialize($userTasks, 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
     }
 }

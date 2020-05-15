@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 class UserFixtures extends Fixture
 {
@@ -21,7 +22,10 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setEmail('admin@murias.nl');
-
+        $user->setUsername('admin');
+        $user->setCreatedAt(new \DateTime());
+        $user->setUpdatedAt(new \DateTime());
+        $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $password = $this->passwordEncoder->encodePassword($user, '123456');
         $user->setPassword($password);
         $manager->persist($user);

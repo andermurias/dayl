@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Task;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,19 +21,26 @@ class TaskRepository extends ServiceEntityRepository
     }
 
     /**
-      * @return Task[] Returns an array of Task objects
-    */
-    public function finByUserAndDate(User $user, \DateTimeInterface $dateTime)
+     * @return Task[] Returns an array of Task objects
+     */
+    public function finByUserAndDate(UserInterface $user, ?\DateTimeInterface $dateTime)
     {
-        return $this->createQueryBuilder('t')
+        $queryBuilder = $this->createQueryBuilder('t')
             ->andWhere('t.user = :user')
-            ->andWhere('date(t.date) = :date')
-            ->setParameter('user', $user->getId())
-            ->setParameter('date', $dateTime->format('Y-m-d H:i:s'))
-            ->orderBy('t.id', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->setParameter('user', $user->getId());
+        if (is_null($dateTime)) {
+            $queryBuilder
+                ->andWhere('date(t.date) IS NULL');
+        } else {
+            $queryBuilder
+                ->andWhere('date(t.date) = :date')
+                ->setParameter('date', $dateTime->format('Y-m-d'));
+        }
+        $queryBuilder->
+        orderBy('t.id', 'ASC');
+
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     // /**
