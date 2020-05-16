@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api", name="blog_")
+ * @Route("/api/task", name="blog_")
  */
-class ApiController extends AbstractController
+class ApiTaskController extends AbstractController
 {
 
     private $taskRepository;
@@ -33,7 +33,7 @@ class ApiController extends AbstractController
 
     /**
      * @Route(
-     *     "/tasks/pending",
+     *     "/pending",
      *     name="tasks_pending"
      *     )
      */
@@ -48,19 +48,43 @@ class ApiController extends AbstractController
 
     /**
      * @Route(
-     *     "/tasks/toggle/{id}",
-     *     name="tasks_toggle",
-     *     requirements={"id"="\d+"}
+     *     "/done",
+     *     name="tasks_for_day"
      *     )
      */
-    public function tasksToggle($id, Request $request)
+    public function tasksForDay(Request $request)
+    {
+        $date = $request->get('date');
+
+        if(!is_null($date) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            throw new \JsonException('If sent, date param MUST be YYYY-MM-DD format');
+        }
+
+        $datetime = new \DateTime($date ?? date('Y-m-d'));
+
+        $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
+
+        $serializedTask = $this->serializer->serialize($userTasks, 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
+     * @Route(
+     *     "/{id}",
+     *     name="tasks_update",
+     *     requirements={"id"="\d+"},
+     *     methods={"POST"}
+     *     )
+     */
+    public function taskUpdate($id, Request $request)
     {
         $task = $this->taskRepository->findOneBy(['id' => $id]);
 
         if ($task->getUser()->getId() === $this->getUser()->getId()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $task->setDate($task->getDate() ?  null : new \DateTime());
+            $task->setDate($task->getDate() ? null : new \DateTime());
             if ($request->get('start')) {
                 $task->setStart(new \DateTime($request->get('start')));
             }
@@ -73,24 +97,6 @@ class ApiController extends AbstractController
         }
 
         $serializedTask = $this->serializer->serialize(['status' => 200], 'json');
-
-        return new JsonResponse($serializedTask, 200, [], true);
-    }
-
-    /**
-     * @Route(
-     *     "/tasks/{year}/{month}/{day}",
-     *     name="tasks_for_day",
-     *     requirements={"year"="\d{4}", "month"="\d{2}", "day"="\d{2}"}
-     *     )
-     */
-    public function tasksForDay($year, $month, $day)
-    {
-        $datetime = new \DateTime("$year-$month-$day");
-
-        $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
-
-        $serializedTask = $this->serializer->serialize($userTasks, 'json');
 
         return new JsonResponse($serializedTask, 200, [], true);
     }
