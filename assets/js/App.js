@@ -7,7 +7,7 @@ import {colors} from "./Common/Colors";
 import DateTasks from "./Template/DateTasks";
 import Login from "./Template/Login";
 
-const isAuthenticated = false;
+const isAuthenticated = () => localStorage.getItem('token');
 
 const theme = createMuiTheme({
   overrides: {
@@ -27,7 +27,7 @@ const theme = createMuiTheme({
   },
 });
 
-const checkRouteAuthorized = (route, props) => !route.props.secure || isAuthenticated ?
+const checkRouteAuthorized = (route, props) => !route.props.secure || isAuthenticated() ?
   <route.component {...props} {...route.props} /> :
   <Redirect to={{pathname: '/login'}}/>;
 
