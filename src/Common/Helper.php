@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Controller;
 
+namespace App\Common;
+
+
+use App\Entity\User;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+class Helper extends AbstractController
 {
 
     private $taskRepository;
@@ -21,12 +22,8 @@ class DefaultController extends AbstractController
         $this->taskRepository = $_taskRepository;
     }
 
-    /**
-     * @Route("/{reactRouting}", name="home", requirements={"reactRouting"=".+"}, defaults={"reactRouting": null})
-     */
-    public function index()
+    public function getRealUser() : User
     {
-
-        return $this->render('default/index.html.twig');
+        return $this->userRepository->findOneBy(['id' => $this->getUser()->getId()]);
     }
 }

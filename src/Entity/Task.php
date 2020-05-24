@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -29,11 +30,13 @@ class Task
     private $date;
 
     /**
+     * @Type("DateTime<'H:i'>")
      * @ORM\Column(type="time", nullable=true)
      */
     private $start;
 
     /**
+     * @Type("DateTime<'H:i'>")
      * @ORM\Column(type="time", nullable=true)
      */
     private $end;

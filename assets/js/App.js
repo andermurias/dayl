@@ -50,8 +50,7 @@ const routerConfiguration = [
     route: "/tasks",
     component: DateTasks,
     props: {
-      secure: true,
-      date: 'today'
+      secure: true
     },
   },
   {
