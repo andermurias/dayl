@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/{reactRouting}", name="home", requirements={"reactRouting"=".+"}, defaults={"reactRouting": null})
+     * @Route("/{reactRouting}", name="home", requirements={"reactRouting"="^(?!.*(api)).*"}, defaults={"reactRouting": null})
      */
     public function index()
     {

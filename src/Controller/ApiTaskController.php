@@ -15,9 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\Logger;
 use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
- * @Route("/api/task", name="blog_")
+ * @Route("/api/task", name="task_")
  */
 class ApiTaskController extends AbstractController
 {
@@ -40,10 +43,18 @@ class ApiTaskController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/pending",
-     *     name="tasks_pending"
+     * @Route("/pending", name="pending", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all pending tasks of an User",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
      *     )
+     * )
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
      */
     public function tasksPending()
     {
@@ -55,10 +66,25 @@ class ApiTaskController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/done",
-     *     name="tasks_for_day"
+     * @Route("/done", name="done", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all done tasks of an User and specific day",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
      *     )
+     * )
+     * @SWG\Parameter(
+     *     name="date",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
      */
     public function tasksForDay(Request $request)
     {
@@ -78,12 +104,43 @@ class ApiTaskController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/{id}",
-     *     name="tasks_update",
-     *     requirements={"id"="\d+"},
-     *     methods={"POST"}
-     *     )
+     * @Route("/{id}", name="update", requirements={"id"="\d+"}, methods={"PATCH"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Updated a taks by setting the date when has been finished, and the start/end time"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="Id of the task"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="date",
+     *     in="header",
+     *     type="string",
+     *     description="Date to set as done (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="start",
+     *     in="header",
+     *     type="string",
+     *     description="Start time (HH:MM)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="end",
+     *     in="header",
+     *     type="string",
+     *     description="End time (HH:MM)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
      */
     public function taskUpdate($id, Request $request)
     {
@@ -116,9 +173,46 @@ class ApiTaskController extends AbstractController
     /**
      * @Route(
      *     "/add",
-     *     name="tasks_add",
+     *     name="add",
      *     methods={"POST"}
      *     )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Add a new task"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="header",
+     *     type="string",
+     *     description="Text of the task",
+     *     required=true
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="date",
+     *     in="header",
+     *     type="string",
+     *     description="Date to set as done (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="start",
+     *     in="header",
+     *     type="string",
+     *     description="Start time (HH:MM)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="end",
+     *     in="header",
+     *     type="string",
+     *     description="End time (HH:MM)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
      */
     public function taskAdd(Request $request)
     {
@@ -149,11 +243,22 @@ class ApiTaskController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/delete/{id}",
-     *     name="tasks_delete",
-     *     methods={"GET"}
-     *     )
+     * @Route("/delete/{id}", name="delete", methods={"DELETE"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete de selected task"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="string",
+     *     description="Id of the task"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
      */
     public function taskDelete($id)
     {
@@ -165,8 +270,6 @@ class ApiTaskController extends AbstractController
             $entityManager->flush();
         }
 
-        $serializedTask = $this->serializer->serialize(['status' => 200], 'json');
-
-        return new JsonResponse($serializedTask, 200, [], true);
+       return $this->helper->returnOk();
     }
 }

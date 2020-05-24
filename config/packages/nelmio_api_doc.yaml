@@ -1,0 +1,18 @@
+nelmio_api_doc:
+    models: { use_jms: true }
+    documentation:
+        info:
+            title: Dayl
+            description: Daily Log for Daily Meetengs
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            -   Bearer: []
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/(doc|doc\.json)$) # Accepts routes under /api except /api/doc

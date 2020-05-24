@@ -93,6 +93,9 @@
     "doctrine/reflection": {
         "version": "1.2.1"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "hoa/compiler": {
         "version": "3.17.08.08"
     },
@@ -173,6 +176,19 @@
     "namshi/jose": {
         "version": "7.2.3"
     },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
+        ]
+    },
     "nikic/php-parser": {
         "version": "v4.4.0"
     },
@@ -184,6 +200,15 @@
     },
     "php": {
         "version": "7.3"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "2.1.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.1.0"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.1.0"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -299,6 +324,9 @@
     "symfony/mime": {
         "version": "v5.0.8"
     },
+    "symfony/options-resolver": {
+        "version": "v5.0.8"
+    },
     "symfony/orm-pack": {
         "version": "v1.0.8"
     },
@@ -312,6 +340,9 @@
         "version": "v1.17.0"
     },
     "symfony/property-access": {
+        "version": "v5.0.8"
+    },
+    "symfony/property-info": {
         "version": "v5.0.8"
     },
     "symfony/routing": {
@@ -409,10 +440,16 @@
     "twig/twig": {
         "version": "v3.0.3"
     },
+    "webmozart/assert": {
+        "version": "1.8.0"
+    },
     "zendframework/zend-code": {
         "version": "3.4.1"
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.16"
     }
 }

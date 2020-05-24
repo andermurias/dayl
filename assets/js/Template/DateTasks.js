@@ -102,15 +102,13 @@ const DateTasks = ({date, location}) => {
   const prevDate = moment(currentDate).subtract(1, 'day').format('YYYY-MM-DD');
   const nexDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
 
-  console.log(currentDate);
-
   useEffect(() => {
     getTasks('pending', query.date).then(res => setPendingTasks(res.data));
     getTasks('done', query.date).then(res => setDoneTasks(res.data));
   }, [update, currentDateFormatted]);
 
   const changeTaskStatus = (task, date) => (e) => {
-    axios.post(
+    axios.patch(
       process.env.API_URL + '/api/task/' + task.id,
       {
         date: date
@@ -127,7 +125,7 @@ const DateTasks = ({date, location}) => {
   }
 
   const deleteTasks = (task) => (e) => {
-    axios.get(
+    axios.delete(
       process.env.API_URL + '/api/task/delete/' + task.id,
       {
         headers: {
