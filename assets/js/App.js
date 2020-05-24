@@ -18,6 +18,9 @@ const theme = createMuiTheme({
     },
   },
   palette: {
+    text: {
+      primary: colors.richBlack
+    },
     primary: {
       main: colors.richBlack,
     },

@@ -89,7 +89,7 @@ class ApiTaskController extends AbstractController
     {
         $task = $this->taskRepository->findOneBy(['id' => $id]);
 
-        if ($task->getUser()->getId() === $this->getUser()->getId()) {
+        if ($task->getUser()->getId() === $this->helper->getRealUser()->getId()) {
             $entityManager = $this->getDoctrine()->getManager();
 
             $data = json_decode($request->getContent(), true);
@@ -125,16 +125,41 @@ class ApiTaskController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $task = new Task();
+
+        $data = json_decode($request->getContent(), true);
+
         $task->setUser($this->helper->getRealUser());
-        $task->setDescription($request->request->get('description'));
-        $task->setStart(new \DateTime($request->request->get('start')));
-        $task->setEnd(new \DateTime($request->request->get('end')));
-        if ($request->request->get('date')) {
-            $task->setDate(new \DateTime($request->request->get('date') ?? 'now'));
+        $task->setDescription($data['description']);
+        $task->setStart(new \DateTime($data['start'] ?? null));
+        $task->setEnd(new \DateTime($data['enf'] ?? null));
+        if (array_key_exists('date', $data)) {
+            $task->setDate(new \DateTime($data['date']));
         }
 
         $entityManager->persist($task);
         $entityManager->flush();
+
+        $serializedTask = $this->serializer->serialize(['status' => 200], 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
+     * @Route(
+     *     "/delete/{id}",
+     *     name="tasks_delete",
+     *     methods={"GET"}
+     *     )
+     */
+    public function taskDelete($id)
+    {
+        $task = $this->taskRepository->findOneBy(['id' => $id]);
+
+        if ($task->getUser()->getId() === $this->helper->getRealUser()->getId()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($task);
+            $entityManager->flush();
+        }
 
         $serializedTask = $this->serializer->serialize(['status' => 200], 'json');
 
