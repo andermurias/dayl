@@ -12,9 +12,11 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.6",
+    "@date-io/moment": "1.x",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
+    "@material-ui/pickers": "^3.2.10",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "moment": "^2.26.0",

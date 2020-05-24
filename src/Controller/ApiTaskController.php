@@ -130,8 +130,12 @@ class ApiTaskController extends AbstractController
 
         $task->setUser($this->helper->getRealUser());
         $task->setDescription($data['description']);
-        $task->setStart(new \DateTime($data['start'] ?? null));
-        $task->setEnd(new \DateTime($data['enf'] ?? null));
+        if (array_key_exists('start', $data)) {
+            $task->setStart(new \DateTime($data['start']));
+        }
+        if (array_key_exists('end', $data)) {
+            $task->setEnd(new \DateTime($data['end']));
+        }
         if (array_key_exists('date', $data)) {
             $task->setDate(new \DateTime($data['date']));
         }

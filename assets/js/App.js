@@ -11,11 +11,11 @@ const isAuthenticated = () => localStorage.getItem('token');
 
 const theme = createMuiTheme({
   overrides: {
-    MuiListItem: {
-      "&$selected": {
-        color: colors.orangePeel,
-      },
-    },
+//    MuiListItem: {
+//      "&$selected": {
+//        color: colors.orangePeel,
+//      },
+//    },
   },
   palette: {
     text: {
