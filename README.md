@@ -1,6 +1,6 @@
 ![Dayl](./etc/assets/dayl_logo_full.svg)
 
-# Daily + Log = Dailyog
+# Daily + Log = Dayl
 A small daily log for the work you have done and the task you have left
 
 ## First Steps
