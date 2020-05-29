@@ -1,42 +1,21 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {withRouter, useParams, Link} from "react-router-dom";
-import axios from "axios";
 import moment from 'moment';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import {TaskListItem} from "../Component/TaskListItem";
+import {NewTaskForm} from "../Component/NewTaskForm";
+
+import {getTasks} from "../Api/Task";
 
 moment.locale('es');
-
-const getTasks = (type, date) => {
-  return axios.get(
-    process.env.API_URL + '/api/task/' + type + (date ? '?date=' + date : ''),
-    {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
-    })
-
-}
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -70,29 +49,15 @@ const useStyles = makeStyles((theme) => ({
   titleSecondary: {
     opacity: '.3',
     fontWeight: 'regular'
-  },
-  inputText: {
-    marginTop: `${theme.spacing(2)}px`,
-  },
-  check: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: `${theme.spacing(2)}px`
   }
 }));
 
-const DateTasks = ({date, location}) => {
+const DateTasks = () => {
   const classes = useStyles();
   const [update, updateState] = useState();
   const upd = () => updateState(Math.random());
   const [doneTasks, setDoneTasks] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
-  const [startDate, handlestartDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-  const [endDate, handleEndDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-
-  let tastDescriptionRef = useRef(null);
 
   const query = useParams();
 
@@ -106,86 +71,6 @@ const DateTasks = ({date, location}) => {
     getTasks('pending', query.date).then(res => setPendingTasks(res.data));
     getTasks('done', query.date).then(res => setDoneTasks(res.data));
   }, [update, currentDateFormatted]);
-
-  const changeTaskStatus = (task, date) => (e) => {
-    axios.patch(
-      process.env.API_URL + '/api/task/' + task.id,
-      {
-        date: date
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        }
-      }).then(() => {
-      console.log('Updated Successfully!');
-      upd();
-    })
-  }
-
-  const deleteTasks = (task) => (e) => {
-    axios.delete(
-      process.env.API_URL + '/api/task/delete/' + task.id,
-      {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        }
-      }).then(() => {
-      console.log('Delete Successfully!');
-      upd();
-    })
-  }
-
-  const renderListItem = ({done, currentDate}) => (task, i) => {
-    const labelId = `checkbox-list-label-${task.id}`;
-
-    return (
-      <ListItem key={task.id} role={undefined} dense button onClick={changeTaskStatus(task, currentDate)}>
-        <ListItemIcon>
-          <Checkbox
-            edge="start"
-            checked={done}
-            tabIndex={-1}
-            disableRipple
-            inputProps={{'aria-labelledby': labelId}}
-          />
-        </ListItemIcon>
-        <ListItemText id={labelId} primary={task.description}
-                      secondary={task.start ? (task.start + ' - ' + task.end) : ''}/>
-        <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="delete" onClick={deleteTasks(task)}>
-            <DeleteOutlineIcon/>
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-    );
-  }
-
-  const submitTask = (description) => {
-    axios.post(
-      process.env.API_URL + '/api/task/add',
-      {
-        description: description
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        }
-      }).then(() => {
-      tastDescriptionRef.current.value = '';
-      upd();
-    })
-  }
-
-  const enterListenerSend = (ev) => {
-    if (ev.key === 'Enter') {
-      ev.preventDefault();
-      submitTask(ev.target.value)
-    }
-  };
 
   return (
     <div className={classes.root}>
@@ -216,15 +101,15 @@ const DateTasks = ({date, location}) => {
           </Grid>
         </Grid>
         <Divider/>
-
         <Typography className={classes.dividerFullWidth}
                     display="block"
                     variant="overline">Pending ({pendingTasks.length})</Typography>
-
         <Grid container spacing={1}>
           <Grid container item xs={12}>
             <List className={classes.list}>
-              {pendingTasks.map(renderListItem({done: false, currentDate: currentDateFormatted}))}
+              {pendingTasks.map((task, i) => (
+                <TaskListItem done={false} currentDate={currentDateFormatted} task={task} key={task.id} upd={upd}/>
+              ))}
             </List>
           </Grid>
         </Grid>
@@ -237,7 +122,9 @@ const DateTasks = ({date, location}) => {
         <Grid container spacing={1}>
           <Grid container item xs={12}>
             <List className={classes.list}>
-              {doneTasks.map(renderListItem({done: true, currentDate: null}))}
+              {doneTasks.map((task, i) => (
+                <TaskListItem done={true} currentDate={null} task={task} key={task.id} upd={upd}/>
+              ))}
             </List>
           </Grid>
         </Grid>
@@ -246,70 +133,7 @@ const DateTasks = ({date, location}) => {
                     display="block"
                     variant="overline"
         >New Task</Typography>
-
-        <Grid container spacing={1}>
-          <Grid container item xs={12}>
-            <TextField id="task-description" className={classes.inputText} label="Description" variant="outlined"
-                       fullWidth
-                       onKeyPress={enterListenerSend}
-                       inputRef={tastDescriptionRef}/>
-          </Grid>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <Grid container item xs={4}>
-              <TimePicker
-                inputVariant='outlined'
-                id="task-start"
-                label="Start"
-                minutesStep={5}
-                className={classes.inputText}
-                ampm={false}
-                value={startDate}
-                onChange={handlestartDateChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid container item xs={4}>
-              <TimePicker
-                inputVariant='outlined'
-                id="task-end"
-                label="End"
-                minutesStep={5}
-                className={classes.inputText}
-                ampm={false}
-                value={endDate}
-                onChange={handleEndDateChange}
-                fullWidth
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-          <Grid container item xs={4}>
-            <FormControlLabel
-              className={classes.check}
-              control={
-                <Switch
-                  checked={true}
-                  onChange={() => {
-                  }}
-                  name="Done"
-                  color="secondary"
-                />
-              }
-              label="Done"
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid container item xs={12}>
-            <Button
-              className={classes.inputText}
-              variant="outlined"
-              color="secondary"
-              size='large'
-              fullWidth
-              startIcon={<CheckOutlinedIcon/>}
-            >Save</Button>
-          </Grid>
-        </Grid>
+        <NewTaskForm upd={upd}/>
       </Paper>
     </div>
   );

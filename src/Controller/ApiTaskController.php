@@ -8,12 +8,10 @@ use App\Factory\SerializerFactory;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use JMS\Serializer\Serializer;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Log\Logger;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -28,17 +26,15 @@ class ApiTaskController extends AbstractController
     private $taskRepository;
     private $userRepository;
     private $helper;
-    private $logger;
 
     private $serializer;
 
-    public function __construct(TaskRepository $_taskRepository, UserRepository $_userRepository, Helper $_helper, LoggerInterface $_logger)
+    public function __construct(TaskRepository $_taskRepository, UserRepository $_userRepository, Helper $_helper)
     {
 
         $this->userRepository = $_userRepository;
         $this->taskRepository = $_taskRepository;
         $this->helper = $_helper;
-        $this->logger = $_logger;
         $this->serializer = SerializerFactory::create();
     }
 

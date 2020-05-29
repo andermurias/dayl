@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import {withStyles, Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import {GoogleLogin} from 'react-google-login';
 
 const styles = theme => ({
   content: {
@@ -43,7 +44,7 @@ const Login = ({classes}) => {
       }
     })
     .then(res => {
-      if(res !== undefined) {
+      if (res !== undefined) {
         localStorage.setItem('token', res.data.token)
         setLoginError(false);
         setToken(res.data.token);
@@ -62,8 +63,8 @@ const Login = ({classes}) => {
       <div className={classes.content}>
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
-          {loginError ? <Alert variant="filled" severity="warning">Los credenciales que ha introducido no son
-            correctos</Alert> : ''}
+            {loginError ? <Alert variant="filled" severity="warning">Los credenciales que ha introducido no son
+              correctos</Alert> : ''}
           </Grid>
         </Grid>
         <Grid container spacing={8}>
@@ -81,6 +82,17 @@ const Login = ({classes}) => {
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
           <Button variant="outlined" fullWidth color="primary" onClick={clickLogin}>Login</Button>
+        </Grid>
+        <Grid container justify="center" style={{marginTop: '30px'}}>
+          <GoogleLogin
+            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            render={renderPropos => <Button variant="outlined" fullWidth color="secondary"
+                                            onClick={renderPropos.onClick} disabled={renderPropos.disabled}>Login with
+              Google</Button>}
+            onSuccess={success => console.log(success)}
+            onFailure={success => console.log(success)}
+            cookiePolicy={'single_host_origin'}
+          />
         </Grid>
       </div>
     </div>);
