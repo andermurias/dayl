@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import {colors} from "./Common/Colors";
 import DateTasks from "./Template/DateTasks";
 import Login from "./Template/Login";
+import Footer from "./Component/Footer";
 
 const isAuthenticated = () => localStorage.getItem('token');
 
@@ -76,6 +77,7 @@ export default function App(props) {
             );
           })}
         </Switch>
+        <Footer />
       </Router>
     </MuiThemeProvider>
   );

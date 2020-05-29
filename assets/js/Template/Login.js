@@ -6,6 +6,7 @@ import axios from 'axios';
 import {withStyles, Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {GoogleLogin} from 'react-google-login';
+import logo from "../../static/img/logo/dayl_logo_full.svg";
 
 const styles = theme => ({
   content: {
@@ -18,6 +19,9 @@ const styles = theme => ({
     alignItems: 'center',
     height: '100vh',
     width: '100%'
+  },
+  logo: {
+    width: '25%',
   }
 });
 
@@ -62,10 +66,14 @@ const Login = ({classes}) => {
     (<div className={classes.container}>
       <div className={classes.content}>
         <Grid container spacing={8}>
-          <Grid item md={true} sm={true} xs={true}>
-            {loginError ? <Alert variant="filled" severity="warning">Los credenciales que ha introducido no son
-              correctos</Alert> : ''}
+          <Grid container item xs={12} justify="center">
+            <img src={logo} alt="Dayl" className={classes.logo}/>
           </Grid>
+          {loginError ? (
+            <Grid item md={true} sm={true} xs={true}>
+              <Alert variant="filled" severity="warning">Los credenciales que ha introducido no son
+                correctos</Alert>
+            </Grid>) : ''}
         </Grid>
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
@@ -81,12 +89,12 @@ const Login = ({classes}) => {
           </Grid>
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
-          <Button variant="outlined" fullWidth color="primary" onClick={clickLogin}>Login</Button>
+          <Button variant="outlined" fullWidth color="primary" size="large" onClick={clickLogin}>Login</Button>
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
           <GoogleLogin
             clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-            render={renderPropos => <Button variant="outlined" fullWidth color="secondary"
+            render={renderPropos => <Button variant="outlined" fullWidth color="secondary" size="large"
                                             onClick={renderPropos.onClick} disabled={renderPropos.disabled}>Login with
               Google</Button>}
             onSuccess={success => console.log(success)}
