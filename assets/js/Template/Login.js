@@ -7,6 +7,7 @@ import {withStyles, Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {GoogleLogin} from 'react-google-login';
 import logo from "../../static/img/logo/dayl_logo_full.svg";
+import {registerUser} from "../Api/User";
 
 const styles = theme => ({
   content: {
@@ -55,6 +56,15 @@ const Login = ({classes}) => {
       }
     });
 
+  const handleLoginWithGoogle = response => {
+    registerUser({token: response.tokenId})
+      .then(res => {
+        localStorage.setItem('token', res.data.token)
+        setLoginError(false);
+        setToken(res.data.token);
+      });
+  }
+
   const handleUsername = (event) => {
     setUsername(event.target.value);
   };
@@ -93,12 +103,13 @@ const Login = ({classes}) => {
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
           <GoogleLogin
-            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            clientId={process.env.GOOGLE_API_KEY}
             render={renderPropos => <Button variant="outlined" fullWidth color="secondary" size="large"
                                             onClick={renderPropos.onClick} disabled={renderPropos.disabled}>Login with
               Google</Button>}
-            onSuccess={success => console.log(success)}
-            onFailure={success => console.log(success)}
+            buttonText="Login With Google"
+            onSuccess={handleLoginWithGoogle}
+            onFailure={() => setLoginError(true)}
             cookiePolicy={'single_host_origin'}
           />
         </Grid>
