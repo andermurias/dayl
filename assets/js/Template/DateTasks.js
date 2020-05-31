@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     overflow: 'hidden',
-    padding: theme.spacing(0, 3),
+    padding: theme.spacing(0, 0),
   },
   paper: {
     maxWidth: 600,
@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     margin: `${theme.spacing(2)}px`,
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    textAlign: "center",
+    width: '100%'
   },
   titleSecondary: {
     opacity: '.3',
@@ -83,20 +85,17 @@ const DateTasks = () => {
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={1}>
-          <Grid container item xs={1}>
+          <Grid container item xs={2} sm={1}>
             <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
               <ChevronLeftIcon/>
             </IconButton>
           </Grid>
-          <Grid container item xs={10}>
+          <Grid container item xs={8} sm={10}>
             <Typography variant="h5" component="h1" className={classes.title}>
-              {currentDate.format('dddd')}
-              <span className={classes.titleSecondary}>
-                ({currentDate.format('LL')})
-              </span>
+              {currentDate.format('dddd')} <br/> <span className={classes.titleSecondary}>({currentDate.format('LL')})</span>
             </Typography>
           </Grid>
-          <Grid container item xs={1}>
+          <Grid container item xs={2} sm={1}>
             <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
               <ChevronRightIcon/>
             </IconButton>
