@@ -2,6 +2,9 @@ import React from "react";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import {colors} from "./Common/Colors";
 import DateTasks from "./Template/DateTasks";
 import Login from "./Template/Login";
@@ -12,50 +15,6 @@ import {AppProvider} from "./_context/AppContext";
 import ModalLoader from "./Component/ModalLoader";
 
 const isAuthenticated = () => localStorage.getItem('token');
-
-const theme = createMuiTheme({
-  typography: {
-    h1: {
-      fontFamily: '"Montserrat"',
-    },
-    h2: {
-      fontFamily: '"Lato"',
-    },
-    h3: {
-      fontFamily: '"Montserrat"',
-    },
-    h4: {
-      fontFamily: '"Montserrat"',
-    },
-    h5: {
-      fontFamily: '"Montserrat"',
-    },
-    h6: {
-      fontFamily: '"Montserrat"',
-    },
-    overline: {
-      fontFamily: '"Montserrat"',
-    }
-  },
-  overrides: {
-//    MuiListItem: {
-//      "&$selected": {
-//        color: colors.orangePeel,
-//      },
-//    },
-  },
-  palette: {
-    text: {
-      primary: colors.richBlack
-    },
-    primary: {
-      main: colors.richBlack,
-    },
-    secondary: {
-      main: colors.orangePeel,
-    },
-  },
-});
 
 const checkRouteAuthorized = (route, props) => !route.props.secure || isAuthenticated() ?
   <route.component {...props} {...route.props} /> :
@@ -105,25 +64,72 @@ const Contextureize = ({children}) => {
 }
 
 export default function App(props) {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const theme = createMuiTheme({
+    typography: {
+      h1: {
+        fontFamily: '"Montserrat"',
+      },
+      h2: {
+        fontFamily: '"Lato"',
+      },
+      h3: {
+        fontFamily: '"Montserrat"',
+      },
+      h4: {
+        fontFamily: '"Montserrat"',
+      },
+      h5: {
+        fontFamily: '"Montserrat"',
+      },
+      h6: {
+        fontFamily: '"Montserrat"',
+      },
+      overline: {
+        fontFamily: '"Montserrat"',
+      }
+    },
+    overrides: {
+      MuiInputBase: {
+        input: {
+          '&:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 100px #424242 inset!important',
+            WebkitTextFillColor: '#fff',
+          },
+        },
+      },
+    },
+    palette: {
+      type: prefersDarkMode ? 'dark' : 'light',
+      text: {
+        primary: prefersDarkMode ? colors.babyPowder : colors.richBlack
+      },
+      primary: {
+        main: prefersDarkMode ? colors.babyPowder : colors.richBlack,
+      },
+      secondary: {
+        main: colors.orangePeel,
+      },
+    },
+  });
+
   return (
-    <AppProvider>
-      <DoneTaskProvider>
-        <PendingTaskProvider>
-          <MuiThemeProvider theme={theme}>
-            <Router>
-              <Switch>
-                {routerConfiguration.map((route, i) => {
-                  return (
-                    <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
-                  );
-                })}
-              </Switch>
-              <ModalLoader/>
-              <Footer/>
-            </Router>
-          </MuiThemeProvider>
-        </PendingTaskProvider>
-      </DoneTaskProvider>
-    </AppProvider>
+    <Contextureize>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline/>
+        <Router>
+          <Switch>
+            {routerConfiguration.map((route, i) => {
+              return (
+                <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
+              );
+            })}
+          </Switch>
+          <ModalLoader/>
+          <Footer/>
+        </Router>
+      </MuiThemeProvider>
+    </Contextureize>
   );
 }

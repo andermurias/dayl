@@ -3,7 +3,7 @@ import {withRouter, Redirect} from "react-router-dom";
 
 import axios from 'axios';
 
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Google from 'mdi-material-ui/Google';
@@ -12,6 +12,7 @@ import {GoogleLogin} from 'react-google-login';
 
 import logo from "../../static/img/logo/dayl_logo_full.svg";
 import {registerUser} from "../Api/User";
+import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const [token, setToken] = useState(null);
   const [loginError, setLoginError] = useState(false);
@@ -90,7 +92,7 @@ const Login = () => {
       <div className={classes.content}>
         <Grid container spacing={8}>
           <Grid container item xs={12} justify="center">
-            <img src={logo} alt="Dayl" className={classes.logo}/>
+            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
           </Grid>
           {loginError ? (
             <Grid item md={true} sm={true} xs={true}>
@@ -102,14 +104,13 @@ const Login = () => {
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
             <TextField id="username" label="Username" type="email" onChange={handleUsername}
-                       fullWidth autoFocus
-                       required onKeyPress={sendOnEnter} variant="outlined"/>
+                       fullWidth autoFocus required onKeyPress={sendOnEnter} variant="filled"/>
           </Grid>
         </Grid>
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
-            <TextField id="password" label="Password" type="password" onChange={handlePassword} fullWidth required
-                       onKeyPress={sendOnEnter} variant="outlined"/>
+            <TextField id="password" label="Password" type="password"
+                       onChange={handlePassword} fullWidth required onKeyPress={sendOnEnter} variant="filled"/>
           </Grid>
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
@@ -120,7 +121,7 @@ const Login = () => {
             clientId={process.env.GOOGLE_API_KEY}
             render={
               renderPropos => (
-                <Button variant="outlined" fullWidth color="secondary" startIcon={<Google />}
+                <Button variant="outlined" fullWidth color="secondary" startIcon={<Google/>}
                         size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
                   Login with Google
                 </Button>)}

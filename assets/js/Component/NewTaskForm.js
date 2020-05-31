@@ -96,7 +96,7 @@ const NewTaskForm = () => {
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Grid container item xs={4}>
             <TimePicker
-              inputVariant='outlined'
+              inputVariant="outlined"
               id="task-start"
               label="Start"
               minutesStep={5}
@@ -109,7 +109,7 @@ const NewTaskForm = () => {
           </Grid>
           <Grid container item xs={4}>
             <TimePicker
-              inputVariant='outlined'
+              inputVariant="outlined"
               id="task-end"
               label="End"
               minutesStep={5}

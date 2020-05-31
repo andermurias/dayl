@@ -24,7 +24,7 @@ moment.locale('es');
 const useStyles = makeStyles((theme) => ({
   list: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: 'transparent'
   },
   root: {
     flexGrow: 1,
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 600,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
+    backgroundColor: 'transparent'
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
