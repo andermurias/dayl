@@ -1,8 +1,13 @@
 <div align="center">
-![Dayl](./etc/assets/logo/full/dayl_logo_full.png)
-<br/>
-Daily logs, made easy
+  <a href="https://dayl.om.nom.es" rel="nofollow">
+    <img src="etc/assets/logo/full/dayl_logo_full.png" style="max-width:100%;">
+    </a>
+  </a>
 </div>
+<br/>
+<p align="center">
+Daily logs, made easy
+</p>
 
 ----
 
