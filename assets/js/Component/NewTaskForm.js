@@ -14,6 +14,8 @@ import {addTask} from "../Api/Task";
 import {DoneTaskContext} from "../_context/DoneTaskContext";
 import {PendingTaskContext} from "../_context/PendingTaskContext";
 import {getTasksForDate} from "../Common/Helper";
+import {AppContext} from "../_context/AppContext";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -28,56 +30,56 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const NewTaskForm = ({currentDate}) => {
+const NewTaskForm = () => {
   const classes = useStyles();
-
-  const defaultFormData = {
-    description: '',
-    start: null,
-    end: null,
-    date: null,
-  };
-
-  const [startDate, handlestartDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-  const [endDate, handleEndDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-  const [description, setDescription] = useState(defaultFormData);
-  const [done, setDone] = useState(false);
 
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
+  const [context] = useContext(AppContext);
+
+//  const defaultFormData = {
+//    description: '',
+//    start: null,
+//    end: null,
+//    date: null,
+//  };
+
+  const [startDate, handlestartDateChange] = useState(new Date());
+  const [endDate, handleEndDateChange] = useState(new Date());
+  const [description, setDescription] = useState('');
+  const [done, setDone] = useState(false);
+
+
 
   let taskDescriptionRef = useRef(null);
 
   const updateTasks = () => {
-    getTasksForDate(currentDate).then(([pending, done]) => {
+    getTasksForDate(context.currentDate).then(([pending, done]) => {
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
     });
   }
 
   const submitTask = () => {
-    addTask(formData).then(() => {
-      taskDescriptionRef.current.value = '';
-      updateTasks();
+    const start = moment(startDate).format('HH:mm');
+    const end = moment(endDate).format('HH:mm');
+
+    addTask({
+      description: description,
+      start: end === start ? null : start,
+      end: end === start ? null : end,
+      date: done ? context.currentDate : null,
     })
+      .then(() => {
+        taskDescriptionRef.current.value = '';
+        updateTasks();
+      })
   }
 
   const enterListenerSend = (ev) => {
     if (ev.key === 'Enter') {
       ev.preventDefault();
-      console.log({
-        description: description,
-        start: startDate,
-        end: endDate,
-        date: done ? currentDate : null,
-      });
-      return null;
-      submitTask({
-        description: description,
-        start: startDate.format('HH:MM'),
-        end: endDate.format('HH:MM'),
-        date: done ? currentDate : null,
-      })
+      submitTask();
     }
   };
 
@@ -87,7 +89,7 @@ export const NewTaskForm = ({currentDate}) => {
         <Grid container item xs={12}>
           <TextField id="task-description" className={classes.inputText} label="Description" variant="outlined"
                      fullWidth
-                     onChange={setDescription}
+                     onChange={(e) => setDescription(e.target.value)}
                      onKeyPress={enterListenerSend}
                      inputRef={taskDescriptionRef}/>
         </Grid>
@@ -125,7 +127,7 @@ export const NewTaskForm = ({currentDate}) => {
             control={
               <Switch
                 checked={done}
-                onChange={() => setDone(event.target.checked)}
+                onChange={(e) => setDone(event.target.checked)}
                 name="Done"
                 color="secondary"
               />
@@ -143,10 +145,13 @@ export const NewTaskForm = ({currentDate}) => {
             size='large'
             fullWidth
             startIcon={<CheckOutlinedIcon/>}
+            onClick={submitTask}
           >
             Save
           </Button>
         </Grid>
       </Grid>
     </>);
-}
+};
+
+export default React.memo(NewTaskForm);

@@ -2,17 +2,41 @@ import React from "react";
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
 import {colors} from "./Common/Colors";
 import DateTasks from "./Template/DateTasks";
 import Login from "./Template/Login";
 import Footer from "./Component/Footer";
 import {DoneTaskProvider} from "./_context/DoneTaskContext";
 import {PendingTaskProvider} from "./_context/PendingTaskContext";
+import {AppProvider} from "./_context/AppContext";
+import ModalLoader from "./Component/ModalLoader";
 
 const isAuthenticated = () => localStorage.getItem('token');
 
 const theme = createMuiTheme({
+  typography: {
+    h1: {
+      fontFamily: '"Montserrat"',
+    },
+    h2: {
+      fontFamily: '"Lato"',
+    },
+    h3: {
+      fontFamily: '"Montserrat"',
+    },
+    h4: {
+      fontFamily: '"Montserrat"',
+    },
+    h5: {
+      fontFamily: '"Montserrat"',
+    },
+    h6: {
+      fontFamily: '"Montserrat"',
+    },
+    overline: {
+      fontFamily: '"Montserrat"',
+    }
+  },
   overrides: {
 //    MuiListItem: {
 //      "&$selected": {
@@ -68,23 +92,38 @@ const routerConfiguration = [
   },
 ];
 
+const Contextureize = ({children}) => {
+  return [
+    AppProvider,
+    DoneTaskProvider,
+    PendingTaskProvider,
+  ].reverse()
+    .reduce(
+      (content, Context) => <Context>{content}</Context>,
+      children
+    );
+}
+
 export default function App(props) {
   return (
-    <DoneTaskProvider>
-      <PendingTaskProvider>
-        <MuiThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-              {routerConfiguration.map((route, i) => {
-                return (
-                  <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
-                );
-              })}
-            </Switch>
-            <Footer/>
-          </Router>
-        </MuiThemeProvider>
-      </PendingTaskProvider>
-    </DoneTaskProvider>
+    <AppProvider>
+      <DoneTaskProvider>
+        <PendingTaskProvider>
+          <MuiThemeProvider theme={theme}>
+            <Router>
+              <Switch>
+                {routerConfiguration.map((route, i) => {
+                  return (
+                    <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
+                  );
+                })}
+              </Switch>
+              <ModalLoader/>
+              <Footer/>
+            </Router>
+          </MuiThemeProvider>
+        </PendingTaskProvider>
+      </DoneTaskProvider>
+    </AppProvider>
   );
 }

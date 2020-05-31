@@ -3,13 +3,17 @@ import {withRouter, Redirect} from "react-router-dom";
 
 import axios from 'axios';
 
-import {withStyles, Grid, TextField, Button} from '@material-ui/core';
+import {makeStyles} from "@material-ui/core/styles";
+import {Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import Google from 'mdi-material-ui/Google';
+
 import {GoogleLogin} from 'react-google-login';
+
 import logo from "../../static/img/logo/dayl_logo_full.svg";
 import {registerUser} from "../Api/User";
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
     maxWidth: 600,
     width: '100%',
@@ -18,15 +22,17 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    minHeight: '60vh',
     width: '100%'
   },
   logo: {
     width: '25%',
   }
-});
+}));
 
-const Login = ({classes}) => {
+const Login = () => {
+  const classes = useStyles();
+
   const [token, setToken] = useState(null);
   const [loginError, setLoginError] = useState(false);
   const [username, setUsername] = useState('');
@@ -114,7 +120,7 @@ const Login = ({classes}) => {
             clientId={process.env.GOOGLE_API_KEY}
             render={
               renderPropos => (
-                <Button variant="outlined" fullWidth color="secondary"
+                <Button variant="outlined" fullWidth color="secondary" startIcon={<Google />}
                         size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
                   Login with Google
                 </Button>)}
@@ -128,4 +134,4 @@ const Login = ({classes}) => {
     </div>);
 }
 
-export default withRouter(withStyles(styles)(Login));
+export default withRouter(React.memo(Login));

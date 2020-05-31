@@ -20,6 +20,7 @@
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
+    "mdi-material-ui": "^6.16.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
