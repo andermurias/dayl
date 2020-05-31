@@ -1,7 +1,10 @@
+<div align="center">
 ![Dayl](./etc/assets/logo/full/dayl_logo_full.png)
+<br/>
+Daily logs, made easy
+</div>
 
-# Daily + Log = Dayl
-A small daily log for the work you have done and the task you have left
+----
 
 ## First Steps
 
