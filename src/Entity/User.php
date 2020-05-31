@@ -56,6 +56,16 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=1300, nullable=true)
+     */
+    private $google_token;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $google_data = [];
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -197,6 +207,30 @@ class User implements UserInterface
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getGoogleToken(): ?string
+    {
+        return $this->google_token;
+    }
+
+    public function setGoogleToken(?string $google_token): self
+    {
+        $this->google_token = $google_token;
+
+        return $this;
+    }
+
+    public function getGoogleData(): ?array
+    {
+        return $this->google_data;
+    }
+
+    public function setGoogleData(?array $google_data): self
+    {
+        $this->google_data = $google_data;
 
         return $this;
     }

@@ -33,6 +33,53 @@ yarn install
 npm install
 ```
 
+#### Configure de enviroment
+
+In this project there are two `.env` files, one for the front side, and another one for the backend part.
+
+`.env` and `assets/js/.env`
+
+The code is shipped with the `.env.dist` version of these files, so you need to fill the vars.
+
+Some vars you may want to change:
+```
+# .env
+DATABASE_URL
+GOOGLE_API_KEY
+GOOGLE_API_SECRET
+
+# ./assets/js/.env
+API_URL
+GOOGLE_API_KEY
+GOOGLE_API_SECRET
+```
+
+#### Creating keys for JWT
+
+_Documentation from jwt-authentication-bundle bundle_
+````bash
+mkdir -p config/jwt
+openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
+````
+
+#### Preapare de databse
+
+Create the databse
+```bash
+ ./bin/console doctrine:database:create
+``` 
+
+Run the migrations
+```bash
+ ./bin/console doctrine:migrations:migrate 
+``` 
+
+Run the fixtures
+```bash
+ ./bin/console doctrine:fixtures:load
+``` 
+
 #### Run the project
 
 Initialize Backend:

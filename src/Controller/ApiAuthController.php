@@ -65,7 +65,7 @@ class ApiAuthController extends AbstractController
         $user = $this->userRepository->findOneBy(['email' => $userData['email']]);
 
         if (!$user) {
-            $user = $this->helper->generateUserFromGooglePayload($userData);
+            $user = $this->helper->generateUserFromGooglePayload($userData, $data['token']);
         }
 
         $tokenResponse = '';

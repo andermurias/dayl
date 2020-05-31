@@ -52,13 +52,15 @@ class Helper extends AbstractController
         return $payload;
     }
 
-    public function generateUserFromGooglePayload($payload) : ?User
+    public function generateUserFromGooglePayload(array $payload, string $token) : ?User
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = new User();
         $user->setEmail($payload['email']);
         $user->setUsername($payload['email']);
+        $user->setGoogleToken($token);
+        $user->setGoogleData($payload);
         $user->setCreatedAt(new \DateTime());
         $user->setUpdatedAt(new \DateTime());
         $user->setRoles(['ROLE_USER']);
