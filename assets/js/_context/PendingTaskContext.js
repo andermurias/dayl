@@ -1,21 +1,9 @@
-import React, {useReducer} from 'react';
-import {merge as _merge} from 'lodash';
+import React, {useState} from 'react';
 
-const initialState = {
-  loader: {
-    active: false,
-  },
-};
-
-export const PendingTaskReducer = (state, stateUpdate) => {
-  let newState = {...state};
-  return _merge(newState, stateUpdate);
-
-};
-
+const initialState = [];
 export const PendingTaskContext = React.createContext(initialState);
 
 export const PendingTaskProvider = ({children}) => {
-  const [state, dispatch] = useReducer(PendingTaskReducer, initialState);
-  return <PendingTaskContext.Provider value={{state, dispatch}}>{children}</PendingTaskContext.Provider>;
+  const [state, dispatch] = useState(initialState);
+  return <PendingTaskContext.Provider value={[state, dispatch]}>{children}</PendingTaskContext.Provider>;
 };

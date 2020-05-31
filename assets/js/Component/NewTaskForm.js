@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 
 import MomentUtils from "@date-io/moment";
 
@@ -11,6 +11,9 @@ import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
 import {MuiPickersUtilsProvider, TimePicker} from "@material-ui/pickers";
 import {makeStyles} from "@material-ui/core/styles";
 import {addTask} from "../Api/Task";
+import {DoneTaskContext} from "../_context/DoneTaskContext";
+import {PendingTaskContext} from "../_context/PendingTaskContext";
+import {getTasksForDate} from "../Common/Helper";
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -25,25 +28,56 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const NewTaskForm = ({upd}) => {
+export const NewTaskForm = ({currentDate}) => {
   const classes = useStyles();
+
+  const defaultFormData = {
+    description: '',
+    start: null,
+    end: null,
+    date: null,
+  };
 
   const [startDate, handlestartDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
   const [endDate, handleEndDateChange] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
+  const [description, setDescription] = useState(defaultFormData);
+  const [done, setDone] = useState(false);
 
-  let tastDescriptionRef = useRef(null);
+  const [, setDoneTasks] = useContext(DoneTaskContext);
+  const [, setPendingTasks] = useContext(PendingTaskContext);
 
-  const submitTask = (description) => {
-    addTask({description: description}).then(() => {
-      tastDescriptionRef.current.value = '';
-      upd();
+  let taskDescriptionRef = useRef(null);
+
+  const updateTasks = () => {
+    getTasksForDate(currentDate).then(([pending, done]) => {
+      setPendingTasks(pending.data);
+      setDoneTasks(done.data);
+    });
+  }
+
+  const submitTask = () => {
+    addTask(formData).then(() => {
+      taskDescriptionRef.current.value = '';
+      updateTasks();
     })
   }
 
   const enterListenerSend = (ev) => {
     if (ev.key === 'Enter') {
       ev.preventDefault();
-      submitTask(ev.target.value)
+      console.log({
+        description: description,
+        start: startDate,
+        end: endDate,
+        date: done ? currentDate : null,
+      });
+      return null;
+      submitTask({
+        description: description,
+        start: startDate.format('HH:MM'),
+        end: endDate.format('HH:MM'),
+        date: done ? currentDate : null,
+      })
     }
   };
 
@@ -53,8 +87,9 @@ export const NewTaskForm = ({upd}) => {
         <Grid container item xs={12}>
           <TextField id="task-description" className={classes.inputText} label="Description" variant="outlined"
                      fullWidth
+                     onChange={setDescription}
                      onKeyPress={enterListenerSend}
-                     inputRef={tastDescriptionRef}/>
+                     inputRef={taskDescriptionRef}/>
         </Grid>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Grid container item xs={4}>
@@ -89,8 +124,8 @@ export const NewTaskForm = ({upd}) => {
             className={classes.check}
             control={
               <Switch
-                checked={true}
-                onChange={() => null}
+                checked={done}
+                onChange={() => setDone(event.target.checked)}
                 name="Done"
                 color="secondary"
               />

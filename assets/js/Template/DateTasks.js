@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {withRouter, useParams, Link} from "react-router-dom";
 import moment from 'moment';
 import {makeStyles} from '@material-ui/core/styles';
@@ -13,7 +13,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {TaskListItem} from "../Component/TaskListItem";
 import {NewTaskForm} from "../Component/NewTaskForm";
 
-import {getTasks} from "../Api/Task";
+import {DoneTaskContext} from "../_context/DoneTaskContext";
+import {PendingTaskContext} from "../_context/PendingTaskContext";
+import {getTasksForDate} from "../Common/Helper";
 
 moment.locale('es');
 
@@ -56,8 +58,8 @@ const DateTasks = () => {
   const classes = useStyles();
   const [update, updateState] = useState();
   const upd = () => updateState(Math.random());
-  const [doneTasks, setDoneTasks] = useState([]);
-  const [pendingTasks, setPendingTasks] = useState([]);
+  const [doneTasks, setDoneTasks] = useContext(DoneTaskContext);
+  const [pendingTasks, setPendingTasks] = useContext(PendingTaskContext);
 
   const query = useParams();
 
@@ -68,8 +70,11 @@ const DateTasks = () => {
   const nexDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
 
   useEffect(() => {
-    getTasks('pending', query.date).then(res => setPendingTasks(res.data));
-    getTasks('done', query.date).then(res => setDoneTasks(res.data));
+    getTasksForDate(currentDateFormatted)
+      .then(([pending, done]) => {
+        setPendingTasks(pending.data);
+        setDoneTasks(done.data);
+      });
   }, [update, currentDateFormatted]);
 
   return (
@@ -83,8 +88,10 @@ const DateTasks = () => {
             </IconButton>
           </Grid>
           <Grid container item xs={10}>
-            <Typography variant="h5" component="h1" className={classes.title}>{currentDate.format('dddd')}<span
-              className={classes.titleSecondary}> ({currentDate.format('LL')})</span></Typography>
+            <Typography variant="h5" component="h1" className={classes.title}>
+              {currentDate.format('dddd')}
+              <span className={classes.titleSecondary}> ({currentDate.format('LL')})</span>
+            </Typography>
           </Grid>
           <Grid container item xs={1}>
             <IconButton aria-label="next" component={Link}
@@ -108,7 +115,7 @@ const DateTasks = () => {
           <Grid container item xs={12}>
             <List className={classes.list}>
               {pendingTasks.map((task, i) => (
-                <TaskListItem done={false} currentDate={currentDateFormatted} task={task} key={task.id} upd={upd}/>
+                <TaskListItem done={false} currentDate={currentDateFormatted} task={task} key={task.id}/>
               ))}
             </List>
           </Grid>
@@ -123,7 +130,7 @@ const DateTasks = () => {
           <Grid container item xs={12}>
             <List className={classes.list}>
               {doneTasks.map((task, i) => (
-                <TaskListItem done={true} currentDate={null} task={task} key={task.id} upd={upd}/>
+                <TaskListItem done={true} currentDate={currentDateFormatted} task={task} key={task.id}/>
               ))}
             </List>
           </Grid>

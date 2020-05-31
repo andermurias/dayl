@@ -266,6 +266,6 @@ class ApiTaskController extends AbstractController
             $entityManager->flush();
         }
 
-       return $this->helper->returnOk();
+        return $this->helper->returnOk();
     }
 }

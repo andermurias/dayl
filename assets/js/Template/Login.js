@@ -32,7 +32,7 @@ const Login = ({classes}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const clickLogin = () => axios.post(
+  const login = () => axios.post(
     process.env.API_URL + '/api/login_check',
     {
       "username": username,
@@ -72,6 +72,13 @@ const Login = ({classes}) => {
     setPassword(event.target.value);
   };
 
+  const sendOnEnter = (ev) => {
+    if (ev.key === 'Enter') {
+      ev.preventDefault();
+      login();
+    }
+  };
+
   return null !== token ? <Redirect to={'/token'}/> :
     (<div className={classes.container}>
       <div className={classes.content}>
@@ -81,32 +88,36 @@ const Login = ({classes}) => {
           </Grid>
           {loginError ? (
             <Grid item md={true} sm={true} xs={true}>
-              <Alert variant="filled" severity="warning">Los credenciales que ha introducido no son
-                correctos</Alert>
+              <Alert variant="filled" severity="warning">
+                Los credenciales que ha introducido no son correctos
+              </Alert>
             </Grid>) : ''}
         </Grid>
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
-            <TextField id="username" label="Username" type="email" onChange={handleUsername} fullWidth autoFocus
-                       required
-                       variant="outlined"/>
+            <TextField id="username" label="Username" type="email" onChange={handleUsername}
+                       fullWidth autoFocus
+                       required onKeyPress={sendOnEnter} variant="outlined"/>
           </Grid>
         </Grid>
         <Grid container spacing={8}>
           <Grid item md={true} sm={true} xs={true}>
             <TextField id="password" label="Password" type="password" onChange={handlePassword} fullWidth required
-                       variant="outlined"/>
+                       onKeyPress={sendOnEnter} variant="outlined"/>
           </Grid>
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
-          <Button variant="outlined" fullWidth color="primary" size="large" onClick={clickLogin}>Login</Button>
+          <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>
         </Grid>
         <Grid container justify="center" style={{marginTop: '30px'}}>
           <GoogleLogin
             clientId={process.env.GOOGLE_API_KEY}
-            render={renderPropos => <Button variant="outlined" fullWidth color="secondary" size="large"
-                                            onClick={renderPropos.onClick} disabled={renderPropos.disabled}>Login with
-              Google</Button>}
+            render={
+              renderPropos => (
+                <Button variant="outlined" fullWidth color="secondary"
+                        size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
+                  Login with Google
+                </Button>)}
             buttonText="Login With Google"
             onSuccess={handleLoginWithGoogle}
             onFailure={() => setLoginError(true)}

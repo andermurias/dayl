@@ -3,12 +3,21 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import logo from "../../static/img/logo/dayl_logo_full.svg";
 import {makeStyles} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import {Link} from "react-router-dom";
+import {logout} from "../Common/Helper";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
     width: '33%',
     maxWidth: 100
+  },
+  logout: {
+    fontWeight: 'bold',
+    transition: 'ease all ' + theme.transitions.duration.standard + 'ms',
+    '&:hover': {
+      cursor: 'pointer',
+      opacity: 0.5
+    }
   },
   root: {
     marginTop: 25,
@@ -27,7 +36,9 @@ const Footer = () => {
           <img src={logo} alt="Dayl" className={classes.logo}/>
         </Grid>
         <Grid container item xs={12} justify="center">
-          <Typography variant="subtitle1">Crafted with love</Typography>
+          <Typography variant="subtitle1">
+            <span>Crafted with love</span> - <span className={classes.logout} onClick={logout}>Logout</span>
+          </Typography>
         </Grid>
       </Grid>
     </div>

@@ -7,6 +7,8 @@ import {colors} from "./Common/Colors";
 import DateTasks from "./Template/DateTasks";
 import Login from "./Template/Login";
 import Footer from "./Component/Footer";
+import {DoneTaskProvider} from "./_context/DoneTaskContext";
+import {PendingTaskProvider} from "./_context/PendingTaskContext";
 
 const isAuthenticated = () => localStorage.getItem('token');
 
@@ -59,7 +61,7 @@ const routerConfiguration = [
   },
   {
     route: "/",
-    component: () => <Redirect to={{pathname: '/tasks'}} />,
+    component: () => <Redirect to={{pathname: '/tasks'}}/>,
     props: {
       secure: true
     }
@@ -68,17 +70,21 @@ const routerConfiguration = [
 
 export default function App(props) {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          {routerConfiguration.map((route, i) => {
-            return (
-              <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
-            );
-          })}
-        </Switch>
-        <Footer />
-      </Router>
-    </MuiThemeProvider>
+    <DoneTaskProvider>
+      <PendingTaskProvider>
+        <MuiThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+              {routerConfiguration.map((route, i) => {
+                return (
+                  <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
+                );
+              })}
+            </Switch>
+            <Footer/>
+          </Router>
+        </MuiThemeProvider>
+      </PendingTaskProvider>
+    </DoneTaskProvider>
   );
 }

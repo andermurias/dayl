@@ -1,4 +1,4 @@
-![Dayl](./etc/assets/dayl_logo_full.svg)
+![Dayl](./etc/assets/dayl_logo_full.png)
 
 # Daily + Log = Dayl
 A small daily log for the work you have done and the task you have left
