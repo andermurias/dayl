@@ -13,18 +13,21 @@ import {GoogleLogin} from 'react-google-login';
 import logo from "../../static/img/logo/dayl_logo_full.svg";
 import {registerUser} from "../Api/User";
 import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    overflow: 'hidden',
-    maxWidth: 600,
+  paper: {
     width: '100%',
+    maxWidth: 600,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+    backgroundColor: 'transparent'
   },
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '60vh',
+    minHeight: '50vh',
     width: '100%'
   },
   logo: {
@@ -90,7 +93,7 @@ const Login = () => {
 
   return null !== token ? <Redirect to={'/token'}/> :
     (<div className={classes.container}>
-      <div className={classes.content}>
+      <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={8}>
           <Grid container item xs={12} justify="center">
             <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
@@ -114,25 +117,29 @@ const Login = () => {
                        onChange={handlePassword} fullWidth required onKeyPress={sendOnEnter} variant="filled"/>
           </Grid>
         </Grid>
-        <Grid container justify="center" style={{marginTop: '30px'}}>
-          <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>
+        <Grid container spacing={8}>
+          <Grid container item justify="center">
+            <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>
+          </Grid>
         </Grid>
-        <Grid container justify="center" style={{marginTop: '30px'}}>
-          <GoogleLogin
-            clientId={process.env.GOOGLE_API_KEY}
-            render={
-              renderPropos => (
-                <Button variant="outlined" fullWidth color="secondary" startIcon={<Google/>}
-                        size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
-                  Login with Google
-                </Button>)}
-            buttonText="Login With Google"
-            onSuccess={handleLoginWithGoogle}
-            onFailure={() => setLoginError(true)}
-            cookiePolicy={'single_host_origin'}
-          />
+        <Grid container spacing={8}>
+          <Grid container item justify="center">
+            <GoogleLogin
+              clientId={process.env.GOOGLE_API_KEY}
+              render={
+                renderPropos => (
+                  <Button variant="outlined" fullWidth color="secondary" startIcon={<Google/>}
+                          size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
+                    Login with Google
+                  </Button>)}
+              buttonText="Login With Google"
+              onSuccess={handleLoginWithGoogle}
+              onFailure={() => setLoginError(true)}
+              cookiePolicy={'single_host_origin'}
+            />
+          </Grid>
         </Grid>
-      </div>
+      </Paper>
     </div>);
 }
 
