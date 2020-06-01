@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
     backgroundColor: 'transparent',
-    overflowX: 'hidden'
+    overflow: 'hidden'
   },
   container: {
     display: 'flex',
