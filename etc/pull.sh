@@ -4,6 +4,6 @@ ssh-add ~/.ssh/dayl_rsa
 cd ../
 git pull
 composer install
-npm install
-npm build
+yarn install
+yarn build
 # rm -rf node_modules/

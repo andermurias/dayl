@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 600,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    overflowX: 'hidden'
   },
   container: {
     display: 'flex',
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     width: '50%',
-  }
+  },
 }));
 
 const Login = () => {
@@ -95,13 +96,13 @@ const Login = () => {
     (<div className={classes.container}>
       <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={8}>
-          <Grid container item xs={12} justify="center">
+          <Grid container item classes={classes.gridItem} xs={12} justify="center">
             <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
           </Grid>
           {loginError ? (
             <Grid item md={true} sm={true} xs={true}>
               <Alert variant="filled" severity="warning">
-                Los credenciales que ha introducido no son correctos
+                The credentials are invalid
               </Alert>
             </Grid>) : ''}
         </Grid>
