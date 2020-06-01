@@ -16,6 +16,7 @@ import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
 
 const useStyles = makeStyles((theme) => ({
   content: {
+    overflow: 'hidden',
     maxWidth: 600,
     width: '100%',
   },
