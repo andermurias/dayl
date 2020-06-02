@@ -49,10 +49,12 @@ const DateTasks = () => {
   const query = useParams();
   const currentDate = moment(query.date);
 
+
   useEffect(() => {
-    setContext({currentDate: currentDate.format('YYYY-MM-DD')});
-    setContext({loading: true});
-    getTasksForDate(context.currentDate)
+    const currentDate = moment(query.date);
+    const newDate = currentDate.format('YYYY-MM-DD');
+    setContext({currentDate: newDate, loading: true});
+    getTasksForDate(newDate)
       .then(([pending, done]) => {
         setPendingTasks(pending.data);
         setDoneTasks(done.data);
