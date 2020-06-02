@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ModalLoader = () => {
   const classes = useStyles();
-  const [context] = useContext(AppContext);
+  const {loading} = useContext(AppContext);
 
   return (
-    <Backdrop className={classes.backdrop} open={context.loading}>
-      <CircularProgress color="secondary" size="6rem" />
+    <Backdrop className={classes.backdrop} open={loading}>
+      <CircularProgress color="secondary" size="6rem"/>
     </Backdrop>
   );
 }

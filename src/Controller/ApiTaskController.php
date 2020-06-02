@@ -147,15 +147,20 @@ class ApiTaskController extends AbstractController
 
             $data = json_decode($request->getContent(), true);
 
-            $finishedDate = (array_key_exists('date', $data) && $data['date']) ? new \DateTime($data['date']) : null;
-            $task->setDate($finishedDate);
-
-            if ($request->get('start')) {
-                $task->setStart(new \DateTime($request->request->get('start')));
+            if (array_key_exists('description', $data)) {
+                $task->setDescription($data['description']);
             }
 
-            if ($request->get('end')) {
-                $task->setEnd(new \DateTime($request->request->get('end')));
+            if (array_key_exists('date', $data)) {
+                $task->setDate($data['date'] ? new \DateTime($data['date']) : null);
+            }
+
+            if (array_key_exists('start', $data)) {
+                $task->setStart(new \DateTime($data['start']));
+            }
+
+            if (array_key_exists('end', $data)) {
+                $task->setEnd(new \DateTime($data['end']));
             }
             $entityManager->persist($task);
             $entityManager->flush();

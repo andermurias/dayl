@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import TaskListItem from "../Component/TaskListItem";
-import NewTaskForm from "../Component/NewTaskForm";
+import TaskForm from "../Component/TaskForm";
 
 import {DoneTaskContext} from "../_context/DoneTaskContext";
 import {PendingTaskContext} from "../_context/PendingTaskContext";
@@ -42,30 +42,31 @@ const useStyles = makeStyles((theme) => ({
 
 const DateTasks = () => {
   const classes = useStyles();
+
   const [doneTasks, setDoneTasks] = useContext(DoneTaskContext);
   const [pendingTasks, setPendingTasks] = useContext(PendingTaskContext);
-  const [context, setContext] = useContext(AppContext);
+  const {setLoading, setCurrentDate, editTask} = useContext(AppContext);
 
   const query = useParams();
   const currentDate = moment(query.date);
 
-
   useEffect(() => {
     const currentDate = moment(query.date);
     const newDate = currentDate.format('YYYY-MM-DD');
-    setContext({currentDate: newDate, loading: true});
+    setCurrentDate(newDate);
+    setLoading(true);
     getTasksForDate(newDate)
       .then(([pending, done]) => {
         setPendingTasks(pending.data);
         setDoneTasks(done.data);
-        setContext({loading: false});
+        setLoading(false);
       });
   }, [query.date]);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
-        <TaskListHeader currentDate={currentDate} />
+        <TaskListHeader currentDate={currentDate}/>
         <Divider/>
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
           Pending ({pendingTasks.length})
@@ -94,12 +95,12 @@ const DateTasks = () => {
         </Grid>
         <Divider/>
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          New Task
+          {editTask ? `Edit Task (${editTask.description})` : 'New Task'}
         </Typography>
-        <NewTaskForm/>
+        <TaskForm/>
       </Paper>
     </div>
   );
 }
 
-export default withRouter(React.memo(DateTasks));
+export default React.memo(DateTasks);

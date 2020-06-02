@@ -1,19 +1,19 @@
-import React, {useReducer} from 'react';
-import {merge as _merge} from 'lodash';
+import React, {useState} from 'react';
 import moment from "moment";
 
-const initialState = {
-  currentDate: moment().format('YYYY-MM-DD'),
-  loading: false
-};
-
-const reducer = (state, update) => ({...state, ...update});
-
-export const AppContext = React.createContext(initialState);
+export const AppContext = React.createContext({});
 
 export const AppProvider = ({children}) => {
-  const [context, reduce] = useReducer(reducer, initialState);
-  const setContext = newContext => reduce(newContext);
+  const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
+  const [loading, setLoading] = useState(false);
+  const [editTask, setEditTask] = useState(null);
 
-  return <AppContext.Provider value={[context, setContext]}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{
+    currentDate,
+    setCurrentDate,
+    loading,
+    setLoading,
+    editTask,
+    setEditTask
+  }}>{children}</AppContext.Provider>;
 }

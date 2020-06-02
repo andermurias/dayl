@@ -7,6 +7,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import EditIcon from '@material-ui/icons/Edit';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import {deleteTask, updateTask} from "../Api/Task";
 import {DoneTaskContext} from "../_context/DoneTaskContext";
@@ -17,30 +19,39 @@ import {AppContext} from "../_context/AppContext";
 const TaskListItem = ({done, task}) => {
   const labelId = `checkbox-list-label-${task.id}`;
 
-  const [context, setContext] = useContext(AppContext);
+  const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
 
   const DELETE_TASK = 'delete';
+  const EDIT_TASK = 'edit';
   const UPDATE_TASK = 'update';
 
   const processTask = (type, task) => async () => {
-    setContext({loading: true});
-    const date = !done ? context.currentDate : null;
+    setLoading(true);
+    const date = !done ? currentDate : null;
     let request;
     switch (type) {
+      case EDIT_TASK:
+        if (editTask && (task.id === editTask.id)) {
+          setEditTask(null);
+        } else {
+          setEditTask(task);
+        }
+        setLoading(false);
+        break
       case UPDATE_TASK:
-        request = await updateTask(task, date);
+        request = await updateTask(task, {date});
         break;
       case DELETE_TASK:
         request = await deleteTask(task);
         break;
     }
     if (request) {
-      const [pending, done] = await getTasksForDate(context.currentDate);
+      const [pending, done] = await getTasksForDate(currentDate);
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
-      setContext({loading: false});
+      setLoading(false);
     }
   }
 
@@ -52,6 +63,9 @@ const TaskListItem = ({done, task}) => {
       <ListItemText id={labelId} primary={task.description}
                     secondary={task.start ? (task.start + ' - ' + task.end) : ''}/>
       <ListItemSecondaryAction>
+        <IconButton edge="end" aria-label="delete" onClick={processTask(EDIT_TASK, task)}>
+          {editTask && (task.id === editTask.id) ? <ClearIcon/> : <EditIcon/>}
+        </IconButton>
         <IconButton edge="end" aria-label="delete" onClick={processTask(DELETE_TASK, task)}>
           <DeleteOutlineIcon/>
         </IconButton>

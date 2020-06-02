@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
 import MomentUtils from "@date-io/moment";
 
@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
 import {MuiPickersUtilsProvider, TimePicker} from "@material-ui/pickers";
 import {makeStyles} from "@material-ui/core/styles";
-import {addTask} from "../Api/Task";
+import {addTask, updateTask} from "../Api/Task";
 import {DoneTaskContext} from "../_context/DoneTaskContext";
 import {PendingTaskContext} from "../_context/PendingTaskContext";
 import {getTasksForDate} from "../Common/Helper";
@@ -30,31 +30,40 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NewTaskForm = () => {
+const TaskForm = () => {
   const classes = useStyles();
 
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
-  const [context] = useContext(AppContext);
-
-//  const defaultFormData = {
-//    description: '',
-//    start: null,
-//    end: null,
-//    date: null,
-//  };
+  const {currentDate, editTask, setEditTask} = useContext(AppContext);
 
   const [startDate, handlestartDateChange] = useState(new Date());
   const [endDate, handleEndDateChange] = useState(new Date());
   const [description, setDescription] = useState('');
   const [done, setDone] = useState(false);
+  const [id, setId] = useState('');
 
-
+  useEffect(() => {
+    if (editTask) {
+      handlestartDateChange(editTask.start ? new Date(moment(editTask.start, 'HH:mm').toDate()) : new Date());
+      handleEndDateChange(editTask.end ? new Date(moment(editTask.end, 'HH:mm').toDate()) : new Date());
+      setDescription(editTask.description);
+      setDone(!!editTask.date);
+      setId(editTask.id);
+    } else {
+      handlestartDateChange(new Date());
+      handleEndDateChange(new Date());
+      setDescription('');
+      setDone(false);
+      setId('');
+    }
+  }, [editTask]);
 
   let taskDescriptionRef = useRef(null);
+  let taskIdRef = useRef('');
 
   const updateTasks = () => {
-    getTasksForDate(context.currentDate).then(([pending, done]) => {
+    getTasksForDate(currentDate).then(([pending, done]) => {
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
     });
@@ -64,16 +73,29 @@ const NewTaskForm = () => {
     const start = moment(startDate).format('HH:mm');
     const end = moment(endDate).format('HH:mm');
 
-    addTask({
-      description: description,
-      start: end === start ? null : start,
-      end: end === start ? null : end,
-      date: done ? context.currentDate : null,
-    })
-      .then(() => {
-        taskDescriptionRef.current.value = '';
+    let request = null;
+    if (editTask) {
+      request = updateTask(editTask, {
+        description: description,
+        start: end === start ? null : start,
+        end: end === start ? null : end,
+        date: done ? (editTask.date ? editTask.date : currentDate) : null,
+      })
+    } else {
+      request = addTask({
+        description: description,
+        start: end === start ? null : start,
+        end: end === start ? null : end,
+        date: done ? currentDate : null,
+      })
+    }
+
+    if (request) {
+      request.then(() => {
+        setEditTask(null);
         updateTasks();
       })
+    }
   }
 
   const enterListenerSend = (ev) => {
@@ -87,10 +109,12 @@ const NewTaskForm = () => {
     <>
       <Grid container spacing={1}>
         <Grid container item xs={12}>
+          <input type="hidden" ref={taskIdRef} value={id}/>
           <TextField id="task-description" className={classes.inputText} label="Description" variant="outlined"
                      fullWidth
                      onChange={(e) => setDescription(e.target.value)}
                      onKeyPress={enterListenerSend}
+                     value={description}
                      inputRef={taskDescriptionRef}/>
         </Grid>
         <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -147,11 +171,12 @@ const NewTaskForm = () => {
             startIcon={<CheckOutlinedIcon/>}
             onClick={submitTask}
           >
-            Save
+            {editTask ? 'Edit' : 'Save'}
           </Button>
         </Grid>
       </Grid>
-    </>);
+    </>
+  );
 };
 
-export default React.memo(NewTaskForm);
+export default React.memo(TaskForm);
