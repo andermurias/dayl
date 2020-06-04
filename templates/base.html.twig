@@ -13,34 +13,30 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico?v=1.0">
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=1.0">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#011627ff">
+
+    <title>{% block title %}{{ 'page.title'|trans }}{% endblock %}</title>
 
     {% block meta_social %}
         <!-- Primary Meta Tags -->
-        <meta name="title" content="Dayl - Easy as a spoon">
-        <meta name="description"
-              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
+        <meta name="title" content="{{ 'page.title'|trans }}">
+        <meta name="description" content="{{ 'page.description'|trans }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ app.request.uri }}">
-        <meta property="og:title" content="Dayl - Easy as a spoon">
-        <meta property="og:description"
-              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
-        <meta property="og:image"
-              content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+        <meta property="og:title" content="{{ 'page.title'|trans }}">
+        <meta property="og:description" content="{{ 'page.description'|trans }}">
+        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ app.request.uri }}">
-        <meta property="twitter:title" content="Dayl - Easy as a spoon">
-        <meta property="twitter:description"
-              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
-        <meta property="twitter:image"
-              content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+        <meta property="twitter:title" content="{{ 'page.title'|trans }}">
+        <meta property="twitter:description" content="{{ 'page.description'|trans }}">
+        <meta property="twitter:image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
     {% endblock %}
 
-    <title>{% block title %}Dayl - Easy as a spoon{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}

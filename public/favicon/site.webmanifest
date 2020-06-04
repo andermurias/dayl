@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "dayl",
+    "short_name": "dayl",
     "icons": [
         {
             "src": "/favicon/android-chrome-36x36.png?v=1.0",
@@ -38,7 +38,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#ff9f1cff",
+    "background_color": "#011627ff",
     "display": "standalone"
 }

@@ -1,3 +1,6 @@
+page:
+    title: dayl - easy as a spoon
+    description: Save the task you have done for the next day, and prepare your pending task, fast and easy.
 header:
     button: Sign In
 home:
@@ -5,7 +8,7 @@ home:
     subtitle: Save the task you have done for the next day, and prepare your pending task, fast and easy.
     main_button: Start now
     section_info:
-        label: Why Dayl
+        label: Why dayl
         title: Log for daily, with SCRUM in mind
         subtitle: Keep track of what you've done, what you have to do, and how many time did you spent.
         info_block_1:

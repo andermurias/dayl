@@ -1,3 +1,6 @@
+page:
+    title: dayl - easy as a spoon
+    description: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y sencillo.
 header:
     button: Entrar
 home:
@@ -18,7 +21,7 @@ home:
             title: Facil y punto
             text: Easy to use, easy to navigate.<br/>Forgot all the huge apps with tons of functionalities where you need a degree to use them.
     section_about:
-        title: Mas fácil que una cuchara, preparado para SCRUM
+        title: Mas sencillo que una cuchara, preparado para SCRUM
         subtitle: Mantén un registro diario de todas las tareas que has hecho con un interfaz sencilla y llévalo siempre encima.
         list_1: Perfecto para uso personal y organizarte en el trabajo
         list_2: Preaprado para equipos que usan SCRUM
