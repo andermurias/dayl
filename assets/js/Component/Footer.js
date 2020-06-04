@@ -68,7 +68,7 @@ const Footer = () => {
             {themeStatus === 'auto' ? <BrightnessAutoIcon/> : (themeStatus === 'dark' ? <Brightness2Icon/> :
               <Brightness5Icon/>)}
           </IconButton>
-          <IconButton color="primary" aria-label="Github link" component="a" href="https://github.com/andermurias/dayl">
+          <IconButton color="primary" aria-label="Github link" component="a" href="https://github.com/andermurias/dayl" target="_blank">
             <GitHubIcon/>
           </IconButton>
           {isAuthenticated() ? (

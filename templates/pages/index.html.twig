@@ -40,48 +40,13 @@
         }
     </style>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="landing/libs/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="/landing/libs/@fortawesome/fontawesome-free/css/all.min.css"/>
     <!-- Quick CSS -->
-    <link rel="stylesheet" href="landing/css/quick-website.css" id="stylesheet"/>
+    <link rel="stylesheet" href="/landing/css/quick-website.css" id="stylesheet"/>
 {% endblock %}
 
 {% block body %}
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
-        <div class="container">
-            <!-- Brand -->
-            <a class="navbar-brand" href="index.html">
-                <img alt="Image placeholder" src="landing/img/brand/dayl_logo_full.svg" id="navbar-logo" />
-            </a>
-            <!-- Toggler -->
-            <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarCollapse"
-                    aria-controls="navbarCollapse"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Collapse -->
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mt-4 mt-lg-0 ml-auto"></ul>
-                <!-- Button -->
-                <a
-                        class="navbar-btn btn btn-sm btn-primary d-none d-lg-inline-block ml-3"
-                        href="/login"
-                >
-                    Sign In
-                </a>
-                <!-- Mobile button -->
-                <div class="d-lg-none text-center">
-                    <a href="/login" class="btn btn-block btn-sm btn-primary">Sign In</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    {% include 'partials/_header.html.twig' %}
     <!-- Main content -->
     <section class="slice py-7">
         <div class="container">
@@ -91,7 +56,7 @@
                     <figure class="w-100">
                         <img
                                 alt="Image placeholder"
-                                src="landing/img/svg/illustrations/illustration-3.svg"
+                                src="/landing/img/svg/illustrations/illustration-3.svg"
                                 class="img-fluid mw-md-120"
                         />
                     </figure>
@@ -99,7 +64,7 @@
                 <div class="col-12 col-md-7 col-lg-6 order-md-1 pr-md-5">
                     <!-- Heading -->
                     <h1 class="display-4 text-center text-md-left mb-3">
-                        Easy, fast and reliable <br /><strong class="text-primary">Daily log</strong>
+                        Easy, fast and reliable <br/><strong class="text-primary">Daily log</strong>
                     </h1>
                     <!-- Text -->
                     <p class="lead text-center text-md-left text-muted">
@@ -107,7 +72,7 @@
                     </p>
                     <!-- Buttons -->
                     <div class="text-center text-md-left mt-5">
-                        <a href="/login" class="btn btn-primary btn-icon" target="_blank">
+                        <a href="/login" class="btn btn-primary btn-icon">
                             <span class="btn-inner--text">Start now</span>
                             <span class="btn-inner--icon"><i data-feather="chevron-right"></i></span>
                         </a>
@@ -140,7 +105,7 @@
                         <div class="card-body pb-5">
                             <div class="pt-4 pb-5">
                                 <img
-                                        src="landing/img/svg/illustrations/illustration-5.svg"
+                                        src="/landing/img/svg/illustrations/illustration-5.svg"
                                         class="img-fluid img-center"
                                         style="height: 150px;"
                                         alt="Illustration"
@@ -148,7 +113,8 @@
                             </div>
                             <h5 class="h4 lh-130 mb-3">Pending tasks</h5>
                             <p class="text-muted mb-0">
-                                Keep track of your pending tasks and carry with you to the next day, mark then when you finish them,
+                                Keep track of your pending tasks and carry with you to the next day, mark then when you
+                                finish them,
                                 and they will be attached to the day.
                             </p>
                         </div>
@@ -159,7 +125,7 @@
                         <div class="card-body pb-5">
                             <div class="pt-4 pb-5">
                                 <img
-                                        src="landing/img/svg/illustrations/illustration-6.svg"
+                                        src="/landing/img/svg/illustrations/illustration-6.svg"
                                         class="img-fluid img-center"
                                         style="height: 150px;"
                                         alt="Illustration"
@@ -167,7 +133,8 @@
                             </div>
                             <h5 class="h4 lh-130 mb-3">Keep track</h5>
                             <p class="text-muted mb-0">
-                                Review, your work whenever you want, with Dayl you'll have an accurate history of the tasks you have
+                                Review, your work whenever you want, with Dayl you'll have an accurate history of the
+                                tasks you have
                                 worked in.
                             </p>
                         </div>
@@ -178,7 +145,7 @@
                         <div class="card-body pb-5">
                             <div class="pt-4 pb-5">
                                 <img
-                                        src="landing/img/svg/illustrations/illustration-7.svg"
+                                        src="/landing/img/svg/illustrations/illustration-7.svg"
                                         class="img-fluid img-center"
                                         style="height: 150px;"
                                         alt="Illustration"
@@ -186,8 +153,9 @@
                             </div>
                             <h5 class="h4 lh-130 mb-3">Easy, period</h5>
                             <p class="text-muted mb-0">
-                                Easy to use, easy to navigate.<br />
-                                Forgot all the huge apps with tons of functionalities where you need a degree to use them.
+                                Easy to use, easy to navigate.<br/>
+                                Forgot all the huge apps with tons of functionalities where you need a degree to use
+                                them.
                             </p>
                         </div>
                     </div>
@@ -202,7 +170,8 @@
                     <div class="col-lg-5 order-lg-2">
                         <h5 class="h3">Simple as a spoon, Ready for SCRUM</h5>
                         <p class="lead my-4">
-                            Keep a detailed log of all the task you have done with a simple UI and carry them always with you
+                            Keep a detailed log of all the task you have done with a simple UI and carry them always
+                            with you
                         </p>
                         <ul class="list-unstyled mb-0">
                             <li class="py-2">
@@ -236,7 +205,7 @@
                             <div class="card-body p-0">
                                 <img
                                         alt="Image placeholder"
-                                        src="landing/img/theme/light/frame-dayl-capture.png"
+                                        src="/landing/img/theme/light/frame-dayl-capture.png"
                                         class="img-fluid shadow rounded"
                                 />
                             </div>
@@ -246,107 +215,9 @@
             </div>
         </div>
     </section>
-    <footer class="position-relative" id="footer-main">
-        <div class="footer pt-lg-7 footer-dark bg-dark">
-            <!-- SVG shape -->
-            <div class="shape-container shape-line shape-position-top shape-orientation-inverse">
-                <svg
-                        width="2560px"
-                        height="100px"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                        preserveAspectRatio="none"
-                        x="0px"
-                        y="0px"
-                        viewBox="0 0 2560 100"
-                        style="enable-background: new 0 0 2560 100;"
-                        xml:space="preserve"
-                        class="fill-section-secondary"
-                >
-            <polygon points="2560 0 2560 100 0 100"></polygon>
-          </svg>
-            </div>
-            <!-- Footer -->
-            <div class="container pt-4">
-                <div class="row">
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <!-- Theme's logo -->
-                        <a href="/login">
-                            <img
-                                    alt="Image placeholder"
-                                    src="landing/img/brand/dayl_logo_full_dark.svg"
-                                    style="width: 10rem;"
-                                    id="footer-logo"
-                            />
-                        </a>
-                        <!-- Webpixels' mission -->
-                        <p class="mt-4 text-sm opacity-8 pr-lg-4">
-                            Dayl offer a easy way to keep track of the task you have done each day, and a brief view of your pending
-                            tasks
-                        </p>
-                        <!-- Social -->
-                        <ul class="nav mt-4">
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://github.com/andermurias/dayl" target="_blank">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-6 col-sm-4 ml-lg-auto mb-5 mb-lg-0">p</div>
-                    <div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0"></div>
-                    <div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0">
-                        <h6 class="heading mb-3">About</h6>
-                        <ul class="list-unstyled">
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="#">Support</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <hr class="divider divider-fade divider-dark my-4" />
-                <div class="row align-items-center justify-content-md-between pb-4">
-                    <div class="col-md-6">
-                        <div class="copyright text-sm font-weight-bold text-center text-md-left">
-                            <a href="/" class="font-weight-bold" target="_blank">Dayl</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="nav justify-content-center justify-content-md-end mt-3 mt-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Terms
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Privacy
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Cookies
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'partials/_footer.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
-    <!-- Core JS  -->
-    <script src="landing/libs/jquery/dist/jquery.min.js"></script>
-    <script src="landing/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="landing/libs/svg-injector/dist/svg-injector.min.js"></script>
-    <script src="landing/libs/feather-icons/dist/feather.min.js"></script>
-    <!-- Quick JS -->
-    <script src="landing/js/quick-website.js"></script>
-    <script>
-      feather.replace({
-        width: '1em',
-        height: '1em',
-      });
-    </script>
+
 {% endblock %}

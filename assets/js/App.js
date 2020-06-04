@@ -15,16 +15,26 @@ import {AppProvider} from "./_context/AppContext";
 import ModalLoader from "./Component/ModalLoader";
 import {getForcedTheme, isAuthenticated} from "./Common/Helper";
 
-const checkRouteAuthorized = (route, props) => !route.props.secure || isAuthenticated() ?
-  <route.component {...props} {...route.props} /> :
-  <Redirect to={{pathname: '/login'}}/>;
+const checkRouteAuthorized = (route, props) => {
+  if (route.props.secure && !isAuthenticated()) {
+    return <Redirect to={{pathname: '/login'}}/>;
+  }
+
+  if (route.props.isLogin && isAuthenticated()) {
+    return <Redirect to={{pathname: '/tasks'}}/>;
+  }
+
+  return <route.component {...props} {...route.props} />;
+
+}
 
 const routerConfiguration = [
   {
     route: "/login",
     component: Login,
     props: {
-      date: true
+      date: true,
+      isLogin: true
     },
   },
   {

@@ -72,7 +72,8 @@ const Login = () => {
   const handleLoginWithGoogle = response => {
     registerUser({token: response.tokenId})
       .then(res => {
-        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('token', res.data.token);
+        document.cookie = 'logged=true';
         setLoginError(false);
         setToken(res.data.token);
       });
