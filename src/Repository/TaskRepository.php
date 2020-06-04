@@ -36,8 +36,9 @@ class TaskRepository extends ServiceEntityRepository
                 ->andWhere('date(t.date) = :date')
                 ->setParameter('date', $dateTime->format('Y-m-d'));
         }
-        $queryBuilder->
-        orderBy('t.id', 'ASC');
+        $queryBuilder
+            ->addOrderBy('t.start', 'ASC')
+            ->addOrderBy('t.id', 'ASC');
 
 
         return $queryBuilder->getQuery()->getResult();
