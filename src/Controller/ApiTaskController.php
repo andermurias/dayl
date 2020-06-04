@@ -156,9 +156,9 @@ class ApiTaskController extends AbstractController
 
                 $task->setEnd(new \DateTime($data['end']));
             }
-            
+
             if (array_key_exists('date', $data)) {
-                $task->setEnd(new \DateTime($data['date']));
+                $task->setDate($data['date'] === null ? null : new \DateTime($data['date']));
             }
             $entityManager->persist($task);
             $entityManager->flush();
