@@ -15,8 +15,16 @@ import {DoneTaskContext} from "../_context/DoneTaskContext";
 import {PendingTaskContext} from "../_context/PendingTaskContext";
 import {getTasksForDate} from "../Common/Helper";
 import {AppContext} from "../_context/AppContext";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  listItem: {
+    paddingRight: 95,
+  }
+}));
 
 const TaskListItem = ({done, task}) => {
+  const classes = useStyles();
   const labelId = `checkbox-list-label-${task.id}`;
 
   const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
@@ -56,7 +64,7 @@ const TaskListItem = ({done, task}) => {
   }
 
   return (
-    <ListItem role={undefined} dense button onClick={processTask(UPDATE_TASK, task)}>
+    <ListItem className={classes.listItem} role={undefined} dense button onClick={processTask(UPDATE_TASK, task)}>
       <ListItemIcon>
         <Checkbox edge="start" checked={done} tabIndex={-1} disableRipple inputProps={{'aria-labelledby': labelId}}/>
       </ListItemIcon>
