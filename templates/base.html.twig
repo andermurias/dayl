@@ -18,23 +18,28 @@
     <title>{% block title %}{{ 'page.title'|trans }}{% endblock %}</title>
 
     {% block meta_social %}
-        <!-- Primary Meta Tags -->
-        <meta name="title" content="{{ 'page.title'|trans }}">
+        <!-- COMMON TAGS -->
+        <!-- Search Engine -->
         <meta name="description" content="{{ 'page.description'|trans }}">
-
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ app.request.uri }}">
-        <meta property="og:title" content="{{ 'page.title'|trans }}">
-        <meta property="og:description" content="{{ 'page.description'|trans }}">
-        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
-
+        <meta name="image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+        <!-- Schema.org for Google -->
+        <meta itemprop="name" content="{{ 'page.title'|trans }}">
+        <meta itemprop="description" content="{{ 'page.description'|trans }}">
+        <meta itemprop="image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
         <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ app.request.uri }}">
-        <meta property="twitter:title" content="{{ 'page.title'|trans }}">
-        <meta property="twitter:description" content="{{ 'page.description'|trans }}">
-        <meta property="twitter:image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ 'page.title'|trans }}">
+        <meta name="twitter:description" content="{{ 'page.description'|trans }}">
+        <meta name="twitter:image:src" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+
+        <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+        <meta name="og:title" content="{{ 'page.title'|trans }}">
+        <meta name="og:description" content="{{ 'page.description'|trans }}">
+        <meta name="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+        <meta name="og:url" content="https://dayl.om.nom.es">
+        <meta name="og:site_name" content="dayl">
+        <meta name="og:locale" content="en_EN">
+        <meta name="og:type" content="website">
     {% endblock %}
 
     {% block stylesheets %}
