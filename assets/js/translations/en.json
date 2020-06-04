@@ -1,0 +1,22 @@
+{
+  "login": {
+    "google": "Login With Google",
+    "credentials": {
+      "invalid": "The credentials are invalid"
+    }
+  },
+  "tasks": {
+    "edit": "Edit Task",
+    "new": "New Task",
+    "done": "Done",
+    "pending": "Pending"
+  },
+  "form": {
+    "description": "Description",
+    "start": "Start",
+    "end": "End",
+    "done": "Done",
+    "edit": "Edit",
+    "save": "Save"
+  }
+}

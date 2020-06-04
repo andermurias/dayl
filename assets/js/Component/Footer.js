@@ -16,6 +16,7 @@ import logo from "../../static/img/logo/dayl_logo_full.svg";
 import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {getForcedTheme, logout, isAuthenticated} from "../Common/Helper";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -40,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Footer = () => {
   const classes = useStyles();
+
+  const { t } = useTranslation();
+
   const theme = useTheme();
   const forceTheme = getForcedTheme();
 

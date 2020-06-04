@@ -1,0 +1,34 @@
+header:
+    button: Entrar
+home:
+    title: Facil y rápido, <br/> ten un <strong class="text-primary">Log Diario</strong>
+    subtitle: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y sencillo.
+    main_button: Empieza ahora
+    section_info:
+        label: ¿Por que dayl?
+        title: Un historico para tus dailys
+        subtitle: Keep track of what you've done, what you have to do, and how many time did you spent.
+        info_block_1:
+            title: Tareas pendientes
+            text: Keep track of your pending tasks and carry with you to the next day, mark then when you finish them, and they will be attached to the day.
+        info_block_2:
+            title: Manten un hisorico
+            text: Review, your work whenever you want, with Dayl you'll have an accurate history of the tasks you have worked in.
+        info_block_3:
+            title: Facil y punto
+            text: Easy to use, easy to navigate.<br/>Forgot all the huge apps with tons of functionalities where you need a degree to use them.
+    section_about:
+        title: Mas fácil que una cuchara, preparado para SCRUM
+        subtitle: Mantén un registro diario de todas las tareas que has hecho con un interfaz sencilla y llévalo siempre encima.
+        list_1: Perfecto para uso personal y organizarte en el trabajo
+        list_2: Preaprado para equipos que usan SCRUM
+footer:
+    about:
+        title: Sobre Dayl
+        login: Login
+        github: Github
+        support: Soporte
+    bottom:
+        terms: Terminos y Condiciones
+        privacy: Privacidad
+        cookies: Cookies

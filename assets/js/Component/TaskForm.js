@@ -16,6 +16,7 @@ import {PendingTaskContext} from "../_context/PendingTaskContext";
 import {getTasksForDate} from "../Common/Helper";
 import {AppContext} from "../_context/AppContext";
 import moment from "moment";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -32,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 const TaskForm = () => {
   const classes = useStyles();
+
+  const { t } = useTranslation();
 
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
@@ -116,7 +119,7 @@ const TaskForm = () => {
       <Grid container spacing={1}>
         <Grid container item xs={12}>
           <input type="hidden" ref={taskIdRef} value={id}/>
-          <TextField id="task-description" className={classes.inputText} label="Description" variant="outlined"
+          <TextField id="task-description" className={classes.inputText} label={t('form.description')} variant="outlined"
                      fullWidth
                      onChange={(e) => setDescription(e.target.value)}
                      onKeyPress={enterListenerSend}
@@ -128,7 +131,7 @@ const TaskForm = () => {
             <TimePicker
               inputVariant="outlined"
               id="task-start"
-              label="Start"
+              label={t('form.start')}
               minutesStep={5}
               className={classes.inputText}
               ampm={false}
@@ -141,7 +144,7 @@ const TaskForm = () => {
             <TimePicker
               inputVariant="outlined"
               id="task-end"
-              label="End"
+              label={t('form.end')}
               minutesStep={5}
               className={classes.inputText}
               ampm={false}
@@ -158,11 +161,12 @@ const TaskForm = () => {
               <Switch
                 checked={done}
                 onChange={(e) => setDone(event.target.checked)}
-                name="Done"
+                name="done"
                 color="secondary"
               />
             }
-            label="Done"
+            label={t('form.done')}
+            labelPlacement="top"
           />
         </Grid>
       </Grid>
@@ -177,7 +181,7 @@ const TaskForm = () => {
             startIcon={<CheckOutlinedIcon/>}
             onClick={submitTask}
           >
-            {editTask ? 'Edit' : 'Save'}
+            {editTask ? t('form.edit') : t('form.save')}
           </Button>
         </Grid>
       </Grid>

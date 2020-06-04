@@ -1,0 +1,22 @@
+{
+  "login": {
+    "google": "Accede con Google",
+    "credentials": {
+      "invalid": "Los datos de usuario no son válidos"
+    }
+  },
+  "tasks": {
+    "edit": "Editar tarea",
+    "new": "Nueva tarea",
+    "done": "Hechas",
+    "pending": "Pendientes"
+  },
+  "form": {
+    "description": "Descipción",
+    "start": "Inicio",
+    "end": "Fin",
+    "done": "Finalizada",
+    "edit": "Editar",
+    "save": "Guardar"
+  }
+}

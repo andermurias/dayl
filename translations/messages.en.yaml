@@ -1,0 +1,34 @@
+header:
+    button: Sign In
+home:
+    title: Easy, fast and reliable <br/><strong class="text-primary">Daily log</strong>
+    subtitle: Save the task you have done for the next day, and prepare your pending task, fast and easy.
+    main_button: Start now
+    section_info:
+        label: Why Dayl
+        title: Log for daily, with SCRUM in mind
+        subtitle: Keep track of what you've done, what you have to do, and how many time did you spent.
+        info_block_1:
+            title: Pending tasks
+            text: Keep track of your pending tasks and carry with you to the next day, mark then when you finish them, and they will be attached to the day.
+        info_block_2:
+            title: Keep track
+            text: Review, your work whenever you want, with Dayl you'll have an accurate history of the tasks you have worked in.
+        info_block_3:
+            title: Easy, period
+            text: Easy to use, easy to navigate.<br/>Forgot all the huge apps with tons of functionalities where you need a degree to use them.
+    section_about:
+        title: Simple as a spoon, Ready for SCRUM
+        subtitle: Keep a detailed log of all the task you have done with a simple UI and carry them always with you
+        list_1: Perfect personal organization at work
+        list_2: Ready for SCRUM teams
+footer:
+    about:
+        title: About
+        login: Login
+        github: Github
+        support: Support
+    bottom:
+        terms: Terms
+        privacy: Privacy
+        cookies: Cookies

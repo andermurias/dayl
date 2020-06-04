@@ -15,8 +15,7 @@ import {PendingTaskContext} from "../_context/PendingTaskContext";
 import {getTasksForDate} from "../Common/Helper";
 import {AppContext} from "../_context/AppContext";
 import TaskListHeader from "../Component/TaskListHeader";
-
-moment.locale('es');
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -42,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 const DateTasks = () => {
   const classes = useStyles();
+
+  const { t , i18n} = useTranslation();
+
+  moment.locale(i18n.language);
 
   const [doneTasks, setDoneTasks] = useContext(DoneTaskContext);
   const [pendingTasks, setPendingTasks] = useContext(PendingTaskContext);
@@ -69,7 +72,7 @@ const DateTasks = () => {
         <TaskListHeader currentDate={currentDate}/>
         <Divider/>
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          Pending ({pendingTasks.length})
+          {t('tasks.pending')} ({pendingTasks.length})
         </Typography>
         <Grid container spacing={1}>
           <Grid container item xs={12}>
@@ -82,7 +85,7 @@ const DateTasks = () => {
         </Grid>
         <Divider/>
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          Done ({doneTasks.length})
+          {t('tasks.done')} ({doneTasks.length})
         </Typography>
         <Grid container spacing={1}>
           <Grid container item xs={12}>
@@ -95,7 +98,7 @@ const DateTasks = () => {
         </Grid>
         <Divider/>
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          {editTask ? `Edit Task (${editTask.description})` : 'New Task'}
+          {editTask ? `${t('tasks.edit')} (${editTask.description})` : t('tasks.new')}
         </Typography>
         <TaskForm/>
       </Paper>

@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {withRouter, Redirect} from "react-router-dom";
 
-import axios from 'axios';
+//import axios from 'axios';
 
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Google from 'mdi-material-ui/Google';
+
+import { useTranslation } from 'react-i18next';
 
 import {GoogleLogin} from 'react-google-login';
 
@@ -40,34 +42,10 @@ const Login = () => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const { t } = useTranslation();
+
   const [token, setToken] = useState(null);
   const [loginError, setLoginError] = useState(false);
-//  const [username, setUsername] = useState('');
-//  const [password, setPassword] = useState('');
-
-//  const login = () => axios.post(
-//    process.env.API_URL + '/api/login_check',
-//    {
-//      "username": username,
-//      "password": password
-//    },
-//    {
-//      headers: {
-//        'Content-Type': 'application/json',
-//      }
-//    })
-//    .catch(res => {
-//      if (401 === res.response.status) {
-//        setLoginError(true);
-//      }
-//    })
-//    .then(res => {
-//      if (res !== undefined) {
-//        localStorage.setItem('token', res.data.token)
-//        setLoginError(false);
-//        setToken(res.data.token);
-//      }
-//    });
 
   const handleLoginWithGoogle = response => {
     registerUser({token: response.tokenId})
@@ -79,20 +57,6 @@ const Login = () => {
       });
   }
 
-//  const handleUsername = (event) => {
-//    setUsername(event.target.value);
-//  };
-//  const handlePassword = (event) => {
-//    setPassword(event.target.value);
-//  };
-//
-//  const sendOnEnter = (ev) => {
-//    if (ev.key === 'Enter') {
-//      ev.preventDefault();
-//      login();
-//    }
-//  };
-
   return null !== token ? <Redirect to={'/token'}/> :
     (<div className={classes.container}>
       <Paper className={classes.paper} elevation={0}>
@@ -103,27 +67,10 @@ const Login = () => {
           {loginError ? (
             <Grid item md={true} sm={true} xs={true}>
               <Alert variant="filled" severity="warning">
-                The credentials are invalid
+                {t('login.credentials.invalid')}
               </Alert>
             </Grid>) : ''}
         </Grid>
-        {/*<Grid container spacing={8}>*/}
-        {/*  <Grid item md={true} sm={true} xs={true}>*/}
-        {/*    <TextField id="username" label="Username" type="email" onChange={handleUsername}*/}
-        {/*               fullWidth autoFocus required onKeyPress={sendOnEnter} variant="filled"/>*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
-        {/*<Grid container spacing={8}>*/}
-        {/*  <Grid item md={true} sm={true} xs={true}>*/}
-        {/*    <TextField id="password" label="Password" type="password"*/}
-        {/*               onChange={handlePassword} fullWidth required onKeyPress={sendOnEnter} variant="filled"/>*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
-        {/*<Grid container spacing={8}>*/}
-        {/*  <Grid container item justify="center">*/}
-        {/*    <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
         <Grid container spacing={8}>
           <Grid container item justify="center">
             <GoogleLogin
@@ -134,7 +81,7 @@ const Login = () => {
                           size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
                     Login with Google
                   </Button>)}
-              buttonText="Login With Google"
+              buttonText={t('login.google')}
               onSuccess={handleLoginWithGoogle}
               onFailure={() => setLoginError(true)}
               cookiePolicy={'single_host_origin'}

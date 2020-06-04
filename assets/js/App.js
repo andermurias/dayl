@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import {BrowserRouter as Router, Switch, Route, Redirect, useParams} from "react-router-dom";
 
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
@@ -33,7 +33,6 @@ const routerConfiguration = [
     route: "/login",
     component: Login,
     props: {
-      date: true,
       isLogin: true
     },
   },
@@ -126,21 +125,23 @@ export default function App(props) {
   });
 
   return (
-    <Contextureize>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline/>
-        <Router>
-          <Switch>
-            {routerConfiguration.map((route, i) => {
-              return (
-                <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
-              );
-            })}
-          </Switch>
-          <ModalLoader/>
-          <Footer/>
-        </Router>
-      </MuiThemeProvider>
-    </Contextureize>
+    <Suspense fallback="loading">
+      <Contextureize>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline/>
+          <Router>
+            <Switch>
+              {routerConfiguration.map((route, i) => {
+                return (
+                  <Route path={route.route} key={i} render={(props) => checkRouteAuthorized(route, props)}/>
+                );
+              })}
+            </Switch>
+            <ModalLoader/>
+            <Footer/>
+          </Router>
+        </MuiThemeProvider>
+      </Contextureize>
+    </Suspense>
   );
 }
