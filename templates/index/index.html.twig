@@ -1,0 +1,352 @@
+{% block stylesheets %}
+    <style>
+        @keyframes hidePreloader {
+            0% {
+                width: 100%;
+                height: 100%;
+            }
+
+            100% {
+                width: 0;
+                height: 0;
+            }
+        }
+
+        body > div.preloader {
+            position: fixed;
+            background: white;
+            width: 100%;
+            height: 100%;
+            z-index: 1071;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            overflow: hidden;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:not(.loaded) > div.preloader {
+            opacity: 1;
+        }
+
+        body:not(.loaded) {
+            overflow: hidden;
+        }
+
+        body.loaded > div.preloader {
+            animation: hidePreloader 0.5s linear 0.5s forwards;
+        }
+    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="landing/libs/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <!-- Quick CSS -->
+    <link rel="stylesheet" href="landing/css/quick-website.css" id="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand" href="index.html">
+                <img alt="Image placeholder" src="landing/img/brand/dayl_logo_full.svg" id="navbar-logo" />
+            </a>
+            <!-- Toggler -->
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Collapse -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mt-4 mt-lg-0 ml-auto"></ul>
+                <!-- Button -->
+                <a
+                        class="navbar-btn btn btn-sm btn-primary d-none d-lg-inline-block ml-3"
+                        href="/login"
+                >
+                    Sign In
+                </a>
+                <!-- Mobile button -->
+                <div class="d-lg-none text-center">
+                    <a href="/login" class="btn btn-block btn-sm btn-primary">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main content -->
+    <section class="slice py-7">
+        <div class="container">
+            <div class="row row-grid align-items-center">
+                <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
+                    <!-- Image -->
+                    <figure class="w-100">
+                        <img
+                                alt="Image placeholder"
+                                src="landing/img/svg/illustrations/illustration-3.svg"
+                                class="img-fluid mw-md-120"
+                        />
+                    </figure>
+                </div>
+                <div class="col-12 col-md-7 col-lg-6 order-md-1 pr-md-5">
+                    <!-- Heading -->
+                    <h1 class="display-4 text-center text-md-left mb-3">
+                        Easy, fast and reliable <br /><strong class="text-primary">Daily log</strong>
+                    </h1>
+                    <!-- Text -->
+                    <p class="lead text-center text-md-left text-muted">
+                        Save the task you have down for the next day, and prepare your pending task, fast and easy.
+                    </p>
+                    <!-- Buttons -->
+                    <div class="text-center text-md-left mt-5">
+                        <a href="/login" class="btn btn-primary btn-icon" target="_blank">
+                            <span class="btn-inner--text">Start now</span>
+                            <span class="btn-inner--icon"><i data-feather="chevron-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slice slice-lg pt-lg-6 pb-0 pb-lg-6 bg-section-secondary">
+        <div class="container">
+            <!-- Title -->
+            <!-- Section title -->
+            <div class="row mb-5 justify-content-center text-center">
+                <div class="col-lg-6">
+            <span class="badge badge-soft-primary badge-pill badge-lg">
+              Why Dayl
+            </span>
+                    <h2 class="mt-4">Log for daily, with SCRUM in mind</h2>
+                    <div class="mt-2">
+                        <p class="lead lh-180">
+                            Keep track of what you've done, what you have to do, and how many time did you spent.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card -->
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body pb-5">
+                            <div class="pt-4 pb-5">
+                                <img
+                                        src="landing/img/svg/illustrations/illustration-5.svg"
+                                        class="img-fluid img-center"
+                                        style="height: 150px;"
+                                        alt="Illustration"
+                                />
+                            </div>
+                            <h5 class="h4 lh-130 mb-3">Pending tasks</h5>
+                            <p class="text-muted mb-0">
+                                Keep track of your pending tasks and carry with you to the next day, mark then when you finish them,
+                                and they will be attached to the day.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body pb-5">
+                            <div class="pt-4 pb-5">
+                                <img
+                                        src="landing/img/svg/illustrations/illustration-6.svg"
+                                        class="img-fluid img-center"
+                                        style="height: 150px;"
+                                        alt="Illustration"
+                                />
+                            </div>
+                            <h5 class="h4 lh-130 mb-3">Keep track</h5>
+                            <p class="text-muted mb-0">
+                                Review, your work whenever you want, with Dayl you'll have an accurate history of the tasks you have
+                                worked in.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body pb-5">
+                            <div class="pt-4 pb-5">
+                                <img
+                                        src="landing/img/svg/illustrations/illustration-7.svg"
+                                        class="img-fluid img-center"
+                                        style="height: 150px;"
+                                        alt="Illustration"
+                                />
+                            </div>
+                            <h5 class="h4 lh-130 mb-3">Easy, period</h5>
+                            <p class="text-muted mb-0">
+                                Easy to use, easy to navigate.<br />
+                                Forgot all the huge apps with tons of functionalities where you need a degree to use them.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slice slice-lg">
+        <div class="container">
+            <div class="py-6">
+                <div class="row row-grid justify-content-between align-items-center">
+                    <div class="col-lg-5 order-lg-2">
+                        <h5 class="h3">Simple as a spoon, Ready for SCRUM</h5>
+                        <p class="lead my-4">
+                            Keep a detailed log of all the task you have done with a simple UI and carry them always with you
+                        </p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="py-2">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <div class="icon icon-shape bg-primary text-white icon-sm rounded-circle mr-3">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="h6 mb-0">Perfect personal organization at work</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="py-2">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <div class="icon icon-shape bg-primary text-white icon-sm rounded-circle mr-3">
+                                            <i class="fas fa-store-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="h6 mb-0">Ready for SCRUM teams</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <div class="card mb-0 mr-lg-5">
+                            <div class="card-body p-0">
+                                <img
+                                        alt="Image placeholder"
+                                        src="landing/img/theme/light/frame-dayl-capture.png"
+                                        class="img-fluid shadow rounded"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="position-relative" id="footer-main">
+        <div class="footer pt-lg-7 footer-dark bg-dark">
+            <!-- SVG shape -->
+            <div class="shape-container shape-line shape-position-top shape-orientation-inverse">
+                <svg
+                        width="2560px"
+                        height="100px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        preserveAspectRatio="none"
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 2560 100"
+                        style="enable-background: new 0 0 2560 100;"
+                        xml:space="preserve"
+                        class="fill-section-secondary"
+                >
+            <polygon points="2560 0 2560 100 0 100"></polygon>
+          </svg>
+            </div>
+            <!-- Footer -->
+            <div class="container pt-4">
+                <div class="row">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <!-- Theme's logo -->
+                        <a href="/login">
+                            <img
+                                    alt="Image placeholder"
+                                    src="landing/img/brand/dayl_logo_full_dark.svg"
+                                    style="width: 10rem;"
+                                    id="footer-logo"
+                            />
+                        </a>
+                        <!-- Webpixels' mission -->
+                        <p class="mt-4 text-sm opacity-8 pr-lg-4">
+                            Dayl offer a easy way to keep track of the task you have done each day, and a brief view of your pending
+                            tasks
+                        </p>
+                        <!-- Social -->
+                        <ul class="nav mt-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://github.com/andermurias/dayl" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-6 col-sm-4 ml-lg-auto mb-5 mb-lg-0">p</div>
+                    <div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0"></div>
+                    <div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0">
+                        <h6 class="heading mb-3">About</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr class="divider divider-fade divider-dark my-4" />
+                <div class="row align-items-center justify-content-md-between pb-4">
+                    <div class="col-md-6">
+                        <div class="copyright text-sm font-weight-bold text-center text-md-left">
+                            <a href="/" class="font-weight-bold" target="_blank">Dayl</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="nav justify-content-center justify-content-md-end mt-3 mt-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Terms
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Privacy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Cookies
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Core JS  -->
+    <script src="landing/libs/jquery/dist/jquery.min.js"></script>
+    <script src="landing/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="landing/libs/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="landing/libs/feather-icons/dist/feather.min.js"></script>
+    <!-- Quick JS -->
+    <script src="landing/js/quick-website.js"></script>
+    <script>
+      feather.replace({
+        width: '1em',
+        height: '1em',
+      });
+    </script>
+{% endblock %}

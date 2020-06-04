@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect, useParams} from "react-router-dom";
 
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import {DoneTaskProvider} from "./_context/DoneTaskContext";
 import {PendingTaskProvider} from "./_context/PendingTaskContext";
 import {AppProvider} from "./_context/AppContext";
 import ModalLoader from "./Component/ModalLoader";
+import {getForcedTheme} from "./Common/Helper";
 
 const isAuthenticated = () => localStorage.getItem('token');
 
@@ -64,7 +65,9 @@ const Contextureize = ({children}) => {
 }
 
 export default function App(props) {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const forceTheme = getForcedTheme();
+
+  const prefersDarkMode = forceTheme ? forceTheme === 'dark' : useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = createMuiTheme({
     typography: {

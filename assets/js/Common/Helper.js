@@ -9,3 +9,8 @@ export const logout = () => {
   localStorage.clear();
   window.location.href = '/login';
 }
+
+export const getForcedTheme = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('theme');
+}

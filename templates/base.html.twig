@@ -13,7 +13,7 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=1.0">
     <meta name="theme-color" content="#ffffff">
-    <title>Dayl - Daily log, made easy</title>
+    <title>{% block title %}Dayl - Easy as a spoon{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}

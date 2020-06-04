@@ -63,7 +63,7 @@ const TaskListItem = ({done, task}) => {
       <ListItemText id={labelId} primary={task.description}
                     secondary={task.start ? (task.start + ' - ' + task.end) : ''}/>
       <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete" onClick={processTask(EDIT_TASK, task)}>
+        <IconButton edge="end" aria-label="edit" onClick={processTask(EDIT_TASK, task)}>
           {editTask && (task.id === editTask.id) ? <ClearIcon/> : <EditIcon/>}
         </IconButton>
         <IconButton edge="end" aria-label="delete" onClick={processTask(DELETE_TASK, task)}>

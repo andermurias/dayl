@@ -42,32 +42,32 @@ const Login = () => {
 
   const [token, setToken] = useState(null);
   const [loginError, setLoginError] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+//  const [username, setUsername] = useState('');
+//  const [password, setPassword] = useState('');
 
-  const login = () => axios.post(
-    process.env.API_URL + '/api/login_check',
-    {
-      "username": username,
-      "password": password
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .catch(res => {
-      if (401 === res.response.status) {
-        setLoginError(true);
-      }
-    })
-    .then(res => {
-      if (res !== undefined) {
-        localStorage.setItem('token', res.data.token)
-        setLoginError(false);
-        setToken(res.data.token);
-      }
-    });
+//  const login = () => axios.post(
+//    process.env.API_URL + '/api/login_check',
+//    {
+//      "username": username,
+//      "password": password
+//    },
+//    {
+//      headers: {
+//        'Content-Type': 'application/json',
+//      }
+//    })
+//    .catch(res => {
+//      if (401 === res.response.status) {
+//        setLoginError(true);
+//      }
+//    })
+//    .then(res => {
+//      if (res !== undefined) {
+//        localStorage.setItem('token', res.data.token)
+//        setLoginError(false);
+//        setToken(res.data.token);
+//      }
+//    });
 
   const handleLoginWithGoogle = response => {
     registerUser({token: response.tokenId})
@@ -78,19 +78,19 @@ const Login = () => {
       });
   }
 
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
-  };
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const sendOnEnter = (ev) => {
-    if (ev.key === 'Enter') {
-      ev.preventDefault();
-      login();
-    }
-  };
+//  const handleUsername = (event) => {
+//    setUsername(event.target.value);
+//  };
+//  const handlePassword = (event) => {
+//    setPassword(event.target.value);
+//  };
+//
+//  const sendOnEnter = (ev) => {
+//    if (ev.key === 'Enter') {
+//      ev.preventDefault();
+//      login();
+//    }
+//  };
 
   return null !== token ? <Redirect to={'/token'}/> :
     (<div className={classes.container}>
@@ -106,23 +106,23 @@ const Login = () => {
               </Alert>
             </Grid>) : ''}
         </Grid>
-        <Grid container spacing={8}>
-          <Grid item md={true} sm={true} xs={true}>
-            <TextField id="username" label="Username" type="email" onChange={handleUsername}
-                       fullWidth autoFocus required onKeyPress={sendOnEnter} variant="filled"/>
-          </Grid>
-        </Grid>
-        <Grid container spacing={8}>
-          <Grid item md={true} sm={true} xs={true}>
-            <TextField id="password" label="Password" type="password"
-                       onChange={handlePassword} fullWidth required onKeyPress={sendOnEnter} variant="filled"/>
-          </Grid>
-        </Grid>
-        <Grid container spacing={8}>
-          <Grid container item justify="center">
-            <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>
-          </Grid>
-        </Grid>
+        {/*<Grid container spacing={8}>*/}
+        {/*  <Grid item md={true} sm={true} xs={true}>*/}
+        {/*    <TextField id="username" label="Username" type="email" onChange={handleUsername}*/}
+        {/*               fullWidth autoFocus required onKeyPress={sendOnEnter} variant="filled"/>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
+        {/*<Grid container spacing={8}>*/}
+        {/*  <Grid item md={true} sm={true} xs={true}>*/}
+        {/*    <TextField id="password" label="Password" type="password"*/}
+        {/*               onChange={handlePassword} fullWidth required onKeyPress={sendOnEnter} variant="filled"/>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
+        {/*<Grid container spacing={8}>*/}
+        {/*  <Grid container item justify="center">*/}
+        {/*    <Button variant="outlined" fullWidth color="primary" size="large" onClick={login}>Login</Button>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
         <Grid container spacing={8}>
           <Grid container item justify="center">
             <GoogleLogin

@@ -22,9 +22,18 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/{reactRouting}", name="home", requirements={"reactRouting"="^(?!.*(api)).*"}, defaults={"reactRouting": null})
+     * @Route("/", name="home")
      */
     public function index()
+    {
+
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/{reactRouting}", name="app", requirements={"reactRouting"="^(?!.*(api)).*"}, defaults={"reactRouting": null})
+     */
+    public function app()
     {
 
         return $this->render('default/index.html.twig');
