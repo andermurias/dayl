@@ -151,13 +151,12 @@ class ApiTaskController extends AbstractController
                 $task->setDescription($data['description']);
             }
 
-            if (array_key_exists('date', $data)) {
-                $task->setDate($data['date'] ? new \DateTime($data['date']) : null);
+            if (array_key_exists('start', $data) && array_key_exists('end', $data) && $data['start'] && $data['end']) {
+                $task->setStart(new \DateTime($data['start']));
+
+                $task->setEnd(new \DateTime($data['end']));
             }
 
-            if (array_key_exists('start', $data)) {
-                $task->setStart(new \DateTime($data['start']));
-            }
 
             if (array_key_exists('end', $data)) {
                 $task->setEnd(new \DateTime($data['end']));
@@ -224,7 +223,11 @@ class ApiTaskController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $task->setUser($this->helper->getRealUser());
-        $task->setDescription($data['description']);
+
+        if (array_key_exists('description', $data)) {
+            $task->setDescription($data['description']);
+        }
+
         if (array_key_exists('start', $data) && array_key_exists('end', $data) && $data['start'] && $data['end']) {
             $task->setStart(new \DateTime($data['start']));
 

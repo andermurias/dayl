@@ -1,5 +1,7 @@
 import {getTasks} from "../Api/Task";
 
+export const isAuthenticated = () => localStorage.getItem('token');
+
 export const getTasksForDate = (date) => Promise.all([
   getTasks('pending', null),
   getTasks('done', date)

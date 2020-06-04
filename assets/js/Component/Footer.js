@@ -15,7 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import logo from "../../static/img/logo/dayl_logo_full.svg";
 import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
-import {getForcedTheme, logout} from "../Common/Helper";
+import {getForcedTheme, logout, isAuthenticated} from "../Common/Helper";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -71,9 +71,10 @@ const Footer = () => {
           <IconButton color="primary" aria-label="Github link" component="a" href="https://github.com/andermurias/dayl">
             <GitHubIcon/>
           </IconButton>
-          <IconButton color="primary" aria-label="Github link" onClick={logout}>
+          {isAuthenticated() ? (
+          <IconButton color="primary" aria-label="Logout link" onClick={logout}>
             <ExitToAppIcon/>
-          </IconButton>
+          </IconButton>) : '' }
         </Grid>
       </Grid>
     </div>

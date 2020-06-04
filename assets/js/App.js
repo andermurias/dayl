@@ -13,9 +13,7 @@ import {DoneTaskProvider} from "./_context/DoneTaskContext";
 import {PendingTaskProvider} from "./_context/PendingTaskContext";
 import {AppProvider} from "./_context/AppContext";
 import ModalLoader from "./Component/ModalLoader";
-import {getForcedTheme} from "./Common/Helper";
-
-const isAuthenticated = () => localStorage.getItem('token');
+import {getForcedTheme, isAuthenticated} from "./Common/Helper";
 
 const checkRouteAuthorized = (route, props) => !route.props.secure || isAuthenticated() ?
   <route.component {...props} {...route.props} /> :

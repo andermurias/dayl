@@ -51,13 +51,18 @@ const TaskForm = () => {
       setDone(!!editTask.date);
       setId(editTask.id);
     } else {
-      handlestartDateChange(new Date());
-      handleEndDateChange(new Date());
-      setDescription('');
-      setDone(false);
-      setId('');
+      cleanForm();
     }
   }, [editTask]);
+
+  const cleanForm = () => {
+    taskDescriptionRef.current.value = '';
+    handlestartDateChange(new Date());
+    handleEndDateChange(new Date());
+    setDescription('');
+    setDone(false);
+    setId('');
+  };
 
   let taskDescriptionRef = useRef(null);
   let taskIdRef = useRef('');
@@ -93,6 +98,7 @@ const TaskForm = () => {
     if (request) {
       request.then(() => {
         setEditTask(null);
+        cleanForm();
         updateTasks();
       })
     }
