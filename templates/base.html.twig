@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=no"/>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@300;400;600&display=swap"
+          rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=1.0">
@@ -13,6 +14,32 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=1.0">
     <meta name="theme-color" content="#ffffff">
+
+    {% block meta_social %}
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="Dayl - Easy as a spoon">
+        <meta name="description"
+              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ app.request.uri }}">
+        <meta property="og:title" content="Dayl - Easy as a spoon">
+        <meta property="og:description"
+              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
+        <meta property="og:image"
+              content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ app.request.uri }}">
+        <meta property="twitter:title" content="Dayl - Easy as a spoon">
+        <meta property="twitter:description"
+              content="Save the task you have done for the next day, and prepare your pending task, fast and easy.">
+        <meta property="twitter:image"
+              content="{{ app.request.getSchemeAndHttpHost() }}/static/branding/comercial/dayl_comercial_square.jpg">
+    {% endblock %}
+
     <title>{% block title %}Dayl - Easy as a spoon{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
