@@ -6,6 +6,9 @@
     }
   },
   "tasks": {
+    "header": {
+      "week": "Semana"
+    },
     "edit": "Editar tarea",
     "new": "Nueva tarea",
     "done": "Finalizadas",

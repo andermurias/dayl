@@ -7,20 +7,35 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Typography from "@material-ui/core/Typography";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import moment from "moment";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useTranslation} from "react-i18next";
+import classNames from 'classnames/bind';
+import {Box, Hidden, isWidthUp} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    margin: `${theme.spacing(2)}px`,
     textTransform: 'capitalize',
     textAlign: 'center',
     width: '100%'
   },
   subtitle: {
-    margin: `${theme.spacing(2)}px`,
-    textTransform: 'capitalize',
+    width: '100%',
+    textTransform: 'uppercase',
+//    fontSize: '1rem',
+    lineHeight: 1.5
+  },
+  left: {
     textAlign: "center",
-    width: '100%'
+    [theme.breakpoints.up('sm')]: {
+      textAlign: "left",
+    }
+  },
+  right: {
+    textAlign: "center",
+    [theme.breakpoints.up('sm')]: {
+      textAlign: "right",
+    }
   },
   titleSecondary: {
     opacity: '.3',
@@ -31,37 +46,56 @@ const useStyles = makeStyles((theme) => ({
 const TaskListHeader = ({currentDate}) => {
   const classes = useStyles();
 
+  const theme = useTheme();
+  const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const {t} = useTranslation();
+
   const prevDate = moment(currentDate).subtract(1, 'day').format('YYYY-MM-DD');
   const nexDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
 
   return (
-    <>
-      <Grid container spacing={1}>
-        <Grid container item xs={2} sm={1}>
-          <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
-            <ChevronLeftIcon/>
-          </IconButton>
+    <Box>
+      <Box mb={4}>
+        <Grid container spacing={1}>
+          <Grid container item xs={2} sm={1}>
+            <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
+              <ChevronLeftIcon/>
+            </IconButton>
+          </Grid>
+          <Grid container item xs={8} sm={10}>
+            <Typography variant="h5" component="h1" className={classes.title}>
+              {currentDate.format('dddd')}
+            </Typography>
+            <Typography variant="h6" component="h2" className={classes.title}>
+            <span className={classes.titleSecondary}>
+              ({currentDate.format(isSmallOrUp ? 'LL' : 'L')})
+            </span>
+            </Typography>
+          </Grid>
+          <Grid container item xs={2} sm={1}>
+            <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
+              <ChevronRightIcon/>
+            </IconButton>
+          </Grid>
         </Grid>
-        <Grid container item xs={8} sm={10}>
-          <Typography variant="h5" component="h1" className={classes.title}>
-            {currentDate.format('dddd')} <br/> <span
-            className={classes.titleSecondary}>({currentDate.format('LL')})</span>
-          </Typography>
-        </Grid>
-        <Grid container item xs={2} sm={1}>
-          <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
-            <ChevronRightIcon/>
-          </IconButton>
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid container item xs={12}>
-          <Typography variant="h6" component="h2" className={classes.subtitle} color='textSecondary' gutterBottom>
-            {currentDate.format('[W: ] w')} | {currentDate.startOf('week').format('L')} - {currentDate.endOf('week').format('L')}
-          </Typography>
-        </Grid>
-      </Grid>
-    </>
+      </Box>
+      <Hidden xsDown>
+        <Box m={2}>
+          <Grid container spacing={1}>
+            <Grid container item sm={6} xs={12}>
+              <Typography variant="overline" component="h3" className={classNames(classes.subtitle, classes.left)}>
+                {t('tasks.header.week')} {currentDate.format('w')}
+              </Typography>
+            </Grid>
+            <Grid container item sm={6} xs={12}>
+              <Typography variant="overline" component="h3" className={classNames(classes.subtitle, classes.right)}>
+                {currentDate.startOf('week').format('L')} - {currentDate.endOf('week').format('L')}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </Hidden>
+    </Box>
   );
 }
 

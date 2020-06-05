@@ -6,6 +6,9 @@
     }
   },
   "tasks": {
+    "header": {
+      "week": "Week"
+    },
     "edit": "Edit Task",
     "new": "New Task",
     "done": "Done",
