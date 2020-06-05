@@ -94,4 +94,27 @@ class Helper extends AbstractController
 
         return new JsonResponse($serializedTask, 200, [], true);
     }
+
+    public static function getEncryptionData()
+    {
+        return [
+            'method' => "AES-256-CBC",
+            'key'    => hash('sha256', $_ENV['ENCRYPTION_KEY']),
+            'iv'     => substr(hash('sha256', $_ENV['ENCRYPTION_IV']), 0, 16),
+        ];
+    }
+
+    public static function encrypt($string)
+    {
+        ['method' => $method, 'key' => $key, 'iv' => $iv] = static::getEncryptionData();
+
+        return base64_encode(openssl_encrypt($string, $method, $key, 0, $iv));
+    }
+
+    public static function decrypt($string)
+    {
+        ['method' => $method, 'key' => $key, 'iv' => $iv] = static::getEncryptionData();
+
+        return openssl_decrypt(base64_decode($string), $method, $key, 0, $iv);
+    }
 }
