@@ -8,7 +8,7 @@
   "tasks": {
     "edit": "Editar tarea",
     "new": "Nueva tarea",
-    "done": "Hechas",
+    "done": "Finalizadas",
     "pending": "Pendientes"
   },
   "form": {

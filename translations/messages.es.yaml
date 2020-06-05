@@ -1,27 +1,27 @@
 page:
     title: dayl - easy as a spoon
-    description: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y sencillo.
+    description: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y rápido.
 header:
     button: Entrar
 home:
-    title: Facil y rápido, <br/> ten un <strong class="text-primary">Log Diario</strong>
-    subtitle: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y sencillo.
+    title: Facil, rápido y seguro,<br/>ten tu <strong class="text-primary">Log Diario</strong>
+    subtitle: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil, sencillo y seguro.
     main_button: Empieza ahora
     section_info:
         label: ¿Por que dayl?
         title: Un historico para tus dailys
-        subtitle: Keep track of what you've done, what you have to do, and how many time did you spent.
+        subtitle: Mantén un registro de lo que has hecho, que te queda pendiente y como has invertido tu tiempo.
         info_block_1:
-            title: Tareas pendientes
-            text: Keep track of your pending tasks and carry with you to the next day, mark then when you finish them, and they will be attached to the day.
+            title: Tareas, Hoy y Ayer
+            text: Mantén un registro de las tareas pentientes y llevalas contingo al días siguiente, marcalas como finalizadas una vez las termines y qudarán almacenadas.
         info_block_2:
-            title: Manten un hisorico
-            text: Review, your work whenever you want, with Dayl you'll have an accurate history of the tasks you have worked in.
-        info_block_3:
             title: Facil y punto
-            text: Easy to use, easy to navigate.<br/>Forgot all the huge apps with tons of functionalities where you need a degree to use them.
+            text: Facil de usar, sin complicaciones.<br/>Olvidate de usar platadormas complejas con cientos de funcionalidades, centrate en tu día a día.
+        info_block_3:
+            title: Estés donde estés
+            text: Dayl está preparado para usarse en el movil, adaptada a las pantallas mas pequeñas para que lo puedas usar en cualquier sitio que lo necesites.
     section_about:
-        title: Mas sencillo que una cuchara, preparado para SCRUM
+        title: Tán sencillo como una cuchara, preparado para SCRUM
         subtitle: Mantén un registro diario de todas las tareas que has hecho con un interfaz sencilla y llévalo siempre encima.
         list_1: Perfecto para uso personal y organizarte en el trabajo
         list_2: Preaprado para equipos que usan SCRUM

@@ -60,14 +60,14 @@ class Task
      */
     public function getDescription(bool $raw = false) : ?string
     {
-        $raw = $_ENV['ENCRYPT'] !== 'false' ? $raw : true;
+        $raw = $_ENV['ENCRYPT'] === 'true' ? $raw : true;
 
         return $raw ? $this->description : Helper::decrypt($this->description);
     }
 
     public function setDescription(string $description, bool $raw = false) : self
     {
-        $raw = $_ENV['ENCRYPT'] !== 'false' ? $raw : true;
+        $raw = $_ENV['ENCRYPT'] === 'true' ? $raw : true;
         $this->description = $raw ? $description : Helper::encrypt($description);
 
         return $this;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import IconButton from '@material-ui/core/IconButton';
@@ -17,11 +17,15 @@ import logoDark from "../../static/img/logo/dayl_logo_full_dark.svg";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {getForcedTheme, logout, isAuthenticated} from "../Common/Helper";
 import {useTranslation} from "react-i18next";
+import {AppContext} from "../_context/AppContext";
 
 const useStyles = makeStyles((theme) => ({
-  logo: {
+  logoContainer: {
     width: '33%',
     maxWidth: 100
+  },
+  logo: {
+    width: '100%'
   },
   logout: {
     fontWeight: 'bold',
@@ -42,10 +46,12 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const theme = useTheme();
   const forceTheme = getForcedTheme();
+
+  const {currentDate} = useContext(AppContext);
 
   let themeStatus = forceTheme || 'auto';
 
@@ -59,10 +65,12 @@ const Footer = () => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid container item xs={12} justify="center">
-          <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
+          <a className={classes.logoContainer} href="/">
+            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
+          </a>
         </Grid>
         <Grid container item xs={12} justify="center">
-          <Typography variant="subtitle2" component={Link} href="https://andermurias.me">
+          <Typography variant="subtitle2" component={Link} target="_blank" href="https://andermurias.me">
             Crafted by @andermurias
           </Typography>
         </Grid>
@@ -72,13 +80,14 @@ const Footer = () => {
             {themeStatus === 'auto' ? <BrightnessAutoIcon/> : (themeStatus === 'dark' ? <Brightness2Icon/> :
               <Brightness5Icon/>)}
           </IconButton>
-          <IconButton color="primary" aria-label="Github link" component="a" href="https://github.com/andermurias/dayl" target="_blank">
+          <IconButton color="primary" aria-label="Github link" component="a" href="https://github.com/andermurias/dayl"
+                      target="_blank">
             <GitHubIcon/>
           </IconButton>
           {isAuthenticated() ? (
-          <IconButton color="primary" aria-label="Logout link" onClick={logout}>
-            <ExitToAppIcon/>
-          </IconButton>) : '' }
+            <IconButton color="primary" aria-label="Logout link" onClick={logout}>
+              <ExitToAppIcon/>
+            </IconButton>) : ''}
         </Grid>
       </Grid>
     </div>

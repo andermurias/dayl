@@ -8,7 +8,7 @@ import {Grid, TextField, Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Google from 'mdi-material-ui/Google';
 
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 import {GoogleLogin} from 'react-google-login';
 
@@ -33,8 +33,11 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50vh',
     width: '100%'
   },
-  logo: {
+  logoContainer: {
     width: '50%',
+  },
+  logo: {
+    width: '100%',
   },
 }));
 
@@ -42,7 +45,7 @@ const Login = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [token, setToken] = useState(null);
   const [loginError, setLoginError] = useState(false);
@@ -62,7 +65,9 @@ const Login = () => {
       <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={8}>
           <Grid container item classes={classes.gridItem} xs={12} justify="center">
-            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
+            <a href="/" className={classes.logoContainer}>
+              <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo}/>
+            </a>
           </Grid>
           {loginError ? (
             <Grid item md={true} sm={true} xs={true}>
@@ -79,7 +84,7 @@ const Login = () => {
                 renderPropos => (
                   <Button variant="outlined" fullWidth color="secondary" startIcon={<Google/>}
                           size="large" onClick={renderPropos.onClick} disabled={renderPropos.disabled}>
-                    Login with Google
+                    {t('login.google')}
                   </Button>)}
               buttonText={t('login.google')}
               onSuccess={handleLoginWithGoogle}
