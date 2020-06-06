@@ -29,7 +29,7 @@ Which persons is oriented to?
 - [Quick Stat](./etc/doc/quick-start.md)
 - [About Dayl](./etc/doc/about-dayl.md)
 - [About Design](./etc/doc/about-design.md)
-- [Q&A](./etc/doc/questions-answers.md)
+- [Q&A](./etc/doc/question-answers.md)
 - [Next Steps](./etc/doc/next-stes.md)
 
 ## Creator
