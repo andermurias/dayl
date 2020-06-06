@@ -1,8 +1,8 @@
-# Nest Steps
+# Next Steps
 
 ![Under Consideration](https://img.shields.io/badge/status-Under%20Consideration-9cf?style=for-the-badge)
 -- 
-
+ 
 - [ ] Ansible for deploy to servers
 - [ ] Docker for container development
 - [ ] Jest for functional testing in frontend
