@@ -6,7 +6,7 @@
 </div>
 <br/>
 <p align="center">
-Daily logs, made easy
+Easy as a spoon
 </p>
 <p align="center">
 <a href="https://github.com/andermurias/dayl/issues/new">Found a bug? Have a request?</a>
