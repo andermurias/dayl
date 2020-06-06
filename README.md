@@ -30,7 +30,7 @@ Which persons is oriented to?
 - [About Dayl](./etc/doc/about-dayl.md)
 - [About Design](./etc/doc/about-design.md)
 - [Q&A](./etc/doc/question-answers.md)
-- [Next Steps](./etc/doc/next-stes.md)
+- [Next Steps](./etc/doc/next-steps.md)
 
 ## Creator
 
