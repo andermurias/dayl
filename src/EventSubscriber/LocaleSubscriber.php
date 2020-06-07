@@ -3,7 +3,6 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -26,7 +25,7 @@ class LocaleSubscriber implements EventSubscriberInterface
         // try to see if the locale has been set as a _locale routing parameter
         $acceptLanguage = $request->headers->get('accept-language');
         if ($acceptLanguage) {
-            $spittedAcceptLanguage = HeaderUtils::split($acceptLanguage, ',;');
+            $spittedAcceptLanguage = substr($acceptLanguage, 0, 2);
             $request->getSession()->set('_locale', $spittedAcceptLanguage[1][0]);
             $request->setLocale($spittedAcceptLanguage[1][0]);
         } else {
