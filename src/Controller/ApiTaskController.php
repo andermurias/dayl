@@ -7,22 +7,20 @@ use App\Entity\Task;
 use App\Factory\SerializerFactory;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use JMS\Serializer\Serializer;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
  * @Route("/api/task", name="task_")
  */
 class ApiTaskController extends AbstractController
 {
-
     private $taskRepository;
     private $userRepository;
     private $helper;
@@ -31,7 +29,6 @@ class ApiTaskController extends AbstractController
 
     public function __construct(TaskRepository $_taskRepository, UserRepository $_userRepository, Helper $_helper)
     {
-
         $this->userRepository = $_userRepository;
         $this->taskRepository = $_taskRepository;
         $this->helper = $_helper;
@@ -158,7 +155,7 @@ class ApiTaskController extends AbstractController
             }
 
             if (array_key_exists('date', $data)) {
-                $task->setDate($data['date'] === null ? null : new \DateTime($data['date']));
+                $task->setDate(null === $data['date'] ? null : new \DateTime($data['date']));
             }
             $entityManager->persist($task);
             $entityManager->flush();

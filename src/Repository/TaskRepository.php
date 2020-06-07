@@ -40,7 +40,6 @@ class TaskRepository extends ServiceEntityRepository
             ->addOrderBy('t.start', 'ASC')
             ->addOrderBy('t.id', 'ASC');
 
-
         return $queryBuilder->getQuery()->getResult();
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http;
-
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -11,12 +9,7 @@ class ApiResponse extends JsonResponse
     /**
      * ApiResponse constructor.
      *
-     * @param string $message
-     * @param mixed  $data
-     * @param array  $errors
-     * @param int    $status
-     * @param array  $headers
-     * @param bool   $json
+     * @param mixed $data
      */
     public function __construct(string $message, $data = null, array $errors = [], int $status = 200, array $headers = [], bool $json = false)
     {
@@ -26,21 +19,19 @@ class ApiResponse extends JsonResponse
     /**
      * Format the API response.
      *
-     * @param string $message
-     * @param mixed  $data
-     * @param array  $errors
+     * @param mixed $data
      *
      * @return array
      */
     private function format(string $message, $data = null, array $errors = [])
     {
-        if ($data === null) {
+        if (null === $data) {
             $data = new \ArrayObject();
         }
 
         $response = [
             'message' => $message,
-            'data'    => $data,
+            'data' => $data,
         ];
 
         if ($errors) {

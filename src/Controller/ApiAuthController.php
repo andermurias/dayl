@@ -3,20 +3,14 @@
 namespace App\Controller;
 
 use App\Common\Helper;
-use App\Entity\Task;
 use App\Factory\SerializerFactory;
-use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use JMS\Serializer\Serializer;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Log\Logger;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
  * @Route("/api/auth", name="auth_")

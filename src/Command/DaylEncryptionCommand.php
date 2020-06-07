@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -29,26 +28,24 @@ class DaylEncryptionCommand extends Command
 
     protected function configure()
     {
-
         $this
             ->setDescription('Updates the encryption of the database')
             ->addArgument('type', InputArgument::OPTIONAL, 'Type: encrypt/decrypt');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $method = $input->getArgument('type');
 
         if ('decrypt' === $method || 'encrypt' === $method) {
-
             $tasks = $this->taskRepository->findAll();
             foreach ($tasks as $task) {
                 switch ($method) {
                     case 'encrypt':
                         $task->setDescription(Helper::encrypt($task->getDescription(true)), true);
                         break;
-                    case 'decrypt';
+                    case 'decrypt':
                         $task->setDescription(Helper::decrypt($task->getDescription(true)), true);
                         break;
                 }
