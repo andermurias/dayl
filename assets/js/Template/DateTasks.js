@@ -1,5 +1,5 @@
-import React, {useEffect, useContext} from "react";
-import {withRouter, useParams} from "react-router-dom";
+import React, {useEffect, useContext} from 'react';
+import {withRouter, useParams} from 'react-router-dom';
 import moment from 'moment';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -7,20 +7,20 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import TaskListItem from "../Component/TaskListItem";
-import TaskForm from "../Component/TaskForm";
+import TaskListItem from '../Component/TaskListItem';
+import TaskForm from '../Component/TaskForm';
 
-import {DoneTaskContext} from "../_context/DoneTaskContext";
-import {PendingTaskContext} from "../_context/PendingTaskContext";
-import {getTasksForDate} from "../Common/Helper";
-import {AppContext} from "../_context/AppContext";
-import TaskListHeader from "../Component/TaskListHeader";
-import {useTranslation} from "react-i18next";
+import {DoneTaskContext} from '../_context/DoneTaskContext';
+import {PendingTaskContext} from '../_context/PendingTaskContext';
+import {getTasksForDate} from '../Common/Helper';
+import {AppContext} from '../_context/AppContext';
+import TaskListHeader from '../Component/TaskListHeader';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   list: {
     width: '100%',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   root: {
     flexGrow: 1,
@@ -31,18 +31,18 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 600,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
-    textTransform: 'uppercase'
-  }
+    textTransform: 'uppercase',
+  },
 }));
 
 const DateTasks = () => {
   const classes = useStyles();
 
-  const { t , i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   moment.locale(i18n.language);
 
@@ -58,19 +58,18 @@ const DateTasks = () => {
     const newDate = currentDate.format('YYYY-MM-DD');
     setCurrentDate(newDate);
     setLoading(true);
-    getTasksForDate(newDate)
-      .then(([pending, done]) => {
-        setPendingTasks(pending.data);
-        setDoneTasks(done.data);
-        setLoading(false);
-      });
+    getTasksForDate(newDate).then(([pending, done]) => {
+      setPendingTasks(pending.data);
+      setDoneTasks(done.data);
+      setLoading(false);
+    });
   }, [query.date]);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
-        <TaskListHeader currentDate={currentDate}/>
-        <Divider/>
+        <TaskListHeader currentDate={currentDate} />
+        <Divider />
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
           {t('tasks.pending')} ({pendingTasks.length})
         </Typography>
@@ -78,12 +77,12 @@ const DateTasks = () => {
           <Grid container item xs={12}>
             <List className={classes.list}>
               {pendingTasks.map((task, i) => (
-                <TaskListItem done={false} task={task} key={task.id}/>
+                <TaskListItem done={false} task={task} key={task.id} />
               ))}
             </List>
           </Grid>
         </Grid>
-        <Divider/>
+        <Divider />
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
           {t('tasks.done')} ({doneTasks.length})
         </Typography>
@@ -91,19 +90,19 @@ const DateTasks = () => {
           <Grid container item xs={12}>
             <List className={classes.list}>
               {doneTasks.map((task, i) => (
-                <TaskListItem done={true} task={task} key={task.id}/>
+                <TaskListItem done={true} task={task} key={task.id} />
               ))}
             </List>
           </Grid>
         </Grid>
-        <Divider/>
+        <Divider />
         <Typography className={classes.dividerFullWidth} display="block" variant="overline">
           {editTask ? `${t('tasks.edit')} (${editTask.description})` : t('tasks.new')}
         </Typography>
-        <TaskForm/>
+        <TaskForm />
       </Paper>
     </div>
   );
-}
+};
 
 export default React.memo(DateTasks);

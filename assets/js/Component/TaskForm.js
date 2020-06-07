@@ -1,22 +1,22 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import MomentUtils from "@date-io/moment";
+import MomentUtils from '@date-io/moment';
 
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import Button from "@material-ui/core/Button";
-import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
-import {MuiPickersUtilsProvider, TimePicker} from "@material-ui/pickers";
-import {makeStyles} from "@material-ui/core/styles";
-import {addTask, updateTask} from "../Api/Task";
-import {DoneTaskContext} from "../_context/DoneTaskContext";
-import {PendingTaskContext} from "../_context/PendingTaskContext";
-import {getTasksForDate} from "../Common/Helper";
-import {AppContext} from "../_context/AppContext";
-import moment from "moment";
-import {useTranslation} from "react-i18next";
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
+import {makeStyles} from '@material-ui/core/styles';
+import {addTask, updateTask} from '../Api/Task';
+import {DoneTaskContext} from '../_context/DoneTaskContext';
+import {PendingTaskContext} from '../_context/PendingTaskContext';
+import {getTasksForDate} from '../Common/Helper';
+import {AppContext} from '../_context/AppContext';
+import moment from 'moment';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: `${theme.spacing(2)}px`
-  }
+    paddingTop: `${theme.spacing(2)}px`,
+  },
 }));
 
 const TaskForm = () => {
   const classes = useStyles();
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
@@ -75,7 +75,7 @@ const TaskForm = () => {
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
     });
-  }
+  };
 
   const submitTask = () => {
     const start = moment(startDate).format('HH:mm');
@@ -88,14 +88,14 @@ const TaskForm = () => {
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? (editTask.date ? editTask.date : currentDate) : null,
-      })
+      });
     } else {
       request = addTask({
         description: description,
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? currentDate : null,
-      })
+      });
     }
 
     if (request) {
@@ -103,9 +103,9 @@ const TaskForm = () => {
         setEditTask(null);
         cleanForm();
         updateTasks();
-      })
+      });
     }
-  }
+  };
 
   const enterListenerSend = (ev) => {
     if (ev.key === 'Enter') {
@@ -118,13 +118,18 @@ const TaskForm = () => {
     <>
       <Grid container spacing={1}>
         <Grid container item xs={12}>
-          <input type="hidden" ref={taskIdRef} value={id}/>
-          <TextField id="task-description" className={classes.inputText} label={t('form.description')} variant="outlined"
-                     fullWidth
-                     onChange={(e) => setDescription(e.target.value)}
-                     onKeyPress={enterListenerSend}
-                     value={description}
-                     inputRef={taskDescriptionRef}/>
+          <input type="hidden" ref={taskIdRef} value={id} />
+          <TextField
+            id="task-description"
+            className={classes.inputText}
+            label={t('form.description')}
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setDescription(e.target.value)}
+            onKeyPress={enterListenerSend}
+            value={description}
+            inputRef={taskDescriptionRef}
+          />
         </Grid>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Grid container item xs={4}>
@@ -158,12 +163,7 @@ const TaskForm = () => {
           <FormControlLabel
             className={classes.check}
             control={
-              <Switch
-                checked={done}
-                onChange={(e) => setDone(event.target.checked)}
-                name="done"
-                color="secondary"
-              />
+              <Switch checked={done} onChange={(e) => setDone(event.target.checked)} name="done" color="secondary" />
             }
             label={t('form.done')}
             labelPlacement="top"
@@ -176,9 +176,9 @@ const TaskForm = () => {
             className={classes.inputText}
             variant="outlined"
             color="secondary"
-            size='large'
+            size="large"
             fullWidth
-            startIcon={<CheckOutlinedIcon/>}
+            startIcon={<CheckOutlinedIcon />}
             onClick={submitTask}
           >
             {editTask ? t('form.edit') : t('form.save')}

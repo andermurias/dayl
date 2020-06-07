@@ -1,46 +1,46 @@
-import React from "react";
+import React from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import {Link} from "react-router-dom";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import Typography from "@material-ui/core/Typography";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import moment from "moment";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import {Link} from 'react-router-dom';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import Typography from '@material-ui/core/Typography';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import moment from 'moment';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {useTranslation} from "react-i18next";
+import {useTranslation} from 'react-i18next';
 import classNames from 'classnames/bind';
-import {Box, Hidden, isWidthUp} from "@material-ui/core";
+import {Box, Hidden, isWidthUp} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'capitalize',
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
   },
   subtitle: {
     width: '100%',
     textTransform: 'uppercase',
-//    fontSize: '1rem',
-    lineHeight: 1.5
+    //    fontSize: '1rem',
+    lineHeight: 1.5,
   },
   left: {
-    textAlign: "center",
+    textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
-      textAlign: "left",
-    }
+      textAlign: 'left',
+    },
   },
   right: {
-    textAlign: "center",
+    textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
-      textAlign: "right",
-    }
+      textAlign: 'right',
+    },
   },
   titleSecondary: {
     opacity: '.3',
-    fontWeight: 'regular'
-  }
+    fontWeight: 'regular',
+  },
 }));
 
 const TaskListHeader = ({currentDate}) => {
@@ -59,7 +59,7 @@ const TaskListHeader = ({currentDate}) => {
         <Grid container spacing={1}>
           <Grid container item xs={2} sm={1}>
             <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
-              <ChevronLeftIcon/>
+              <ChevronLeftIcon />
             </IconButton>
           </Grid>
           <Grid container item xs={8} sm={10}>
@@ -67,14 +67,12 @@ const TaskListHeader = ({currentDate}) => {
               {currentDate.format('dddd')}
             </Typography>
             <Typography variant="h6" component="h2" className={classes.title}>
-            <span className={classes.titleSecondary}>
-              ({currentDate.format(isSmallOrUp ? 'LL' : 'L')})
-            </span>
+              <span className={classes.titleSecondary}>({currentDate.format(isSmallOrUp ? 'LL' : 'L')})</span>
             </Typography>
           </Grid>
           <Grid container item xs={2} sm={1}>
             <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
-              <ChevronRightIcon/>
+              <ChevronRightIcon />
             </IconButton>
           </Grid>
         </Grid>
@@ -97,6 +95,6 @@ const TaskListHeader = ({currentDate}) => {
       </Hidden>
     </Box>
   );
-}
+};
 
 export default React.memo(TaskListHeader);
