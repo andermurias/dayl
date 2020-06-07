@@ -13,8 +13,6 @@
 ![Planned](https://img.shields.io/badge/status-planned-yellow?style=for-the-badge)
 --
 
-- [ ] PHPCS & CSFixer for backend code consistency
-- [ ] Prettier for frontend code consistency
 
 ![In progress](https://img.shields.io/badge/status-in%20progress-green?style=for-the-badge)
 --
@@ -22,8 +20,12 @@
 ![Testing](https://img.shields.io/badge/status-testing-blue?style=for-the-badge)
 --
 
+- [ ] PHP-CS-Fixer for backend code consistency
+- [ ] Prettier for frontend code consistency
+
 ![Launched](https://img.shields.io/badge/status-launched-brightgreen?style=for-the-badge)
 --
+ 
 - [ ] Encryption for data in database
 
 ![Discarded](https://img.shields.io/badge/status-discarded-red?style=for-the-badge)
