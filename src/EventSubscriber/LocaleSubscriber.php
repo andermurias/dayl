@@ -24,7 +24,7 @@ class LocaleSubscriber implements EventSubscriberInterface
 
         // try to see if the locale has been set as a _locale routing parameter
         $acceptLanguage = $request->headers->get('accept-language');
-        if ($acceptLanguage) {
+        if ($acceptLanguage && $acceptLanguage !== '*') {
             $spittedAcceptLanguage = substr($acceptLanguage, 0, 2);
             $request->getSession()->set('_locale', $spittedAcceptLanguage[1][0]);
             $request->setLocale($spittedAcceptLanguage[1][0]);
