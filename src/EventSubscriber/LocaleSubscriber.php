@@ -20,7 +20,6 @@ class LocaleSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
-        $response = $event->getResponse();
 //        if (!$request->hasPreviousSession()) {
 //            return;
 //        }

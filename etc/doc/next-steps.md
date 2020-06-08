@@ -13,9 +13,13 @@
 ![Planned](https://img.shields.io/badge/status-planned-yellow?style=for-the-badge)
 --
 
+- [ ] Improve token request and storage flow
+
 
 ![In progress](https://img.shields.io/badge/status-in%20progress-green?style=for-the-badge)
 --
+
+- [ ] Force language with selector
 
 ![Testing](https://img.shields.io/badge/status-testing-blue?style=for-the-badge)
 --
@@ -30,7 +34,6 @@
 
 ![Discarded](https://img.shields.io/badge/status-discarded-red?style=for-the-badge)
 --
-
 
 
 <!--
