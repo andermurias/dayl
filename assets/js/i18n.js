@@ -19,12 +19,15 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    //    lng: "en",
+    detection: {
+      order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
+      lookupCookie: 'lang',
+    },
     fallbackLng: 'en', // use en if detected lng is not available
-
     interpolation: {
       escapeValue: false, // react already safes from xss
     },
+    debug: true,
   });
 
 export default i18n;
