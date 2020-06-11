@@ -38,7 +38,7 @@ const TaskForm = () => {
 
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
-  const {currentDate, editTask, setEditTask} = useContext(AppContext);
+  const {currentDate, editTask, setEditTask, setLoading} = useContext(AppContext);
 
   const [startDate, handlestartDateChange] = useState(new Date());
   const [endDate, handleEndDateChange] = useState(new Date());
@@ -71,9 +71,11 @@ const TaskForm = () => {
   let taskIdRef = useRef('');
 
   const updateTasks = () => {
+    setLoading(true);
     getTasksForDate(currentDate).then(([pending, done]) => {
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
+      setLoading(false);
     });
   };
 

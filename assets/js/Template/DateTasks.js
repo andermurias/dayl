@@ -54,10 +54,10 @@ const DateTasks = () => {
   const currentDate = moment(query.date);
 
   useEffect(() => {
+    setLoading(true);
     const currentDate = moment(query.date);
     const newDate = currentDate.format('YYYY-MM-DD');
     setCurrentDate(newDate);
-    setLoading(true);
     getTasksForDate(newDate).then(([pending, done]) => {
       setPendingTasks(pending.data);
       setDoneTasks(done.data);
