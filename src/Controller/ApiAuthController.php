@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Common\Helper;
 use App\Factory\SerializerFactory;
 use App\Repository\UserRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,13 +19,18 @@ class ApiAuthController extends AbstractController
 {
     private $userRepository;
     private $helper;
+    private $authenticationSuccessHandler;
 
     private $serializer;
 
-    public function __construct(UserRepository $_userRepository, Helper $_helper)
-    {
+    public function __construct(
+        UserRepository $_userRepository,
+        Helper $_helper,
+        AuthenticationSuccessHandler $_authenticationSuccessHandler
+    ) {
         $this->userRepository = $_userRepository;
         $this->helper = $_helper;
+        $this->authenticationSuccessHandler = $_authenticationSuccessHandler;
         $this->serializer = SerializerFactory::create();
     }
 
@@ -62,11 +67,10 @@ class ApiAuthController extends AbstractController
             $user = $this->helper->generateUserFromGooglePayload($userData, $data['token']);
         }
 
-        $tokenResponse = '';
         if ($user) {
-            $tokenResponse = $this->serializer->serialize(['token' => $this->helper->generateTokenForUser($user)], 'json');
+            return $this->authenticationSuccessHandler->handleAuthenticationSuccess($user);
         }
 
-        return new JsonResponse($tokenResponse, 200, [], true);
+        return new JsonResponse([], 401);
     }
 }
