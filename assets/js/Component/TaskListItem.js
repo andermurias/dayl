@@ -30,10 +30,8 @@ const TaskListItem = ({done, task}) => {
   const labelId = `checkbox-list-label-${task.id}`;
 
   const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
-  const [, setDoneTasks] = useContext(DoneTaskContext);
-  const [, setPendingTasks] = useContext(PendingTaskContext);
 
-  const {updateTask, deleteTask} = useTaskApi();
+  const {getTasksForDateAndSave, updateTask, deleteTask} = useTaskApi();
 
   const DELETE_TASK = 'delete';
   const EDIT_TASK = 'edit';
@@ -60,9 +58,7 @@ const TaskListItem = ({done, task}) => {
         break;
     }
     if (request) {
-      const [pending, done] = await getTasksForDate(currentDate);
-      setPendingTasks(pending.data);
-      setDoneTasks(done.data);
+      await getTasksForDateAndSave(currentDate);
       setLoading(false);
     }
   };

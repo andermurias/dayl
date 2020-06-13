@@ -7,20 +7,15 @@ import {useUserApi} from '../_hook/useUserApi';
 import {AppContext} from '../_context/AppContext';
 
 const AuthorizedComponent = ({component: Component, route, ...props}) => {
-  const {token, setToken, setLoading} = useContext(AppContext);
-  const {refreshToken} = useUserApi();
+  const {token, setLoading} = useContext(AppContext);
+  const {refreshTokenAndSave} = useUserApi();
 
   const isAuthenticated = () => token !== null;
   const rToken = localStorage.getItem('refreshToken');
 
   if (!isAuthenticated() && rToken) {
-    refreshToken({refreshToken: rToken})
-      .then((res) => {
-        localStorage.setItem('refreshToken', res.data.refresh_token);
-        setToken(res.data.token);
-        setLoading(false);
-      })
-      .catch(logout);
+    setLoading(true);
+    refreshTokenAndSave(rToken).then(() => setLoading(false));
     return <></>;
   }
 

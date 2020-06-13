@@ -49,11 +49,11 @@ const DateTasks = () => {
 
   moment.locale(i18n.language);
 
-  const [doneTasks, setDoneTasks] = useContext(DoneTaskContext);
-  const [pendingTasks, setPendingTasks] = useContext(PendingTaskContext);
+  const [doneTasks] = useContext(DoneTaskContext);
+  const [pendingTasks] = useContext(PendingTaskContext);
   const {setLoading, setCurrentDate, editTask} = useContext(AppContext);
 
-  const {getTasksForDate} = useTaskApi();
+  const {getTasksForDateAndSave} = useTaskApi();
 
   const query = useParams();
   const currentDate = moment(query.date);
@@ -63,11 +63,7 @@ const DateTasks = () => {
     const currentDate = moment(query.date);
     const newDate = currentDate.format('YYYY-MM-DD');
     setCurrentDate(newDate);
-    getTasksForDate(newDate).then(([pending, done]) => {
-      setPendingTasks(pending.data);
-      setDoneTasks(done.data);
-      setLoading(false);
-    });
+    getTasksForDateAndSave(newDate).then(() => setLoading(false));
   }, [query.date]);
 
   return (

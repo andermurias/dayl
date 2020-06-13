@@ -38,8 +38,6 @@ const TaskForm = () => {
 
   const {t} = useTranslation();
 
-  const [, setDoneTasks] = useContext(DoneTaskContext);
-  const [, setPendingTasks] = useContext(PendingTaskContext);
   const {currentDate, editTask, setEditTask, setLoading} = useContext(AppContext);
 
   const [startDate, handlestartDateChange] = useState(new Date());
@@ -48,7 +46,7 @@ const TaskForm = () => {
   const [done, setDone] = useState(false);
   const [id, setId] = useState('');
 
-  const {getTasksForDate, addTask, updateTask} = useTaskApi();
+  const {getTasksForDateAndSave, addTask, updateTask} = useTaskApi();
 
   useEffect(() => {
     if (editTask) {
@@ -76,11 +74,7 @@ const TaskForm = () => {
 
   const updateTasks = () => {
     setLoading(true);
-    getTasksForDate(currentDate).then(([pending, done]) => {
-      setPendingTasks(pending.data);
-      setDoneTasks(done.data);
-      setLoading(false);
-    });
+    getTasksForDateAndSave(currentDate).then(() => setLoading(false));
   };
 
   const submitTask = () => {
