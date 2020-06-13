@@ -1,23 +1,22 @@
 import React, {useContext} from 'react';
+
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
-import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
-
 import GitHubIcon from '@material-ui/icons/GitHub';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+import {getForcedTheme, logout} from '../Common/Helper';
+import {AppContext} from '../_context/AppContext';
+
 import logo from '../../static/img/logo/dayl_logo_full.svg';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {getForcedTheme, logout, isAuthenticated} from '../Common/Helper';
-import {useTranslation} from 'react-i18next';
-import {AppContext} from '../_context/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {
@@ -46,12 +45,10 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
 
-  const {t} = useTranslation();
-
   const theme = useTheme();
   const forceTheme = getForcedTheme();
 
-  const {currentDate} = useContext(AppContext);
+  const {token} = useContext(AppContext);
 
   let themeStatus = forceTheme || 'auto';
 
@@ -98,7 +95,7 @@ const Footer = () => {
           >
             <GitHubIcon />
           </IconButton>
-          {isAuthenticated() ? (
+          {token ? (
             <IconButton color="primary" aria-label="Logout link" onClick={logout}>
               <ExitToAppIcon />
             </IconButton>

@@ -5,8 +5,9 @@ export const AppContext = React.createContext({});
 
 export const AppProvider = ({children}) => {
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [editTask, setEditTask] = useState(null);
+  const [token, setToken] = useState(null);
 
   return (
     <AppContext.Provider
@@ -17,6 +18,8 @@ export const AppProvider = ({children}) => {
         setLoading,
         editTask,
         setEditTask,
+        token,
+        setToken,
       }}
     >
       {children}

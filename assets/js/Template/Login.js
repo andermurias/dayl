@@ -1,21 +1,19 @@
-import React, {useState} from 'react';
-import {withRouter, Redirect} from 'react-router-dom';
+import React, {useContext, useEffect, useState} from 'react';
 
-//import axios from 'axios';
+import {GoogleLogin} from 'react-google-login';
+import {useTranslation} from 'react-i18next';
 
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {Grid, TextField, Button} from '@material-ui/core';
+import {Grid, Button} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import Google from 'mdi-material-ui/Google';
 
-import {useTranslation} from 'react-i18next';
-
-import {GoogleLogin} from 'react-google-login';
+import {AppContext} from '../_context/AppContext';
+import {useUserApi} from '../_hook/useUserApi';
 
 import logo from '../../static/img/logo/dayl_logo_full.svg';
-import {registerUser} from '../Api/User';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
-import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,21 +45,25 @@ const Login = () => {
 
   const {t} = useTranslation();
 
-  const [token, setToken] = useState(null);
+  const {setToken, setLoading} = useContext(AppContext);
   const [loginError, setLoginError] = useState(false);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  const {registerUser} = useUserApi();
 
   const handleLoginWithGoogle = (response) => {
     registerUser({token: response.tokenId}).then((res) => {
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('refreshToken', res.data.refresh_token);
       document.cookie = 'logged=true';
       setLoginError(false);
       setToken(res.data.token);
     });
   };
 
-  return null !== token ? (
-    <Redirect to={'/token'} />
-  ) : (
+  return (
     <div className={classes.container}>
       <Paper className={classes.paper} elevation={0}>
         <Grid container spacing={8}>
@@ -109,4 +111,4 @@ const Login = () => {
   );
 };
 
-export default withRouter(React.memo(Login));
+export default React.memo(Login);

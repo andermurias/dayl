@@ -1,22 +1,24 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 
 import MomentUtils from '@date-io/moment';
+import moment from 'moment';
+import {useTranslation} from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
-import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
-import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
 import {makeStyles} from '@material-ui/core/styles';
-import {addTask, updateTask} from '../Api/Task';
+import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
+
+import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+
+import {useTaskApi} from '../_hook/useTaskApi';
+
 import {DoneTaskContext} from '../_context/DoneTaskContext';
 import {PendingTaskContext} from '../_context/PendingTaskContext';
-import {getTasksForDate} from '../Common/Helper';
 import {AppContext} from '../_context/AppContext';
-import moment from 'moment';
-import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -36,8 +38,6 @@ const TaskForm = () => {
 
   const {t} = useTranslation();
 
-  const [, setDoneTasks] = useContext(DoneTaskContext);
-  const [, setPendingTasks] = useContext(PendingTaskContext);
   const {currentDate, editTask, setEditTask, setLoading} = useContext(AppContext);
 
   const [startDate, handlestartDateChange] = useState(new Date());
@@ -45,6 +45,8 @@ const TaskForm = () => {
   const [description, setDescription] = useState('');
   const [done, setDone] = useState(false);
   const [id, setId] = useState('');
+
+  const {getTasksForDateAndSave, addTask, updateTask} = useTaskApi();
 
   useEffect(() => {
     if (editTask) {
@@ -72,11 +74,7 @@ const TaskForm = () => {
 
   const updateTasks = () => {
     setLoading(true);
-    getTasksForDate(currentDate).then(([pending, done]) => {
-      setPendingTasks(pending.data);
-      setDoneTasks(done.data);
-      setLoading(false);
-    });
+    getTasksForDateAndSave(currentDate).then(() => setLoading(false));
   };
 
   const submitTask = () => {
