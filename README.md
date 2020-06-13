@@ -1,16 +1,8 @@
-<div align="center">
-  <a href="https://dayl.om.nom.es" rel="nofollow">
-    <img src="etc/assets/logo/full/dayl_logo_full.png" style="width: 50%; max-width:100%;">
-    </a>
-  </a>
-</div>
-<br/>
-<p align="center">
-Easy as a spoon
-</p>
-<p align="center">
-<a href="https://github.com/andermurias/dayl/issues/new">Found a bug? Have a request?</a>
-</p>
+![Dayl](./etc/assets/logo/full/dayl_logo_full_small.png)
+
+> Easy as a spoon
+
+[Found a bug? Have a request?](https://github.com/andermurias/dayl/issues/new)
 
 ---
 
@@ -24,13 +16,13 @@ Which persons is oriented to?
 - To small teams that want to improve their productivity
 
 
-## Table of cotents
+## Table of contents
 
 - [Quick Stat](./etc/doc/quick-start.md)
 - [About Dayl](./etc/doc/about-dayl.md)
 - [About Design](./etc/doc/about-design.md)
 - [Q&A](./etc/doc/question-answers.md)
-- [Next Steps](./etc/doc/next-steps.md)
+- [Next Steps](https://github.com/andermurias/dayl/projects/1)
 
 ## Creator
 
