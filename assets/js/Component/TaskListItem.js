@@ -1,21 +1,23 @@
 import React, {useContext} from 'react';
 
+import {makeStyles} from '@material-ui/core/styles';
+
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
+
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import {deleteTask, updateTask} from '../Api/Task';
+import {useTaskApi} from '../_hook/useTaskApi';
+
 import {DoneTaskContext} from '../_context/DoneTaskContext';
 import {PendingTaskContext} from '../_context/PendingTaskContext';
-import {getTasksForDate} from '../Common/Helper';
 import {AppContext} from '../_context/AppContext';
-import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -30,6 +32,8 @@ const TaskListItem = ({done, task}) => {
   const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
+
+  const {updateTask, deleteTask} = useTaskApi();
 
   const DELETE_TASK = 'delete';
   const EDIT_TASK = 'edit';

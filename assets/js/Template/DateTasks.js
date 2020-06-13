@@ -1,5 +1,7 @@
 import React, {useEffect, useContext} from 'react';
-import {withRouter, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+
 import moment from 'moment';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -7,15 +9,16 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import TaskListItem from '../Component/TaskListItem';
-import TaskForm from '../Component/TaskForm';
+
+import {useTaskApi} from '../_hook/useTaskApi';
 
 import {DoneTaskContext} from '../_context/DoneTaskContext';
 import {PendingTaskContext} from '../_context/PendingTaskContext';
-import {getTasksForDate} from '../Common/Helper';
 import {AppContext} from '../_context/AppContext';
+
+import TaskListItem from '../Component/TaskListItem';
+import TaskForm from '../Component/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader';
-import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -49,6 +52,8 @@ const DateTasks = () => {
   const [doneTasks, setDoneTasks] = useContext(DoneTaskContext);
   const [pendingTasks, setPendingTasks] = useContext(PendingTaskContext);
   const {setLoading, setCurrentDate, editTask} = useContext(AppContext);
+
+  const {getTasksForDate} = useTaskApi();
 
   const query = useParams();
   const currentDate = moment(query.date);
