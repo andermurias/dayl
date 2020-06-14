@@ -2,7 +2,8 @@ import React, {useContext} from 'react';
 
 import {Redirect} from 'react-router-dom';
 
-import {logout} from '../Common/Helper';
+import Empty from '../Component/Empty';
+
 import {useUserApi} from '../_hook/useUserApi';
 import {AppContext} from '../_context/AppContext';
 
@@ -16,7 +17,7 @@ const AuthorizedComponent = ({component: Component, route, ...props}) => {
   if (!isAuthenticated() && rToken) {
     setLoading(true);
     refreshTokenAndSave(rToken).then(() => setLoading(false));
-    return <></>;
+    return <Empty />;
   }
 
   if (route.props.secure && !isAuthenticated()) {
