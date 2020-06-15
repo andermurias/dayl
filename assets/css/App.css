@@ -23,6 +23,7 @@ code {
 }
 
 #root {
+  border-top: solid 1px var(--color-orange-peel);
   display: flex;
   min-height: 100vh;
   flex-direction: column;
