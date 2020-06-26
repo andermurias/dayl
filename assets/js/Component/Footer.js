@@ -11,12 +11,14 @@ import Brightness5Icon from '@material-ui/icons/Brightness5';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
 import {getForcedTheme, logout} from '../Common/Helper';
 import {AppContext} from '../_context/AppContext';
 
 import logo from '../../static/img/logo/dayl_logo_full.svg';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
+import {useTaskApi} from '../_hook/useTaskApi';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {
@@ -48,7 +50,9 @@ const Footer = () => {
   const theme = useTheme();
   const forceTheme = getForcedTheme();
 
-  const {token} = useContext(AppContext);
+  const {getExportTask} = useTaskApi();
+
+  const {token, currentDate} = useContext(AppContext);
 
   let themeStatus = forceTheme || 'auto';
 
@@ -96,9 +100,14 @@ const Footer = () => {
             <GitHubIcon />
           </IconButton>
           {token ? (
-            <IconButton color="primary" aria-label="Logout link" onClick={logout}>
-              <ExitToAppIcon />
-            </IconButton>
+            <>
+              <IconButton color="primary" aria-label="Export" onClick={() => getExportTask(currentDate)}>
+                <ImportExportIcon />
+              </IconButton>
+              <IconButton color="primary" aria-label="Logout link" onClick={logout}>
+                <ExitToAppIcon />
+              </IconButton>
+            </>
           ) : (
             ''
           )}

@@ -36,6 +36,9 @@ export const theme = (prefersDarkMode) => ({
   },
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
+    background: {
+      default: prefersDarkMode ? colors.mineShaft : colors.babyPowder,
+    },
     text: {
       primary: prefersDarkMode ? colors.babyPowder : colors.richBlack,
     },

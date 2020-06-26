@@ -100,4 +100,9 @@ class Helper extends AbstractController
 
         return openssl_decrypt(base64_decode($string), $method, $key, 0, $iv);
     }
+
+    public static function isValidDate(string $date): bool
+    {
+        return !is_null($date) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date);
+    }
 }
