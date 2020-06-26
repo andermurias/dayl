@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     paddingRight: 95,
   },
+  tag: {
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
 }));
 
 const TaskListItem = ({done, task}) => {
@@ -70,7 +74,13 @@ const TaskListItem = ({done, task}) => {
       </ListItemIcon>
       <ListItemText
         id={labelId}
-        primary={task.description}
+        primary={
+          <span
+            dangerouslySetInnerHTML={{
+              __html: task.description.replace(/([\w\s_\-\\\/]*:)/g, '<span class="' + classes.tag + '">$1</span>'),
+            }}
+          />
+        }
         secondary={task.start ? task.start + ' - ' + task.end : ''}
       />
       <ListItemSecondaryAction>

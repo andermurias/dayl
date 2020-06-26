@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -83,7 +84,7 @@ class ApiTaskController extends AbstractController
     {
         $date = $request->get('date');
 
-        if (!is_null($date) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+        if (Helper::isValidDate($date)) {
             throw new \JsonException('If sent, date param MUST be YYYY-MM-DD format');
         }
 
@@ -270,5 +271,60 @@ class ApiTaskController extends AbstractController
         }
 
         return $this->helper->returnOk();
+    }
+
+    /**
+     * @Route("/export", name="export", methods={"GET"})
+     *
+     * @SWG\Parameter(
+     *     name="date",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
+     */
+    public function exportTasksForDay(Request $request)
+    {
+        $date = $request->get('date');
+
+        if (Helper::isValidDate($date)) {
+            throw new \JsonException('The date param MUST be YYYY-MM-DD format');
+        }
+
+        $datetime = new \DateTime($date ?? date('Y-m-d'));
+
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($datetime) {
+            $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
+
+            $f = fopen('php://output', 'w');
+
+            fputcsv($f, [
+                'description',
+                'start',
+                'end',
+                'date',
+            ]);
+
+            foreach ($userTasks as $task) {
+                // generate csv lines from the inner arrays
+                fputcsv($f, [
+                    $task->getDescription(),
+                    $task->getStart()->format('H:i'),
+                    $task->getEnd()->format('H:i'),
+                    $task->getDate()->format('Y-m-d'),
+                ]);
+            }
+
+            fclose($f);
+        });
+
+        $response->headers->set('Content-Type', 'application/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$datetime->format('YYYYMMDD').'.csv";');
+
+        return $response;
     }
 }

@@ -10,10 +10,19 @@ export const useTaskApi = () => {
   const [, setDoneTasks] = useContext(DoneTaskContext);
   const [, setPendingTasks] = useContext(PendingTaskContext);
 
-  const getTasks = (type, date) =>
-    client.get('/api/task/' + type + (date ? '?date=' + date : '')).catch((err) => {
-      console.log(err);
-    });
+  const getTasks = (type, date) => client.get('/api/task/' + type + (date ? '?date=' + date : '')).catch(console.log);
+
+  const getExportTask = (date) =>
+    client
+      .get('/api/task/export?date=' + date)
+      .then((res) => {
+        const hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + escape(res.data);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = date + '.csv';
+        hiddenElement.click();
+      })
+      .catch(console.log);
 
   const deleteTask = (task) => client.delete('/api/task/delete/' + task.id);
 
@@ -48,5 +57,6 @@ export const useTaskApi = () => {
     addTask,
     getTasksForDate,
     getTasksForDateAndSave,
+    getExportTask,
   };
 };
