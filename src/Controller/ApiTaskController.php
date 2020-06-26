@@ -309,7 +309,7 @@ class ApiTaskController extends AbstractController
         foreach ($userTasks as $task) {
             // generate csv lines from the inner arrays
             fputcsv($f, [
-                $task->getDescription(),
+                Helper::cleanString($task->getDescription()),
                 $task->getStart() ? $task->getStart()->format('H:i') : '08:00',
                 $task->getEnd() ? $task->getEnd()->format('H:i') : '08:00',
                 $task->getDate()->format('Y-m-d'),
