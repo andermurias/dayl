@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -296,32 +295,30 @@ class ApiTaskController extends AbstractController
 
         $datetime = new \DateTime($date ?? date('Y-m-d'));
 
-        $response = new StreamedResponse();
-        $response->setCallback(function () use ($datetime) {
-            $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
+        $userTasks = $this->taskRepository->finByUserAndDate($this->getUser(), $datetime);
 
-            $f = fopen('php://output', 'w');
+        $f = fopen('php://output', 'w');
 
+        fputcsv($f, [
+            'description',
+            'start',
+            'end',
+            'date',
+        ]);
+
+        foreach ($userTasks as $task) {
+            // generate csv lines from the inner arrays
             fputcsv($f, [
-                'description',
-                'start',
-                'end',
-                'date',
+                $task->getDescription(),
+                $task->getStart() ? $task->getStart()->format('H:i') : '08:00',
+                $task->getEnd() ? $task->getEnd()->format('H:i') : '08:00',
+                $task->getDate()->format('Y-m-d'),
             ]);
+        }
 
-            foreach ($userTasks as $task) {
-                // generate csv lines from the inner arrays
-                fputcsv($f, [
-                    $task->getDescription(),
-                    $task->getStart()->format('H:i'),
-                    $task->getEnd()->format('H:i'),
-                    $task->getDate()->format('Y-m-d'),
-                ]);
-            }
+        fclose($f);
 
-            fclose($f);
-        });
-
+        $response = new Response();
         $response->headers->set('Content-Type', 'application/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="'.$datetime->format('YYYYMMDD').'.csv";');
 
