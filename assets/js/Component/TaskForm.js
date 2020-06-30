@@ -78,6 +78,7 @@ const TaskForm = () => {
   };
 
   const submitTask = () => {
+    setLoading(true);
     const start = moment(startDate).format('HH:mm');
     const end = moment(endDate).format('HH:mm');
 
