@@ -57,7 +57,7 @@ const Login = () => {
   const handleLoginWithGoogle = (response) => {
     registerUser({token: response.tokenId}).then((res) => {
       localStorage.setItem('refreshToken', res.data.refresh_token);
-      document.cookie = 'logged=true';
+      document.cookie = 'logged=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
       setLoginError(false);
       setToken(res.data.token);
     });

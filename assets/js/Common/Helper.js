@@ -1,6 +1,6 @@
 export const logout = () => {
   localStorage.clear();
-  document.cookie = 'logged=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/;';
+  document.cookie = 'logged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   window.location.href = '/login';
 };
 
