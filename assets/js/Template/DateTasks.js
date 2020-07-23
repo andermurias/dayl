@@ -39,8 +39,25 @@ const useStyles = makeStyles((theme) => ({
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
     textTransform: 'uppercase',
+    textAlign: 'left',
+  },
+  dividerFullWidthRight: {
+    margin: `5px ${theme.spacing(2)}px 0 0`,
+    textTransform: 'uppercase',
+    textAlign: 'right',
   },
 }));
+
+const getDiffTime = (start, end) => moment(end, 'HH:mm').diff(moment(start, 'HH:mm'));
+
+const getTotalTaskDuration = (tasks) => {
+  const sumTime = tasks
+    .map((t) => (t.start && t.end ? getDiffTime(t.start, t.end) : 0))
+    .reduce((sum, time) => sum + time, 0);
+
+  const spendTime = moment.utc(sumTime);
+  return spendTime.format('HH:mm');
+};
 
 const DateTasks = () => {
   const classes = useStyles();
@@ -66,6 +83,8 @@ const DateTasks = () => {
     getTasksForDateAndSave(newDate).then(() => setLoading(false));
   }, [query.date]);
 
+  const spendTimeFormat = getTotalTaskDuration(doneTasks);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
@@ -84,9 +103,18 @@ const DateTasks = () => {
           </Grid>
         </Grid>
         <Divider />
-        <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          {t('tasks.done')} ({doneTasks.length})
-        </Typography>
+        <Grid container spacing={1}>
+          <Grid container item xs={6}>
+            <Typography className={classes.dividerFullWidth} display="block" variant="overline">
+              {t('tasks.done')} ({doneTasks.length})
+            </Typography>
+          </Grid>
+          <Grid container item xs={6} justify="flex-end">
+            <Typography className={classes.dividerFullWidthRight} display="block" variant="overline">
+              {spendTimeFormat}
+            </Typography>
+          </Grid>
+        </Grid>
         <Grid container spacing={1}>
           <Grid container item xs={12}>
             <List className={classes.list}>
