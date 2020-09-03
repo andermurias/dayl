@@ -6,6 +6,9 @@
     }
   },
   "tasks": {
+    "today": "Hoy",
+    "cancel": "Volver",
+    "ok": "Ir",
     "header": {
       "week": "Semana"
     },

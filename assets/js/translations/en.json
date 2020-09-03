@@ -6,6 +6,9 @@
     }
   },
   "tasks": {
+    "today": "Today",
+    "cancel": "Cancel",
+    "ok": "Ok",
     "header": {
       "week": "Week"
     },
