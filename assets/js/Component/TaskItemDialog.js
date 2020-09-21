@@ -1,17 +1,19 @@
 import React, {useContext} from 'react';
-import Button from '@material-ui/core/Button';
+import {useTranslation} from 'react-i18next';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,13 +22,10 @@ import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-import {useTranslation} from 'react-i18next';
 import {AppContext} from '../_context/AppContext';
 import {DELETE_TASK, EDIT_TASK, UPDATE_STATUS_TASK, DUPLICATE_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
-import {useTheme} from '@material-ui/core';
 import {taskHighlighter} from '../Common/Helper';
 import {colors} from '../Common/Colors';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const createOption = ({icon, text, action, color}) => ({
   icon: icon,

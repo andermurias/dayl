@@ -1,7 +1,7 @@
 import {useContext} from 'react';
 
-import {AppContext} from '../_context/AppContext';
 import {useTaskApi} from './useTaskApi';
+import {AppContext} from '../_context/AppContext';
 
 export const DELETE_TASK = 'delete';
 export const EDIT_TASK = 'edit';

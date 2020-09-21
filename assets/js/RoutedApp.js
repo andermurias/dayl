@@ -2,18 +2,19 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
 
 import {theme} from './_config/theme';
 import {getForcedTheme} from './Common/Helper';
+
+import AuthorizedComponent from './_hoc/AuthorizedComponent';
 
 import Login from './Template/Login';
 import DateTasks from './Template/DateTasks';
 
 import ModalLoader from './Component/ModalLoader';
 import Footer from './Component/Footer';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import AuthorizedComponent from './_hoc/AuthorizedComponent';
 
 const routerConfiguration = [
   {
