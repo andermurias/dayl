@@ -24,5 +24,17 @@
     "done": "Finalizada",
     "edit": "Editar",
     "save": "Guardar"
+  },
+  "dialog": {
+    "edit": {
+      "cancel": "Cancelar edición",
+      "enable": "Editar"
+    },
+    "status": {
+      "done": "Marcar como finalizada",
+      "pending": "Marcar como pendiente"
+    },
+    "copy": "Crear una copia",
+    "delete": "Eliminar"
   }
 }

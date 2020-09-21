@@ -16,9 +16,8 @@ import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
-import {DoneTaskContext} from '../_context/DoneTaskContext';
-import {PendingTaskContext} from '../_context/PendingTaskContext';
 import {AppContext} from '../_context/AppContext';
+import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 
 const useStyles = makeStyles((theme) => ({
   inputText: {
@@ -37,6 +36,7 @@ const TaskForm = () => {
   const classes = useStyles();
 
   const {t} = useTranslation();
+  const {processTask} = useTaskProcessor();
 
   const {currentDate, editTask, setEditTask, setLoading} = useContext(AppContext);
 
@@ -46,7 +46,7 @@ const TaskForm = () => {
   const [done, setDone] = useState(false);
   const [id, setId] = useState('');
 
-  const {getTasksForDateAndSave, addTask, updateTask} = useTaskApi();
+  const {getTasksForDateAndSave} = useTaskApi();
 
   useEffect(() => {
     if (editTask) {
@@ -72,46 +72,35 @@ const TaskForm = () => {
   let taskDescriptionRef = useRef(null);
   let taskIdRef = useRef('');
 
-  const updateTasks = () => {
-    setLoading(true);
-    getTasksForDateAndSave(currentDate).then(() => setLoading(false));
-  };
-
-  const submitTask = () => {
+  const submitTask = async () => {
     setLoading(true);
     const start = moment(startDate).format('HH:mm');
     const end = moment(endDate).format('HH:mm');
 
-    let request = null;
     if (editTask) {
-      request = updateTask(editTask, {
+      await processTask(UPDATE_TASK, {
+        id: editTask.id,
         description: description,
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? (editTask.date ? editTask.date : currentDate) : null,
       });
     } else {
-      request = addTask({
+      await processTask(ADD_TASK, {
         description: description,
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? currentDate : null,
       });
     }
-
-    if (request) {
-      request.then(() => {
-        setEditTask(null);
-        cleanForm();
-        updateTasks();
-      });
-    }
+    setEditTask(null);
+    cleanForm();
   };
 
-  const enterListenerSend = (ev) => {
+  const enterListenerSend = async (ev) => {
     if (ev.key === 'Enter') {
       ev.preventDefault();
-      submitTask();
+      await submitTask();
     }
   };
 
@@ -144,6 +133,7 @@ const TaskForm = () => {
               value={startDate}
               onChange={handlestartDateChange}
               fullWidth
+              autoOk
             />
           </Grid>
           <Grid container item xs={4}>
@@ -157,6 +147,7 @@ const TaskForm = () => {
               value={endDate}
               onChange={handleEndDateChange}
               fullWidth
+              autoOk
             />
           </Grid>
         </MuiPickersUtilsProvider>

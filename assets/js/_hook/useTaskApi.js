@@ -26,12 +26,12 @@ export const useTaskApi = () => {
 
   const deleteTask = (task) => client.delete('/api/task/delete/' + task.id);
 
-  const updateTask = (task, data) =>
+  const updateTask = (task) =>
     client.patch('/api/task/' + task.id, {
-      description: data.description,
-      start: data.start,
-      end: data.end,
-      date: data.date,
+      description: task.description,
+      start: task.start,
+      end: task.end,
+      date: task.date,
     });
 
   const addTask = (data) =>

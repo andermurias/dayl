@@ -8,3 +8,6 @@ export const getForcedTheme = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('theme');
 };
+
+export const taskHighlighter = (description, classes) =>
+  (description || '').replace(/([\w\s_\-\\\/]*:)/g, '<span class="' + classes + '">$1</span>');

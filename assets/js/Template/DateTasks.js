@@ -19,6 +19,7 @@ import {AppContext} from '../_context/AppContext';
 import TaskListItem from '../Component/TaskListItem';
 import TaskForm from '../Component/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader';
+import TaskItemDialog from '../Component/TaskItemDialog';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -129,6 +130,7 @@ const DateTasks = () => {
           {editTask ? `${t('tasks.edit')} (${editTask.description})` : t('tasks.new')}
         </Typography>
         <TaskForm />
+        <TaskItemDialog />
       </Paper>
     </div>
   );

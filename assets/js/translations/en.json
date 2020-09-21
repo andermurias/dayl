@@ -24,5 +24,17 @@
     "done": "Done",
     "edit": "Edit",
     "save": "Save"
+  },
+  "dialog": {
+    "edit": {
+      "cancel": "Cancel edit",
+      "enable": "Edit"
+    },
+    "status": {
+      "done": "Mark as done",
+      "pending": "Mark as pending"
+    },
+    "copy": "Create a copy",
+    "delete": "Delete"
   }
 }

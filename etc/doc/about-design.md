@@ -46,6 +46,7 @@
 | Tiffany Blue  |  #2EC4B6 	| 
 | Rose Madder  	|  #E71D36 	| 
 | Orange Peel  	|  #FF9f1C  | 
+| Mine Shaft  	|  #202020  | 
 
 ![Colors](../assets/colors.png)
 

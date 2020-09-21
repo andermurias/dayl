@@ -7,6 +7,7 @@ export const AppProvider = ({children}) => {
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
   const [loading, setLoading] = useState(true);
   const [editTask, setEditTask] = useState(null);
+  const [optionTask, setOptionTask] = useState(null);
   const [token, setToken] = useState(null);
 
   return (
@@ -20,6 +21,8 @@ export const AppProvider = ({children}) => {
         setEditTask,
         token,
         setToken,
+        optionTask,
+        setOptionTask,
       }}
     >
       {children}

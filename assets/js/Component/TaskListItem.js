@@ -9,15 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import EditIcon from '@material-ui/icons/Edit';
-import ClearIcon from '@material-ui/icons/Clear';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import {useTaskApi} from '../_hook/useTaskApi';
-
-import {DoneTaskContext} from '../_context/DoneTaskContext';
-import {PendingTaskContext} from '../_context/PendingTaskContext';
 import {AppContext} from '../_context/AppContext';
+import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
+import {taskHighlighter} from '../Common/Helper';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -33,42 +29,18 @@ const TaskListItem = ({done, task}) => {
   const classes = useStyles();
   const labelId = `checkbox-list-label-${task.id}`;
 
-  const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
+  const {setOptionTask} = useContext(AppContext);
 
-  const {getTasksForDateAndSave, updateTask, deleteTask} = useTaskApi();
-
-  const DELETE_TASK = 'delete';
-  const EDIT_TASK = 'edit';
-  const UPDATE_TASK = 'update';
-
-  const processTask = (type, task) => async () => {
-    setLoading(true);
-    const date = !done ? currentDate : null;
-    let request;
-    switch (type) {
-      case EDIT_TASK:
-        if (editTask && task.id === editTask.id) {
-          setEditTask(null);
-        } else {
-          setEditTask(task);
-        }
-        setLoading(false);
-        break;
-      case UPDATE_TASK:
-        request = await updateTask(task, {date});
-        break;
-      case DELETE_TASK:
-        request = await deleteTask(task);
-        break;
-    }
-    if (request) {
-      await getTasksForDateAndSave(currentDate);
-      setLoading(false);
-    }
-  };
+  const {processTask} = useTaskProcessor();
 
   return (
-    <ListItem className={classes.listItem} role={undefined} dense button onClick={processTask(UPDATE_TASK, task)}>
+    <ListItem
+      className={classes.listItem}
+      role={undefined}
+      dense
+      button
+      onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+    >
       <ListItemIcon>
         <Checkbox edge="start" checked={done} tabIndex={-1} disableRipple inputProps={{'aria-labelledby': labelId}} />
       </ListItemIcon>
@@ -77,18 +49,15 @@ const TaskListItem = ({done, task}) => {
         primary={
           <span
             dangerouslySetInnerHTML={{
-              __html: task.description.replace(/([\w\s_\-\\\/]*:)/g, '<span class="' + classes.tag + '">$1</span>'),
+              __html: taskHighlighter(task.description, classes.tag),
             }}
           />
         }
         secondary={task.start ? task.start + ' - ' + task.end : ''}
       />
       <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="edit" onClick={processTask(EDIT_TASK, task)}>
-          {editTask && task.id === editTask.id ? <ClearIcon /> : <EditIcon />}
-        </IconButton>
-        <IconButton edge="end" aria-label="delete" onClick={processTask(DELETE_TASK, task)}>
-          <DeleteOutlineIcon />
+        <IconButton edge="end" aria-label="option" onClick={() => setOptionTask(task)}>
+          <MoreHorizIcon />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

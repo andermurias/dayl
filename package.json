@@ -36,6 +36,7 @@
     "react-router-dom": "^5.2.0"
   },
   "scripts": {
+    "serve": "symfony serve --no-tls",
     "build": "yarn encore dev",
     "build:prod": "yarn encore production",
     "watch": "yarn encore dev --watch",

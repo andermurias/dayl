@@ -1,0 +1,57 @@
+import {useContext} from 'react';
+
+import {AppContext} from '../_context/AppContext';
+import {useTaskApi} from './useTaskApi';
+
+export const DELETE_TASK = 'delete';
+export const EDIT_TASK = 'edit';
+export const ADD_TASK = 'add';
+export const UPDATE_TASK = 'update';
+export const UPDATE_STATUS_TASK = 'update_status';
+export const DUPLICATE_TASK = 'duplicate';
+
+export const useTaskProcessor = () => {
+  const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
+  const {deleteTask, updateTask, getTasksForDateAndSave, addTask} = useTaskApi();
+
+  const processTask = async (type, task) => {
+    console.log(type, task);
+    setLoading(true);
+    const date = task.date ? null : currentDate;
+    let request;
+    switch (type) {
+      case EDIT_TASK:
+        if (editTask && task.id === editTask.id) {
+          setEditTask(null);
+        } else {
+          setEditTask(task);
+        }
+        setLoading(false);
+        break;
+      case UPDATE_TASK:
+        request = await updateTask(task);
+        break;
+      case UPDATE_STATUS_TASK:
+        request = await updateTask({
+          ...task,
+          date: date,
+        });
+        break;
+      case DELETE_TASK:
+        request = await deleteTask(task);
+        break;
+      case DUPLICATE_TASK:
+      case ADD_TASK:
+        request = await addTask(task);
+        break;
+    }
+    if (request) {
+      await getTasksForDateAndSave(currentDate);
+      setLoading(false);
+    }
+  };
+
+  return {
+    processTask,
+  };
+};

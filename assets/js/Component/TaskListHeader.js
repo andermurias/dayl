@@ -87,6 +87,7 @@ const TaskListHeader = ({currentDate}) => {
           <Grid container item xs={8} sm={10}>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
+                autoOk
                 label="Date Picker"
                 showTodayButton={true}
                 todayLabel={t('tasks.today')}
