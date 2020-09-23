@@ -35,6 +35,7 @@
       "pending": "Marcar como pendiente"
     },
     "copy": "Crear una copia",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "date": "Seleccionar fecha de finalización"
   }
 }

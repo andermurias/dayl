@@ -35,6 +35,7 @@
       "pending": "Mark as pending"
     },
     "copy": "Create a copy",
-    "delete": "Delete"
+    "delete": "Delete",
+    "date": "Mark as done with date"
   }
 }

@@ -15,7 +15,6 @@ export const useTaskProcessor = () => {
   const {deleteTask, updateTask, getTasksForDateAndSave, addTask} = useTaskApi();
 
   const processTask = async (type, task) => {
-    console.log(type, task);
     setLoading(true);
     const date = task.date ? null : currentDate;
     let request;
