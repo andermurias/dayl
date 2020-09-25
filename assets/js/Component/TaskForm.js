@@ -7,7 +7,12 @@ import {useTranslation} from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import {makeStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
+
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
 
@@ -17,9 +22,11 @@ import {useTaskApi} from '../_hook/useTaskApi';
 import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 
 import {AppContext} from '../_context/AppContext';
-import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
   form: {
     paddingBottom: `${theme.spacing(2)}px`,
   },
@@ -27,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexGrow: 1,
-    paddingLeft: `${theme.spacing(0.5)}px`,
+    //    paddingLeft: `${theme.spacing(0.5)}px`,
   },
   checkboxParent: {
     padding: `${theme.spacing(1)}px`,
@@ -41,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TaskForm = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const {t} = useTranslation();
   const {processTask} = useTaskProcessor();
@@ -54,6 +62,8 @@ const TaskForm = () => {
   const [id, setId] = useState('');
 
   const {getTasksForDateAndSave} = useTaskApi();
+
+  const isSmallOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     if (editTask) {
@@ -112,7 +122,7 @@ const TaskForm = () => {
   };
 
   return (
-    <>
+    <Box m={0.5} className={classes.root}>
       <Grid container spacing={2} className={classes.form}>
         <Grid container item xs={12} lg={7} justify="flex-start">
           <input type="hidden" ref={taskIdRef} value={id} />
@@ -139,7 +149,7 @@ const TaskForm = () => {
           </div>
         </Grid>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <Grid container item xs={5} lg={2}>
+          <Grid container item xs={6} lg={2}>
             <TimePicker
               inputVariant="outlined"
               id="task-start"
@@ -153,7 +163,7 @@ const TaskForm = () => {
               autoOk
             />
           </Grid>
-          <Grid container item xs={5} lg={2}>
+          <Grid container item xs={6} lg={2}>
             <TimePicker
               inputVariant="outlined"
               id="task-end"
@@ -168,19 +178,19 @@ const TaskForm = () => {
             />
           </Grid>
         </MuiPickersUtilsProvider>
-        <Grid container item xs={2} lg={1} justify="flex-end">
-          <IconButton
-            className={classes.inputText}
-            variant="outlined"
-            color="secondary"
-            size="medium"
-            onClick={submitTask}
-          >
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
+        <Grid container item xs={12} lg={1} justify="flex-end">
+          {isSmallOrDown ? (
+            <Button fullWidth variant="outlined" color="secondary" onClick={submitTask}>
+              {editTask ? t('form.edit') : t('form.save')}
+            </Button>
+          ) : (
+            <IconButton className={classes.inputText} color="secondary" size="medium" onClick={submitTask}>
+              <AddCircleIcon fontSize="large" />
+            </IconButton>
+          )}
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
 

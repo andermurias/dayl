@@ -79,7 +79,7 @@ const TaskListHeader = ({currentDate}) => {
   };
   return (
     <Box>
-      <Box mx={1} mb={4}>
+      <Box mx={1}>
         <Grid container spacing={1}>
           <Grid container item xs={12}>
             <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
