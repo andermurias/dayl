@@ -9,6 +9,7 @@ export const ADD_TASK = 'add';
 export const UPDATE_TASK = 'update';
 export const UPDATE_STATUS_TASK = 'update_status';
 export const DUPLICATE_TASK = 'duplicate';
+export const DUPLICATE_EMPTY_TASK = 'duplicate_empty';
 
 export const useTaskProcessor = () => {
   const {setLoading, currentDate, setEditTask, editTask} = useContext(AppContext);
@@ -16,8 +17,7 @@ export const useTaskProcessor = () => {
 
   const processTask = async (type, task) => {
     setLoading(true);
-    const date = task.date ? null : currentDate;
-    let request;
+    let request = null;
     switch (type) {
       case EDIT_TASK:
         if (editTask && task.id === editTask.id) {
@@ -33,11 +33,19 @@ export const useTaskProcessor = () => {
       case UPDATE_STATUS_TASK:
         request = await updateTask({
           ...task,
-          date: date,
+          date: task.date ? null : currentDate,
         });
         break;
       case DELETE_TASK:
         request = await deleteTask(task);
+        break;
+      case DUPLICATE_EMPTY_TASK:
+        request = await addTask({
+          ...task,
+          start: null,
+          end: null,
+          date: null,
+        });
         break;
       case DUPLICATE_TASK:
       case ADD_TASK:

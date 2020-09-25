@@ -9,11 +9,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIccon from '@material-ui/icons/MoreVert';
 
 import {AppContext} from '../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 import {taskHighlighter} from '../Common/Helper';
+import WrapSkeletonOnLoading from '../_hoc/WrapSkeletonOnLoading';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -42,22 +43,32 @@ const TaskListItem = ({done, task}) => {
       onClick={() => processTask(UPDATE_STATUS_TASK, task)}
     >
       <ListItemIcon>
-        <Checkbox edge="start" checked={done} tabIndex={-1} disableRipple inputProps={{'aria-labelledby': labelId}} />
+        <WrapSkeletonOnLoading>
+          <Checkbox edge="start" checked={done} tabIndex={-1} disableRipple inputProps={{'aria-labelledby': labelId}} />
+        </WrapSkeletonOnLoading>
       </ListItemIcon>
       <ListItemText
         id={labelId}
         primary={
-          <span
-            dangerouslySetInnerHTML={{
-              __html: taskHighlighter(task.description, classes.tag),
-            }}
-          />
+          <WrapSkeletonOnLoading>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: taskHighlighter(task.description, classes.tag),
+              }}
+            />
+          </WrapSkeletonOnLoading>
         }
-        secondary={task.start ? task.start + ' - ' + task.end : ''}
+        secondary={
+          <WrapSkeletonOnLoading>
+            <span>{task.start ? task.start + ' - ' + task.end : ''}</span>
+          </WrapSkeletonOnLoading>
+        }
       />
       <ListItemSecondaryAction>
         <IconButton edge="end" aria-label="option" onClick={() => setOptionTask(task)}>
-          <MoreHorizIcon />
+          <WrapSkeletonOnLoading>
+            <MoreVertIccon />
+          </WrapSkeletonOnLoading>
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

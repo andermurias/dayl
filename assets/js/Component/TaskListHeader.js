@@ -23,7 +23,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'capitalize',
-    textAlign: 'center',
+    textAlign: 'left',
     width: '100%',
     '&:hover': {
       cursor: 'pointer',
@@ -79,14 +79,15 @@ const TaskListHeader = ({currentDate}) => {
   };
   return (
     <Box>
-      <Box mb={4}>
+      <Box mx={1} mb={4}>
         <Grid container spacing={1}>
-          <Grid container item xs={2} sm={1}>
-            <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
-              <ChevronLeftIcon />
-            </IconButton>
+          <Grid container item xs={12}>
+            <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
+              {currentDate.format('dddd')}
+            </Typography>
           </Grid>
-          <Grid container item xs={8} sm={10}>
+
+          <Grid container item xs={8} sm={10} alignItems="center">
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 autoOk
@@ -104,16 +105,18 @@ const TaskListHeader = ({currentDate}) => {
                 TextFieldComponent={() => null}
               />
             </MuiPickersUtilsProvider>
-            <Typography variant="h5" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
-              {currentDate.format('dddd')}
-            </Typography>
             <Typography variant="h6" component="h2" className={classes.title} onClick={() => setPickerStatus(true)}>
               <span className={classes.titleSecondary}>({moment(currentDate).format(isSmallOrUp ? 'LL' : 'L')})</span>
             </Typography>
           </Grid>
           <Grid container item xs={2} sm={1}>
+            <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
+              <ChevronLeftIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid container item xs={2} sm={1}>
             <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
-              <ChevronRightIcon />
+              <ChevronRightIcon fontSize="large" />
             </IconButton>
           </Grid>
         </Grid>

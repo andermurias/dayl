@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -9,7 +9,8 @@ import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
@@ -22,6 +23,12 @@ import TaskForm from '../Component/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader';
 import TaskItemDialog from '../Component/TaskItemDialog';
 
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import useTheme from '@material-ui/core/styles/useTheme';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 const useStyles = makeStyles((theme) => ({
   list: {
     width: '100%',
@@ -33,15 +40,31 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 0),
   },
   paper: {
-    maxWidth: 600,
+    maxWidth: 800,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
-    backgroundColor: 'transparent',
+    background: 'transparent',
+  },
+  accordion: {
+    maxWidth: 800,
+    boxShadow: 'none',
+    margin: `auto`,
+    '&.Mui-expanded': {
+      margin: `${theme.spacing(1)}px auto`,
+    },
+    '&:before': {
+      display: 'none',
+    },
+  },
+  acordionExpandIcon: {
+    marginRight: `${theme.spacing(0.5)}px`,
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
     textTransform: 'uppercase',
     textAlign: 'left',
+    display: 'flex',
+    alignItems: 'center',
   },
   dividerFullWidthRight: {
     margin: `5px ${theme.spacing(2)}px 0 0`,
@@ -63,6 +86,7 @@ const getTotalTaskDuration = (tasks) => {
 
 const DateTasks = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const {t, i18n} = useTranslation();
 
@@ -91,48 +115,90 @@ const DateTasks = () => {
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={0}>
         <TaskListHeader currentDate={currentDate} />
-        <Divider />
-        <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          {t('tasks.pending')} ({pendingTasks.length})
-        </Typography>
-        <Grid container spacing={1}>
-          <Grid container item xs={12}>
-            <List className={classes.list}>
-              {pendingTasks.map((task, i) => (
-                <TaskListItem done={false} task={task} key={task.id} />
-              ))}
-            </List>
-          </Grid>
-        </Grid>
-        <Divider />
-        <Grid container spacing={1}>
+      </Paper>
+      {/*<Divider/>*/}
+      <Accordion defaultExpanded={false} classes={{root: classes.accordion}}>
+        <AccordionSummary
+          classes={{expandIcon: classes.acordionExpandIcon}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-label="Expand"
+          aria-controls="new-task-content"
+          id="new-task-header"
+        >
           <Grid container item xs={6}>
             <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-              {t('tasks.done')} ({doneTasks.length})
+              {editTask ? t('tasks.edit') : t('tasks.new')}
             </Typography>
           </Grid>
-          <Grid container item xs={6} justify="flex-end">
-            <Typography className={classes.dividerFullWidthRight} display="block" variant="overline">
-              {spendTimeFormat}
-            </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={1}>
+            <Grid container item xs={12}>
+              <TaskForm />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid container item xs={12}>
-            <List className={classes.list}>
-              {doneTasks.map((task, i) => (
-                <TaskListItem done={true} task={task} key={task.id} />
-              ))}
-            </List>
+        </AccordionDetails>
+      </Accordion>
+      {/*<Divider/>*/}
+      <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
+        <AccordionSummary
+          classes={{expandIcon: classes.acordionExpandIcon}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-label="Expand"
+          aria-controls="done-task-content"
+          id="done-task-header"
+        >
+          <Typography className={classes.dividerFullWidth} display="block" variant="overline">
+            {t('tasks.pending')} ({pendingTasks.length})
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={1}>
+            <Grid container item xs={12}>
+              <List className={classes.list}>
+                {pendingTasks.map((task, i) => (
+                  <TaskListItem done={false} task={task} key={task.id} />
+                ))}
+              </List>
+            </Grid>
           </Grid>
-        </Grid>
-        <Divider />
-        <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-          {editTask ? `${t('tasks.edit')} (${editTask.description})` : t('tasks.new')}
-        </Typography>
-        <TaskForm />
-        <TaskItemDialog />
-      </Paper>
+        </AccordionDetails>
+      </Accordion>
+      {/*<Divider/>*/}
+      <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
+        <AccordionSummary
+          classes={{expandIcon: classes.acordionExpandIcon}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-label="Expand"
+          aria-controls="pending-task-content"
+          id="pending-task-header"
+        >
+          <Grid container spacing={1}>
+            <Grid container item xs={6}>
+              <Typography className={classes.dividerFullWidth} display="block" variant="overline">
+                {t('tasks.done')} ({doneTasks.length})
+              </Typography>
+            </Grid>
+            <Grid container item xs={6} justify="flex-end">
+              <Typography className={classes.dividerFullWidthRight} display="block" variant="overline">
+                {spendTimeFormat}
+              </Typography>
+            </Grid>
+          </Grid>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={1}>
+            <Grid container item xs={12}>
+              <List className={classes.list}>
+                {doneTasks.map((task, i) => (
+                  <TaskListItem done={true} task={task} key={task.id} />
+                ))}
+              </List>
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+      <TaskItemDialog />
     </div>
   );
 };

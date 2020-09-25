@@ -25,6 +25,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import EventIcon from '@material-ui/icons/Event';
 
@@ -35,6 +36,7 @@ import {
   UPDATE_STATUS_TASK,
   DUPLICATE_TASK,
   UPDATE_TASK,
+  DUPLICATE_EMPTY_TASK,
   useTaskProcessor,
 } from '../_hook/useTaskProcessor';
 import {taskHighlighter} from '../Common/Helper';
@@ -110,8 +112,13 @@ const TaskItemDialog = () => {
       action: UPDATE_DATE_TASK,
     }),
     createOption({
+      icon: FileCopyOutlinedIcon,
+      text: t('dialog.copy.empty'),
+      action: DUPLICATE_EMPTY_TASK,
+    }),
+    createOption({
       icon: FileCopyIcon,
-      text: t('dialog.copy'),
+      text: t('dialog.copy.full'),
       action: DUPLICATE_TASK,
     }),
     createOption({
@@ -163,8 +170,7 @@ const TaskItemDialog = () => {
                   disableTypography
                   primary={
                     <Typography type="body2" style={{color: color}}>
-                      {' '}
-                      {text}{' '}
+                      {text}
                     </Typography>
                   }
                 />

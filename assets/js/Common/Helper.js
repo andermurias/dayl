@@ -11,3 +11,5 @@ export const getForcedTheme = () => {
 
 export const taskHighlighter = (description, classes) =>
   (description || '').replace(/([\w\s_\-\\\/]*:)/g, '<span class="' + classes + '">$1</span>');
+
+export const generateList = (length) => Object.keys(new Array(length).fill());

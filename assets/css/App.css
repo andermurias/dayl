@@ -1,10 +1,12 @@
 :root { /* CSS */
   --color-rich-black: rgba(1, 22, 39, 1);
   --color-baby-powder: rgba(253, 255, 252, 1);
+  --color-wild-sand: rgba(245, 245, 245, 1);
   --color-tiffany-blue: rgba(46, 196, 182, 1);
   --color-rose-madder: rgba(231, 29, 54, 1);
   --color-orange-peel: rgba(255, 159, 28, 1);
   --color-mine-shaft: rgba(32, 32, 32, 1);
+  --color-mine-shaft-lighter: rgba(51, 51, 51, 1);
 }
 
 body {

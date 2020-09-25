@@ -92,7 +92,7 @@ const Login = () => {
                   fullWidth
                   color="secondary"
                   startIcon={<Google />}
-                  size="large"
+                  size="medium"
                   onClick={renderPropos.onClick}
                   disabled={renderPropos.disabled}
                 >

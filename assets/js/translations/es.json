@@ -18,9 +18,9 @@
     "pending": "Pendientes"
   },
   "form": {
-    "description": "Descipción",
-    "start": "Inicio",
-    "end": "Fin",
+    "description": "¿Que has hecho?",
+    "start": "Desde",
+    "end": "Hasta",
     "done": "Finalizada",
     "edit": "Editar",
     "save": "Guardar"
@@ -34,7 +34,10 @@
       "done": "Marcar como finalizada",
       "pending": "Marcar como pendiente"
     },
-    "copy": "Crear una copia",
+    "copy": {
+      "full": "Crear un duplicado",
+      "empty": "Crear una copia vacía"
+    },
     "delete": "Eliminar",
     "date": "Seleccionar fecha de finalización"
   }

@@ -18,9 +18,9 @@
     "pending": "Pending"
   },
   "form": {
-    "description": "Description",
-    "start": "Start",
-    "end": "End",
+    "description": "What have you done?",
+    "start": "From",
+    "end": "To",
     "done": "Done",
     "edit": "Edit",
     "save": "Save"
@@ -34,7 +34,10 @@
       "done": "Mark as done",
       "pending": "Mark as pending"
     },
-    "copy": "Create a copy",
+    "copy": {
+      "full": "Create a duplicate",
+      "empty": "Create a clean copy"
+    },
     "delete": "Delete",
     "date": "Mark as done with date"
   }
