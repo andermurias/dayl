@@ -39,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 0),
   },
   paper: {
-    maxWidth: 800,
+    maxWidth: 1000,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
     background: 'transparent',
   },
   accordion: {
-    maxWidth: 800,
+    maxWidth: 1000,
     boxShadow: 'none',
     margin: `${theme.spacing(1)}px auto`,
     '&.Mui-expanded': {

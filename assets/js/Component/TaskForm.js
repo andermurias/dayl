@@ -16,7 +16,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
 
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     width: `${theme.spacing(5.25)}px`,
     height: `${theme.spacing(5.25)}px`,
   },
+  buttonIcon: {
+    margin: 0,
+  },
 }));
 
 const TaskForm = () => {
@@ -63,7 +66,7 @@ const TaskForm = () => {
 
   const {getTasksForDateAndSave} = useTaskApi();
 
-  const isSmallOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const isXSmallOrDown = useMediaQuery(theme.breakpoints.down('xs'));
 
   useEffect(() => {
     if (editTask) {
@@ -124,7 +127,7 @@ const TaskForm = () => {
   return (
     <Box m={0.5} className={classes.root}>
       <Grid container spacing={2} className={classes.form}>
-        <Grid container item xs={12} lg={7} justify="flex-start">
+        <Grid container item xs={12} sm={12} md={7} justify="flex-start">
           <input type="hidden" ref={taskIdRef} value={id} />
           <div className={classes.description}>
             <Checkbox
@@ -149,7 +152,7 @@ const TaskForm = () => {
           </div>
         </Grid>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <Grid container item xs={6} lg={2}>
+          <Grid container item xs={6} sm={5} md={2}>
             <TimePicker
               inputVariant="outlined"
               id="task-start"
@@ -163,7 +166,7 @@ const TaskForm = () => {
               autoOk
             />
           </Grid>
-          <Grid container item xs={6} lg={2}>
+          <Grid container item xs={6} sm={5} md={2}>
             <TimePicker
               inputVariant="outlined"
               id="task-end"
@@ -178,16 +181,18 @@ const TaskForm = () => {
             />
           </Grid>
         </MuiPickersUtilsProvider>
-        <Grid container item xs={12} lg={1} justify="flex-end">
-          {isSmallOrDown ? (
-            <Button fullWidth variant="outlined" color="secondary" onClick={submitTask}>
-              {editTask ? t('form.edit') : t('form.save')}
-            </Button>
-          ) : (
-            <IconButton className={classes.inputText} color="secondary" size="medium" onClick={submitTask}>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          )}
+        <Grid container item xs={12} sm={2} md={1}>
+          <Button
+            fullWidth
+            variant={!isXSmallOrDown ? 'contained' : 'outlined'}
+            color="secondary"
+            onClick={submitTask}
+            size="large"
+            classes={{endIcon: !isXSmallOrDown ? classes.buttonIcon : ''}}
+            endIcon={<ChevronRightIcon />}
+          >
+            {isXSmallOrDown ? (editTask ? t('form.edit') : t('form.save')) : ''}
+          </Button>
         </Grid>
       </Grid>
     </Box>
