@@ -27,7 +27,6 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import useTheme from '@material-ui/core/styles/useTheme';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -116,7 +115,6 @@ const DateTasks = () => {
       <Paper className={classes.paper} elevation={0}>
         <TaskListHeader currentDate={currentDate} />
       </Paper>
-      {/*<Divider/>*/}
       <Accordion defaultExpanded={false} classes={{root: classes.accordion}}>
         <AccordionSummary
           classes={{expandIcon: classes.acordionExpandIcon}}
@@ -139,7 +137,6 @@ const DateTasks = () => {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      {/*<Divider/>*/}
       <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
         <AccordionSummary
           classes={{expandIcon: classes.acordionExpandIcon}}
@@ -164,7 +161,6 @@ const DateTasks = () => {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      {/*<Divider/>*/}
       <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
         <AccordionSummary
           classes={{expandIcon: classes.acordionExpandIcon}}
