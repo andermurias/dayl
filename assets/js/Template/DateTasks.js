@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   accordion: {
     maxWidth: 800,
     boxShadow: 'none',
-    margin: `auto`,
+    margin: `${theme.spacing(1)}px auto`,
     '&.Mui-expanded': {
       margin: `${theme.spacing(1)}px auto`,
     },
