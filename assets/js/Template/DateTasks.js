@@ -27,6 +27,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import useTheme from '@material-ui/core/styles/useTheme';
+import TasksTable from "../Component/TasksTable";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -152,11 +153,12 @@ const DateTasks = () => {
         <AccordionDetails>
           <Grid container spacing={1}>
             <Grid container item xs={12}>
-              <List className={classes.list}>
-                {pendingTasks.map((task, i) => (
-                  <TaskListItem done={false} task={task} key={task.id} />
-                ))}
-              </List>
+              <TasksTable tasks={pendingTasks} />
+              {/*<List className={classes.list}>*/}
+              {/*  {pendingTasks.map((task, i) => (*/}
+              {/*    <TaskListItem done={false} task={task} key={task.id} />*/}
+              {/*  ))}*/}
+              {/*</List>*/}
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -185,11 +187,13 @@ const DateTasks = () => {
         <AccordionDetails>
           <Grid container spacing={1}>
             <Grid container item xs={12}>
-              <List className={classes.list}>
-                {doneTasks.map((task, i) => (
-                  <TaskListItem done={true} task={task} key={task.id} />
-                ))}
-              </List>
+              <TasksTable tasks={doneTasks} done={true} />
+
+              {/*<List className={classes.list}>*/}
+              {/*  {doneTasks.map((task, i) => (*/}
+              {/*    <TaskListItem done={true} task={task} key={task.id} />*/}
+              {/*  ))}*/}
+              {/*</List>*/}
             </Grid>
           </Grid>
         </AccordionDetails>

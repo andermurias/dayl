@@ -86,15 +86,15 @@ const Login = () => {
           <Grid container item justify="center">
             <GoogleLogin
               clientId={process.env.GOOGLE_API_KEY}
-              render={(renderPropos) => (
+              render={(renderProps) => (
                 <Button
                   variant="outlined"
                   fullWidth
                   color="secondary"
                   startIcon={<Google />}
                   size="medium"
-                  onClick={renderPropos.onClick}
-                  disabled={renderPropos.disabled}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
                 >
                   {t('login.google')}
                 </Button>
