@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
@@ -19,7 +20,6 @@ import {AppContext} from '../_context/AppContext';
 import logo from '../../static/img/logo/dayl_logo_full.svg';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
 import {useTaskApi} from '../_hook/useTaskApi';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {

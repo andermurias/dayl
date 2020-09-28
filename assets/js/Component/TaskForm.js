@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexGrow: 1,
-    //    paddingLeft: `${theme.spacing(0.5)}px`,
   },
   checkboxParent: {
     width: `${theme.spacing(3)}px!important`,

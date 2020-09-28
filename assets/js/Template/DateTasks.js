@@ -5,12 +5,6 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 
 import {makeStyles} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
@@ -18,16 +12,12 @@ import {DoneTaskContext} from '../_context/DoneTaskContext';
 import {PendingTaskContext} from '../_context/PendingTaskContext';
 import {AppContext} from '../_context/AppContext';
 
-import TaskListItem from '../Component/TaskListItem';
 import TaskForm from '../Component/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader';
 import TaskItemDialog from '../Component/TaskItemDialog';
 
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import useTheme from '@material-ui/core/styles/useTheme';
 import TasksTable from '../Component/TasksTable';
+import AccordionComponent from '../Component/AccordionComponent';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -38,36 +28,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
     padding: theme.spacing(0, 0),
-  },
-  paper: {
-    maxWidth: 1000,
-    margin: `${theme.spacing(1)}px auto`,
-    padding: theme.spacing(2),
-    background: 'transparent',
-  },
-  accordion: {
-    maxWidth: 1000,
-    boxShadow: 'none',
-    //    backgroundColor: theme.palette.type === "dark" ? "transparent" : "auto",
-    margin: `${theme.spacing(1)}px auto`,
-    '&.Mui-expanded': {
-      margin: `${theme.spacing(1)}px auto`,
-    },
-    '&:before': {
-      display: 'none',
-    },
-  },
-  accordionExpandIcon: {},
-  dividerFullWidth: {
-    textTransform: 'uppercase',
-    textAlign: 'left',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  dividerFullWidthRight: {
-    margin: `5px ${theme.spacing(2)}px 0 0`,
-    textTransform: 'uppercase',
-    textAlign: 'right',
   },
 }));
 
@@ -93,6 +53,8 @@ const DateTasks = () => {
   const [pendingTasks] = useContext(PendingTaskContext);
   const {setLoading, setCurrentDate, editTask} = useContext(AppContext);
 
+  const [taskFormOpen, setTaskFormOpen] = useState(false);
+
   const {getTasksForDateAndSave} = useTaskApi();
 
   const query = useParams();
@@ -110,80 +72,25 @@ const DateTasks = () => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} elevation={0}>
-        <TaskListHeader currentDate={currentDate} />
-      </Paper>
-      <Accordion defaultExpanded={false} classes={{root: classes.accordion}}>
-        <AccordionSummary
-          classes={{expandIcon: classes.acordionExpandIcon}}
-          expandIcon={<ExpandMoreIcon />}
-          aria-label="Expand"
-          aria-controls="new-task-content"
-          id="new-task-header"
-        >
-          <Grid container item xs={6}>
-            <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-              {editTask ? t('tasks.edit') : t('tasks.new')}
-            </Typography>
-          </Grid>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container spacing={1}>
-            <Grid container item xs={12}>
-              <TaskForm />
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
-        <AccordionSummary
-          classes={{expandIcon: classes.accordionExpandIcon}}
-          expandIcon={<ExpandMoreIcon />}
-          aria-label="Expand"
-          aria-controls="done-task-content"
-          id="done-task-header"
-        >
-          <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-            {t('tasks.pending')} ({pendingTasks.length})
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container spacing={1}>
-            <Grid container item xs={12}>
-              <TasksTable tasks={pendingTasks} />
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
-        <AccordionSummary
-          classes={{expandIcon: classes.acordionExpandIcon}}
-          expandIcon={<ExpandMoreIcon />}
-          aria-label="Expand"
-          aria-controls="pending-task-content"
-          id="pending-task-header"
-        >
-          <Grid container spacing={1}>
-            <Grid container item xs={6}>
-              <Typography className={classes.dividerFullWidth} display="block" variant="overline">
-                {t('tasks.done')} ({doneTasks.length})
-              </Typography>
-            </Grid>
-            <Grid container item xs={6} justify="flex-end">
-              <Typography className={classes.dividerFullWidthRight} display="block" variant="overline">
-                {spendTimeFormat}
-              </Typography>
-            </Grid>
-          </Grid>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container spacing={1}>
-            <Grid container item xs={12}>
-              <TasksTable tasks={doneTasks} done={true} />
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
+      <TaskListHeader currentDate={currentDate} />
+      <AccordionComponent
+        expanded={!!editTask || taskFormOpen}
+        onChange={() => setTaskFormOpen(!taskFormOpen)}
+        defaultExpanded={false}
+        title={editTask ? t('tasks.edit') : t('tasks.new')}
+      >
+        <TaskForm />
+      </AccordionComponent>
+      <AccordionComponent defaultExpanded={true} title={t('tasks.pending') + '(' + pendingTasks.length + ')'}>
+        <TasksTable tasks={pendingTasks} />
+      </AccordionComponent>
+      <AccordionComponent
+        defaultExpanded={true}
+        title={t('tasks.done') + '(' + doneTasks.length + ')'}
+        sideTitle={spendTimeFormat}
+      >
+        <TasksTable done={true} tasks={doneTasks} />
+      </AccordionComponent>
       <TaskItemDialog />
     </div>
   );

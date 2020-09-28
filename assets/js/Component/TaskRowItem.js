@@ -1,24 +1,24 @@
 import React, {useContext} from 'react';
 
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+import moment from 'moment';
+
+import {makeStyles} from '@material-ui/core/styles';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 
 import MoreVertIccon from '@material-ui/icons/MoreVert';
-
-import moment from 'moment';
 
 import {AppContext} from '../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 import {getDiffTime, taskHighlighter} from '../Common/Helper';
 import WrapSkeletonOnLoading from '../_hoc/WrapSkeletonOnLoading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Hidden from '@material-ui/core/Hidden';
-import Table from '@material-ui/core/Table';
 
 const timeCellWidth = 100;
 const timeCellCount = 3;
@@ -29,7 +29,6 @@ const checkboxCellCount = 1;
 
 const getFixedCellsSize = () =>
   timeCellWidth * timeCellCount + actionCellWidth * actionCellCount + checkboxCellWidth * checkboxCellCount;
-const getFixedCellsSizeForMd = () => actionCellWidth * actionCellCount + checkboxCellWidth * checkboxCellCount;
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -147,6 +146,19 @@ const TaskListItem = ({done, task}) => {
       </TableCell>
     </TableRow>
   );
+};
+
+TaskListItem.propTypes = {
+  done: PropTypes.bool,
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      date: PropTypes.string,
+      start: PropTypes.string,
+      end: PropTypes.string,
+      id: PropTypes.number,
+    }),
+  ),
 };
 
 export default React.memo(TaskListItem);

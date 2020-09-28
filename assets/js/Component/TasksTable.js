@@ -1,5 +1,5 @@
 import React from 'react';
-import Hidden from '@material-ui/core/Hidden';
+import PropTypes from 'prop-types';
 
 import {useTranslation} from 'react-i18next';
 
@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -77,6 +78,11 @@ const TasksTable = ({done, tasks}) => {
       {t('table.noTasks')}
     </Typography>
   );
+};
+
+TasksTable.propTypes = {
+  done: PropTypes.bool,
+  tasks: PropTypes.array,
 };
 
 export default React.memo(TasksTable);

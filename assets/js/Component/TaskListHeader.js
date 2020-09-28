@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 
+import PropTypes from 'prop-types';
 import {Link, useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import classNames from 'classnames/bind';
@@ -14,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Paper from '@material-ui/core/Paper';
 
 import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
@@ -56,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
   datePicker: {
     display: 'none',
   },
+  paper: {
+    maxWidth: 1000,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+    background: 'transparent',
+  },
 }));
 
 const TaskListHeader = ({currentDate}) => {
@@ -77,7 +85,7 @@ const TaskListHeader = ({currentDate}) => {
     history.push('/tasks/' + moment(date).format('YYYY-MM-DD'));
   };
   return (
-    <>
+    <Paper className={classes.paper} elevation={0}>
       <Grid container spacing={1}>
         <Grid container item xs={12}>
           <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
@@ -133,8 +141,12 @@ const TaskListHeader = ({currentDate}) => {
           </Grid>
         </Box>
       </Hidden>
-    </>
+    </Paper>
   );
+};
+
+TaskListHeader.propTypes = {
+  currentDate: PropTypes.objectOf(moment),
 };
 
 export default React.memo(TaskListHeader);

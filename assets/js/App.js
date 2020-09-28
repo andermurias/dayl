@@ -6,6 +6,8 @@ import {AppProvider} from './_context/AppContext';
 
 import RoutedApp from './RoutedApp';
 
+import Empty from './Component/Empty';
+
 const Contextualize = ({children}) => {
   return [AppProvider, DoneTaskProvider, PendingTaskProvider]
     .reverse()
@@ -14,7 +16,7 @@ const Contextualize = ({children}) => {
 
 export default function App() {
   return (
-    <Suspense fallback="loading">
+    <Suspense fallback={<Empty />}>
       <Contextualize>
         <RoutedApp />
       </Contextualize>
