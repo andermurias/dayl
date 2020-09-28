@@ -69,16 +69,6 @@ const Footer = () => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-start'} alignItems="center">
-          <a className={classes.logoContainer} href="/">
-            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
-          </a>
-        </Grid>
-        <Grid container item xs={12} md={4} justify="center" alignItems="center">
-          <Typography variant="subtitle2" component={Link} target="_blank" href="https://andermurias.me">
-            Crafted by @andermurias
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-end'} alignItems="center">
           <IconButton
             color="primary"
             aria-label="Theme"
@@ -114,6 +104,16 @@ const Footer = () => {
           ) : (
             ''
           )}
+        </Grid>
+        <Grid container item xs={12} md={4} justify="center" alignItems="center">
+          <a className={classes.logoContainer} href="/">
+            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
+          </a>
+        </Grid>
+        <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-end'} alignItems="center">
+          <Typography variant="subtitle2" component={Link} target="_blank" href="https://andermurias.me">
+            Crafted by @andermurias
+          </Typography>
         </Grid>
       </Grid>
     </div>

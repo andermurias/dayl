@@ -1,6 +1,6 @@
 export const colors = {
   richBlack: '#011627',
-  babyPowder: '#fdfffc',
+  gallery: '#EBEBEB',
   wildSand: '#f5f5f5',
   tiffanyBlue: '#2ec4b6',
   roseMadder: '#e71d36',

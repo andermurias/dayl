@@ -27,7 +27,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import useTheme from '@material-ui/core/styles/useTheme';
-import TasksTable from "../Component/TasksTable";
+import TasksTable from '../Component/TasksTable';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   accordion: {
     maxWidth: 1000,
     boxShadow: 'none',
+    //    backgroundColor: theme.palette.type === "dark" ? "transparent" : "auto",
     margin: `${theme.spacing(1)}px auto`,
     '&.Mui-expanded': {
       margin: `${theme.spacing(1)}px auto`,
@@ -56,11 +57,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  acordionExpandIcon: {
-    marginRight: `${theme.spacing(0.5)}px`,
-  },
+  accordionExpandIcon: {},
   dividerFullWidth: {
-    margin: `5px 0 0 ${theme.spacing(2)}px`,
     textTransform: 'uppercase',
     textAlign: 'left',
     display: 'flex',
@@ -86,7 +84,6 @@ const getTotalTaskDuration = (tasks) => {
 
 const DateTasks = () => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const {t, i18n} = useTranslation();
 
@@ -140,7 +137,7 @@ const DateTasks = () => {
       </Accordion>
       <Accordion defaultExpanded={true} classes={{root: classes.accordion}}>
         <AccordionSummary
-          classes={{expandIcon: classes.acordionExpandIcon}}
+          classes={{expandIcon: classes.accordionExpandIcon}}
           expandIcon={<ExpandMoreIcon />}
           aria-label="Expand"
           aria-controls="done-task-content"
@@ -154,11 +151,6 @@ const DateTasks = () => {
           <Grid container spacing={1}>
             <Grid container item xs={12}>
               <TasksTable tasks={pendingTasks} />
-              {/*<List className={classes.list}>*/}
-              {/*  {pendingTasks.map((task, i) => (*/}
-              {/*    <TaskListItem done={false} task={task} key={task.id} />*/}
-              {/*  ))}*/}
-              {/*</List>*/}
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -188,12 +180,6 @@ const DateTasks = () => {
           <Grid container spacing={1}>
             <Grid container item xs={12}>
               <TasksTable tasks={doneTasks} done={true} />
-
-              {/*<List className={classes.list}>*/}
-              {/*  {doneTasks.map((task, i) => (*/}
-              {/*    <TaskListItem done={true} task={task} key={task.id} />*/}
-              {/*  ))}*/}
-              {/*</List>*/}
             </Grid>
           </Grid>
         </AccordionDetails>

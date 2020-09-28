@@ -40,5 +40,12 @@
     },
     "delete": "Eliminar",
     "date": "Seleccionar fecha de finalización"
+  },
+  "table": {
+    "description": "Descripción",
+    "from": "Desde",
+    "to": "Hasta",
+    "duration": "Duración",
+    "noTasks": "No hay ninguna tarea"
   }
 }

@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   subtitle: {
     width: '100%',
     textTransform: 'uppercase',
-    //    fontSize: '1rem',
     lineHeight: 1.5,
     '&:hover': {
       cursor: 'pointer',
@@ -78,51 +77,48 @@ const TaskListHeader = ({currentDate}) => {
     history.push('/tasks/' + moment(date).format('YYYY-MM-DD'));
   };
   return (
-    <Box>
-      <Box mx={1}>
-        <Grid container spacing={1}>
-          <Grid container item xs={12}>
-            <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
-              {currentDate.format('dddd')}
-            </Typography>
-          </Grid>
-
-          <Grid container item xs={8} sm={10} alignItems="center">
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DatePicker
-                autoOk
-                label="Date Picker"
-                showTodayButton={true}
-                todayLabel={t('tasks.today')}
-                cancelLabel={t('tasks.cancel')}
-                okLabel={t('tasks.ok')}
-                value={selectedDate}
-                open={pickerStatus}
-                onOpen={() => setPickerStatus(true)}
-                onAccept={() => setPickerStatus(false)}
-                onClose={() => setPickerStatus(false)}
-                onChange={onChangeDate}
-                TextFieldComponent={() => null}
-              />
-            </MuiPickersUtilsProvider>
-            <Typography variant="h6" component="h2" className={classes.title} onClick={() => setPickerStatus(true)}>
-              <span className={classes.titleSecondary}>({moment(currentDate).format(isSmallOrUp ? 'LL' : 'L')})</span>
-            </Typography>
-          </Grid>
-          <Grid container item xs={2} sm={1}>
-            <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
-              <ChevronLeftIcon fontSize="large" />
-            </IconButton>
-          </Grid>
-          <Grid container item xs={2} sm={1}>
-            <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
-              <ChevronRightIcon fontSize="large" />
-            </IconButton>
-          </Grid>
+    <>
+      <Grid container spacing={1}>
+        <Grid container item xs={12}>
+          <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
+            {currentDate.format('dddd')}
+          </Typography>
         </Grid>
-      </Box>
+        <Grid container item xs={8} sm={10} alignItems="center">
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <DatePicker
+              autoOk
+              label="Date Picker"
+              showTodayButton={true}
+              todayLabel={t('tasks.today')}
+              cancelLabel={t('tasks.cancel')}
+              okLabel={t('tasks.ok')}
+              value={selectedDate}
+              open={pickerStatus}
+              onOpen={() => setPickerStatus(true)}
+              onAccept={() => setPickerStatus(false)}
+              onClose={() => setPickerStatus(false)}
+              onChange={onChangeDate}
+              TextFieldComponent={() => null}
+            />
+          </MuiPickersUtilsProvider>
+          <Typography variant="h6" component="h2" className={classes.title} onClick={() => setPickerStatus(true)}>
+            <span className={classes.titleSecondary}>({moment(currentDate).format(isSmallOrUp ? 'LL' : 'L')})</span>
+          </Typography>
+        </Grid>
+        <Grid container item xs={2} sm={1}>
+          <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
+            <ChevronLeftIcon fontSize="large" />
+          </IconButton>
+        </Grid>
+        <Grid container item xs={2} sm={1}>
+          <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
+            <ChevronRightIcon fontSize="large" />
+          </IconButton>
+        </Grid>
+      </Grid>
       <Hidden xsDown>
-        <Box m={2}>
+        <Box my={2}>
           <Grid container spacing={1}>
             <Grid container item sm={6} xs={12}>
               <Typography variant="overline" component="h3" className={classNames(classes.subtitle, classes.left)}>
@@ -137,7 +133,7 @@ const TaskListHeader = ({currentDate}) => {
           </Grid>
         </Box>
       </Hidden>
-    </Box>
+    </>
   );
 };
 

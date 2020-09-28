@@ -1,6 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
+import Hidden from '@material-ui/core/Hidden';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {useTranslation} from 'react-i18next';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,13 +9,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import MoreVertIccon from '@material-ui/icons/MoreVert';
+import Typography from '@material-ui/core/Typography';
 
-import {AppContext} from '../_context/AppContext';
-import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
-import {taskHighlighter} from '../Common/Helper';
-import WrapSkeletonOnLoading from '../_hoc/WrapSkeletonOnLoading';
-import TaskRowItem from "./TaskRowItem";
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import TaskRowItem from './TaskRowItem';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -25,35 +25,57 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
   },
   table: {
-    width: '100%'
-  }
+    width: '100%',
+  },
+  tableHead: {
+    opacity: '0.6',
+  },
+  noTasks: {
+    width: '100%',
+  },
 }));
 
 const TasksTable = ({done, tasks}) => {
   const classes = useStyles();
+  const {t} = useTranslation();
 
-  const {setOptionTask} = useContext(AppContext);
+  const theme = useTheme();
+  const isMdOrUp = useMediaQuery(theme.breakpoints.up('md'));
 
-  const {processTask} = useTaskProcessor();
-
-  return (
+  return tasks.length ? (
     <TableContainer>
-      <Table className={classes.table} aria-label="simple table" size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell> </TableCell>
-            <TableCell align="left">Description</TableCell>
-            <TableCell align="right">From</TableCell>
-            <TableCell align="right">To</TableCell>
-            <TableCell align="right">Time</TableCell>
-            <TableCell align="right"> </TableCell>
-          </TableRow>
-        </TableHead>
+      <Table className={classes.table} aria-label="simple table" size={isMdOrUp ? 'small' : 'medium'}>
+        <Hidden smDown>
+          <TableHead classes={{root: classes.tableHead}}>
+            <TableRow>
+              <TableCell> </TableCell>
+              <TableCell align="left">
+                <Typography variant="overline">{t('table.description')}</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography variant="overline">{t('table.from')}</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography variant="overline">{t('table.to')}</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography variant="overline">{t('table.duration')}</Typography>
+              </TableCell>
+              <TableCell align="right"> </TableCell>
+            </TableRow>
+          </TableHead>
+        </Hidden>
         <TableBody>
-          {tasks.map(task => <TaskRowItem done={done} task={task}/>)}
+          {tasks.map((task, i) => (
+            <TaskRowItem done={done} task={task} key={i} />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <Typography variant="overline" align="center" classes={{root: classes.noTasks}}>
+      {t('table.noTasks')}
+    </Typography>
   );
 };
 

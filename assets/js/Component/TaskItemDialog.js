@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
-import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 
 import List from '@material-ui/core/List';
