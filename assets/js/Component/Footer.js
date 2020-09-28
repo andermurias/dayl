@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
@@ -19,7 +20,6 @@ import {AppContext} from '../_context/AppContext';
 import logo from '../../static/img/logo/dayl_logo_full.svg';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
 import {useTaskApi} from '../_hook/useTaskApi';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {
@@ -69,16 +69,6 @@ const Footer = () => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-start'} alignItems="center">
-          <a className={classes.logoContainer} href="/">
-            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
-          </a>
-        </Grid>
-        <Grid container item xs={12} md={4} justify="center" alignItems="center">
-          <Typography variant="subtitle2" component={Link} target="_blank" href="https://andermurias.me">
-            Crafted by @andermurias
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-end'} alignItems="center">
           <IconButton
             color="primary"
             aria-label="Theme"
@@ -114,6 +104,16 @@ const Footer = () => {
           ) : (
             ''
           )}
+        </Grid>
+        <Grid container item xs={12} md={4} justify="center" alignItems="center">
+          <a className={classes.logoContainer} href="/">
+            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
+          </a>
+        </Grid>
+        <Grid container item xs={12} md={4} justify={isMediumOrDown ? 'center' : 'flex-end'} alignItems="center">
+          <Typography variant="subtitle2" component={Link} target="_blank" href="https://andermurias.me">
+            Crafted by @andermurias
+          </Typography>
         </Grid>
       </Grid>
     </div>

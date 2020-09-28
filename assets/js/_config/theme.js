@@ -2,6 +2,7 @@ import {colors} from '../Common/Colors';
 
 export const theme = (prefersDarkMode) => ({
   typography: {
+    body2: {},
     h1: {
       fontFamily: '"Montserrat"',
     },
@@ -37,14 +38,15 @@ export const theme = (prefersDarkMode) => ({
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
     background: {
-      default: prefersDarkMode ? colors.mineShaft : colors.wildSand,
-      paper: prefersDarkMode ? colors.mineShaftLighter : colors.babyPowder,
+      default: prefersDarkMode ? colors.mineShaft : colors.gallery,
+      paper: prefersDarkMode ? colors.mineShaftLighter : colors.wildSand,
     },
     text: {
-      primary: prefersDarkMode ? colors.babyPowder : colors.richBlack,
+      primary: prefersDarkMode ? colors.gallery : colors.richBlack,
+      secondary: prefersDarkMode ? colors.gallery : colors.richBlack,
     },
     primary: {
-      main: prefersDarkMode ? colors.babyPowder : colors.richBlack,
+      main: prefersDarkMode ? colors.wildSand : colors.richBlack,
     },
     secondary: {
       main: colors.orangePeel,

@@ -40,5 +40,12 @@
     },
     "delete": "Delete",
     "date": "Mark as done with date"
+  },
+  "table": {
+    "description": "Description",
+    "from": "From",
+    "to": "To",
+    "duration": "Duration",
+    "noTasks": "There are no tasks"
   }
 }

@@ -6,7 +6,6 @@ import {useTranslation} from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
@@ -18,7 +17,6 @@ import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import {useTaskApi} from '../_hook/useTaskApi';
 import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 
 import {AppContext} from '../_context/AppContext';
@@ -34,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexGrow: 1,
-    //    paddingLeft: `${theme.spacing(0.5)}px`,
   },
   checkboxParent: {
-    padding: `${theme.spacing(1)}px`,
+    width: `${theme.spacing(3)}px!important`,
+    padding: `0 ${theme.spacing(1.5)}px 0 ${theme.spacing(2)}px`,
   },
   checkbox: {
     marginRight: `${theme.spacing(3)}px`,
@@ -63,8 +61,6 @@ const TaskForm = () => {
   const [description, setDescription] = useState('');
   const [done, setDone] = useState(false);
   const [id, setId] = useState('');
-
-  const {getTasksForDateAndSave} = useTaskApi();
 
   const isXSmallOrDown = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -125,7 +121,7 @@ const TaskForm = () => {
   };
 
   return (
-    <Box m={0.5} className={classes.root}>
+    <Box m={0} className={classes.root}>
       <Grid container spacing={2} className={classes.form}>
         <Grid container item xs={12} sm={12} md={7} justify="flex-start">
           <input type="hidden" ref={taskIdRef} value={id} />
@@ -184,6 +180,7 @@ const TaskForm = () => {
         <Grid container item xs={12} sm={2} md={1}>
           <Button
             fullWidth
+            disableElevation
             variant={!isXSmallOrDown ? 'contained' : 'outlined'}
             color="secondary"
             onClick={submitTask}
