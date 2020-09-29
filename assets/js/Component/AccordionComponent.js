@@ -13,9 +13,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
-    maxWidth: 1000,
     boxShadow: 'none',
-    margin: `${theme.spacing(1)}px auto`,
+    background: 'transparent',
     '&.Mui-expanded': {
       margin: `${theme.spacing(1)}px auto`,
     },
@@ -23,17 +22,27 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  accordionExpandIcon: {},
+  accordionExpandIcon: {
+    order: -1,
+    padding: `0 ${theme.spacing(0.5)}px`,
+    marginRight: 0,
+  },
   dividerFullWidth: {
+    fontWeight: 'bold',
     textTransform: 'uppercase',
     textAlign: 'left',
     display: 'flex',
     alignItems: 'center',
   },
   dividerFullWidthRight: {
+    fontWeight: 'bold',
     margin: `5px ${theme.spacing(2)}px 0 0`,
     textTransform: 'uppercase',
     textAlign: 'right',
+  },
+  accordionSummaryContent: {
+    marginLeft: 0,
+    paddingLeft: `${theme.spacing(3)}px`,
   },
 }));
 
@@ -43,7 +52,7 @@ const AccordionComponent = ({title, sideTitle, children, ...rest}) => {
   return (
     <Accordion classes={{root: classes.accordion}} {...rest}>
       <AccordionSummary
-        classes={{expandIcon: classes.accordionExpandIcon}}
+        classes={{content: classes.accordionSummaryContent, expandIcon: classes.accordionExpandIcon}}
         expandIcon={<ExpandMoreIcon />}
         aria-label="Expand"
         aria-controls="new-task-content"

@@ -1,4 +1,5 @@
 import {colors} from '../Common/Colors';
+import {fade} from '@material-ui/core';
 
 export const theme = (prefersDarkMode) => ({
   typography: {
@@ -31,6 +32,19 @@ export const theme = (prefersDarkMode) => ({
         '&:-webkit-autofill': {
           WebkitBoxShadow: '0 0 0 100px #424242 inset!important',
           WebkitTextFillColor: '#fff',
+        },
+      },
+    },
+    MuiTableRow: {
+      root: {
+        '& td': {
+          borderColor: prefersDarkMode ? fade(colors.gallery, 0.05) : fade(colors.mineShaft, 0.05),
+        },
+        '& th': {
+          borderColor: prefersDarkMode ? fade(colors.gallery, 0.05) : fade(colors.mineShaft, 0.05),
+        },
+        '&:last-child td': {
+          borderBottom: 0,
         },
       },
     },

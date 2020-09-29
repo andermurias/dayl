@@ -5,6 +5,8 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 
 import {makeStyles} from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
@@ -28,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
     padding: theme.spacing(0, 0),
+  },
+  paper: {
+    maxWidth: 1000,
+    margin: `${theme.spacing(1)}px auto`,
   },
 }));
 
@@ -73,24 +79,28 @@ const DateTasks = () => {
   return (
     <div className={classes.root}>
       <TaskListHeader currentDate={currentDate} />
-      <AccordionComponent
-        expanded={!!editTask || taskFormOpen}
-        onChange={() => setTaskFormOpen(!taskFormOpen)}
-        defaultExpanded={false}
-        title={editTask ? t('tasks.edit') : t('tasks.new')}
-      >
-        <TaskForm />
-      </AccordionComponent>
-      <AccordionComponent defaultExpanded={true} title={t('tasks.pending') + '(' + pendingTasks.length + ')'}>
-        <TasksTable tasks={pendingTasks} />
-      </AccordionComponent>
-      <AccordionComponent
-        defaultExpanded={true}
-        title={t('tasks.done') + '(' + doneTasks.length + ')'}
-        sideTitle={spendTimeFormat}
-      >
-        <TasksTable done={true} tasks={doneTasks} />
-      </AccordionComponent>
+      <Paper classes={{root: classes.paper}}>
+        <AccordionComponent
+          expanded={!!editTask || taskFormOpen}
+          onChange={() => setTaskFormOpen(!taskFormOpen)}
+          defaultExpanded={false}
+          title={editTask ? t('tasks.edit') : t('tasks.new')}
+        >
+          <TaskForm />
+        </AccordionComponent>
+        <Divider />
+        <AccordionComponent defaultExpanded={true} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'}>
+          <TasksTable tasks={pendingTasks} />
+        </AccordionComponent>
+        <Divider />
+        <AccordionComponent
+          defaultExpanded={true}
+          title={t('tasks.done') + ' (' + doneTasks.length + ')'}
+          sideTitle={spendTimeFormat}
+        >
+          <TasksTable done={true} tasks={doneTasks} />
+        </AccordionComponent>
+      </Paper>
       <TaskItemDialog />
     </div>
   );

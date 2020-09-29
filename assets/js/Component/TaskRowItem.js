@@ -20,15 +20,12 @@ import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
 import {getDiffTime, taskHighlighter} from '../Common/Helper';
 import WrapSkeletonOnLoading from '../_hoc/WrapSkeletonOnLoading';
 
-const timeCellWidth = 100;
-const timeCellCount = 3;
+const timeCellWidth = 150;
+const durationCellWidth = 80;
 const actionCellWidth = 80;
-const actionCellCount = 1;
 const checkboxCellWidth = 80;
-const checkboxCellCount = 1;
 
-const getFixedCellsSize = () =>
-  timeCellWidth * timeCellCount + actionCellWidth * actionCellCount + checkboxCellWidth * checkboxCellCount;
+const getFixedCellsSize = () => timeCellWidth * timeCellWidth + durationCellWidth + actionCellWidth + checkboxCellWidth;
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -52,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
   },
   timeCell: {
     width: timeCellWidth,
+  },
+  timeCellText: {
+    opacity: 0.5,
+  },
+  durationCell: {
+    width: durationCellWidth,
   },
   descriptionCell: {
     width: 'calc(100% - ' + getFixedCellsSize() + 'px)',
@@ -115,21 +118,14 @@ const TaskListItem = ({done, task}) => {
           onClick={() => processTask(UPDATE_STATUS_TASK, task)}
         >
           <WrapSkeletonOnLoading>
-            <Typography variant="body2">{task.start || '-'}</Typography>
+            <Typography variant="body2" classes={{root: classes.timeCellText}}>
+              {(task.start && task.start + ' - ' + task.end) || '-'}
+            </Typography>
           </WrapSkeletonOnLoading>
         </TableCell>
         <TableCell
           align="right"
-          classes={{root: classes.timeCell}}
-          onClick={() => processTask(UPDATE_STATUS_TASK, task)}
-        >
-          <WrapSkeletonOnLoading>
-            <Typography variant="body2">{task.end || '-'}</Typography>
-          </WrapSkeletonOnLoading>
-        </TableCell>
-        <TableCell
-          align="right"
-          classes={{root: classes.timeCell}}
+          classes={{root: classes.durationCell}}
           onClick={() => processTask(UPDATE_STATUS_TASK, task)}
         >
           <WrapSkeletonOnLoading>

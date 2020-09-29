@@ -5,19 +5,14 @@ import {useTranslation} from 'react-i18next';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
-
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import TaskRowItem from './TaskRowItem';
+import EmptyTasks from './EmptyTasks';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   listItem: {
     paddingRight: 95,
   },
@@ -28,11 +23,9 @@ const useStyles = makeStyles((theme) => ({
   table: {
     width: '100%',
   },
-  tableHead: {
+  tableHead: {},
+  tableHeadElement: {
     opacity: '0.6',
-  },
-  noTasks: {
-    width: '100%',
   },
 }));
 
@@ -46,26 +39,6 @@ const TasksTable = ({done, tasks}) => {
   return tasks.length ? (
     <TableContainer>
       <Table className={classes.table} aria-label="simple table" size={isMdOrUp ? 'small' : 'medium'}>
-        <Hidden smDown>
-          <TableHead classes={{root: classes.tableHead}}>
-            <TableRow>
-              <TableCell> </TableCell>
-              <TableCell align="left">
-                <Typography variant="overline">{t('table.description')}</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography variant="overline">{t('table.from')}</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography variant="overline">{t('table.to')}</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography variant="overline">{t('table.duration')}</Typography>
-              </TableCell>
-              <TableCell align="right"> </TableCell>
-            </TableRow>
-          </TableHead>
-        </Hidden>
         <TableBody>
           {tasks.map((task, i) => (
             <TaskRowItem done={done} task={task} key={i} />
@@ -74,9 +47,7 @@ const TasksTable = ({done, tasks}) => {
       </Table>
     </TableContainer>
   ) : (
-    <Typography variant="overline" align="center" classes={{root: classes.noTasks}}>
-      {t('table.noTasks')}
-    </Typography>
+    <EmptyTasks />
   );
 };
 

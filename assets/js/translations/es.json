@@ -43,9 +43,8 @@
   },
   "table": {
     "description": "Descripción",
-    "from": "Desde",
-    "to": "Hasta",
+    "time": "Tiempo",
     "duration": "Duración",
-    "noTasks": "No hay ninguna tarea"
+    "noTasks": "Parece que no tienes ninguna tarea ¡Agrega algunas!"
   }
 }

@@ -43,9 +43,8 @@
   },
   "table": {
     "description": "Description",
-    "from": "From",
-    "to": "To",
+    "time": "Time",
     "duration": "Duration",
-    "noTasks": "There are no tasks"
+    "noTasks": "Seems like you don't have any task, Add some!"
   }
 }

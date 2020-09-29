@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `0 ${theme.spacing(1.5)}px 0 ${theme.spacing(2)}px`,
   },
   checkbox: {
-    marginRight: `${theme.spacing(3)}px`,
+    marginRight: `${theme.spacing(3.5)}px`,
     width: `${theme.spacing(5.25)}px`,
     height: `${theme.spacing(5.25)}px`,
   },
