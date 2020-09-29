@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Common\Helper;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Exclude;
@@ -11,6 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
+ * @ORM\Table(indexes={@ORM\Index(columns={"description"}, flags={"fulltext"})})
  */
 class Task
 {
@@ -58,17 +58,14 @@ class Task
     /**
      * @VirtualProperty("description")
      */
-    public function getDescription(bool $raw = false): ?string
+    public function getDescription(): ?string
     {
-        $raw = 'true' === $_ENV['ENCRYPT'] ? $raw : true;
-
-        return $raw ? $this->description : Helper::decrypt($this->description);
+        return $this->description;
     }
 
-    public function setDescription(string $description, bool $raw = false): self
+    public function setDescription(string $description): self
     {
-        $raw = 'true' === $_ENV['ENCRYPT'] ? $raw : true;
-        $this->description = $raw ? $description : Helper::encrypt($description);
+        $this->description = $description;
 
         return $this;
     }

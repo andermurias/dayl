@@ -42,4 +42,33 @@ class TaskRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    private function searchQueryByDescription(UserInterface $user, string $search)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('MATCH_AGAINST(t.description) AGAINST(:searchterm boolean) > 0')
+            ->setParameter('searchterm', $search)
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user->getId())
+            ->addOrderBy('t.date', 'DESC')
+            ->addOrderBy('t.start', 'DESC');
+    }
+
+    public function searchByDescription(UserInterface $user, string $search, int $page, int $results = 30)
+    {
+        $queryBuilder = $this->searchQueryByDescription($user, $search)
+            ->setMaxResults($results)
+            ->setFirstResult(($page - 1) * $results);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function searchByDescriptionCount(UserInterface $user, string $search)
+    {
+        return $this
+            ->searchQueryByDescription($user, $search)
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

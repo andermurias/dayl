@@ -324,4 +324,67 @@ class ApiTaskController extends AbstractController
 
         return $response;
     }
+
+    /**
+     * @Route("/search", name="search", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all pending tasks of an User",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
+     *     )
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="s",
+     *     in="query",
+     *     type="string",
+     *     description="Search text"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     type="string",
+     *     description="Page to request"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="elements",
+     *     in="query",
+     *     type="string",
+     *     description="Elements per page"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
+     */
+    public function search(Request $request)
+    {
+        $search = $request->get('s') ?? '';
+        $page = (int) $request->get('page') ?: 1;
+        $elements = (int) $request->get('elements') ?: 30;
+
+        $userTasks = $this->taskRepository->searchByDescription($this->getUser(), $search, $page, $elements);
+        $userTasksCount = (int) $this->taskRepository->searchByDescriptionCount($this->getUser(), $search ?? '');
+
+        $totalPages = (int) ceil($userTasksCount / $elements);
+
+        $paginationInfo = [
+            'currentPage' => $page,
+            'prevPage' => $page > 1 ? $page - 1 : null,
+            'nextPage' => $page < $totalPages ? $page + 1 : null,
+            'totalPages' => $totalPages,
+            'totalResults' => $userTasksCount,
+        ];
+
+        $serializedTask = $this->serializer->serialize([
+            'info' => $paginationInfo,
+            'results' => $userTasks,
+        ], 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
 }

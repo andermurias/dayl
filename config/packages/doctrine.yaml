@@ -9,6 +9,7 @@ doctrine:
         dql:
             string_functions:
                 DATE: DoctrineExtensions\Query\Mysql\Date
+                MATCH_AGAINST: App\Extensions\Doctrine\MatchAgainst
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
