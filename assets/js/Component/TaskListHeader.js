@@ -59,9 +59,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   paper: {
-    maxWidth: 1000,
-    margin: `${theme.spacing(1)}px auto`,
-    padding: theme.spacing(2),
+    width: '100%',
+    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px`,
     background: 'transparent',
   },
 }));

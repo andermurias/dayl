@@ -14,9 +14,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles((theme) => ({
   accordion: {
     boxShadow: 'none',
-    background: 'transparent',
+    margin: `${theme.spacing(1)}px 0`,
     '&.Mui-expanded': {
-      margin: `${theme.spacing(1)}px auto`,
+      margin: `${theme.spacing(1)}px 0`,
     },
     '&:before': {
       display: 'none',

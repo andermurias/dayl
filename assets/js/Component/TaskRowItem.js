@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
   descriptionCellSubtitle: {
     opacity: '.5',
+    paddingTop: theme.spacing(1),
   },
 }));
 
