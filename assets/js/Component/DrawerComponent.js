@@ -134,49 +134,36 @@ const DrawerComponemt = () => {
   ];
 
   return (
-    <div className={classes.root}>
-      <div>
-        <Drawer
-          className={classes.drawer}
-          variant={isSmlOrDown ? 'temporary' : 'permanent'}
-          open={openDrawer}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          anchor="left"
-          ModalProps={{
-            onBackdropClick: setCloseDrawer,
-          }}
-        >
-          <div className={classes.topList}>
-            <div className={classes.toolbar}>
-              <Link className={classes.logoContainer} to="/tasks">
-                <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
-              </Link>
-            </div>
-            <List dense>
-              {mainMenu.map((item, i) => (
-                <DrawerItemComponent item={item} key={i} />
-              ))}
-            </List>
-          </div>
-          <div className={classes.bottomList}>
-            {secondaryMenu.map((item, i) => (
-              <DrawerItemComponent item={item} key={i} />
-            ))}
-          </div>
-        </Drawer>
+    <Drawer
+      className={classes.drawer}
+      variant={isSmlOrDown ? 'temporary' : 'permanent'}
+      open={openDrawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+      anchor="left"
+      ModalProps={{
+        onBackdropClick: setCloseDrawer,
+      }}
+    >
+      <div className={classes.topList}>
+        <div className={classes.toolbar}>
+          <Link className={classes.logoContainer} to="/tasks">
+            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
+          </Link>
+        </div>
+        <List dense>
+          {mainMenu.map((item, i) => (
+            <DrawerItemComponent item={item} key={i} />
+          ))}
+        </List>
       </div>
-      <main className={classes.content}>
-        {children}
-        <Footer />
-        <Hidden mdUp>
-          <Fab size="medium" color="secondary" aria-label="menu" className={classes.fab} onClick={setOpenDrawer}>
-            <MenuIcon />
-          </Fab>
-        </Hidden>
-      </main>
-    </div>
+      <div className={classes.bottomList}>
+        {secondaryMenu.map((item, i) => (
+          <DrawerItemComponent item={item} key={i} />
+        ))}
+      </div>
+    </Drawer>
   );
 };
 

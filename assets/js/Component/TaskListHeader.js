@@ -140,7 +140,7 @@ const TaskListHeader = ({currentDate}) => {
             </MenuItem>
           </Menu>
         </Grid>
-        <Grid container item xs={6} sm={10} alignItems="center">
+        <Grid container item xs={6} sm={8} alignItems="center">
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <DatePicker
               autoOk
@@ -162,7 +162,7 @@ const TaskListHeader = ({currentDate}) => {
             <span className={classes.titleSecondary}>({moment(currentDate).format(isSmallOrUp ? 'LL' : 'L')})</span>
           </Typography>
         </Grid>
-        <Grid container item xs={6} sm={2} justify="flex-end">
+        <Grid container item xs={6} sm={4} justify="flex-end">
           <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
             <ChevronLeftIcon fontSize="large" />
           </IconButton>
