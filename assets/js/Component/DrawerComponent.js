@@ -81,11 +81,11 @@ const generateMenuHeader = ({text}) => generateMenuItem({text: text, type: 'head
 
 const generateMenuDivider = () => generateMenuItem({type: 'divider'});
 
-const DrawerComponemt = () => {
+const DrawerComponent = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
-  const {currentDate, openDrawer, setOpenDrawer, setCloseDrawer} = useContext(AppContext);
+  const {currentDate, openDrawer, setCloseDrawer} = useContext(AppContext);
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -167,4 +167,4 @@ const DrawerComponemt = () => {
   );
 };
 
-export default React.memo(DrawerComponemt);
+export default React.memo(DrawerComponent);

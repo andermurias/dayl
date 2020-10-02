@@ -108,4 +108,4 @@ const SearchTasks = () => {
   );
 };
 
-export default React.memo(withLayout(MainLayout)(SearchTasks));
+export default React.memo(SearchTasks);

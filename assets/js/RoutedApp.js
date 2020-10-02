@@ -15,15 +15,9 @@ import DateTasks from './Template/DateTasks';
 
 import ModalLoader from './Component/ModalLoader';
 import SearchTasks from './Template/SearchTasks';
+import MainLayout from './Layout/MainLayout';
 
 const routerConfiguration = [
-  {
-    route: '/login',
-    component: Login,
-    props: {
-      isLogin: true,
-    },
-  },
   {
     route: '/tasks/:date',
     component: DateTasks,
@@ -59,13 +53,27 @@ const RoutedApp = () => {
       <CssBaseline />
       <Router>
         <Switch>
-          {routerConfiguration.map((route, i) => {
-            return (
-              <Route path={route.route} key={i}>
-                <AuthorizedComponent component={route.component} route={route} />
-              </Route>
-            );
-          })}
+          <Route path="/login" exact>
+            <AuthorizedComponent
+              component={Login}
+              route={{
+                props: {
+                  isLogin: true,
+                },
+              }}
+            />
+          </Route>
+          <Route>
+            <MainLayout>
+              <Switch>
+                {routerConfiguration.map((route, j) => (
+                  <Route path={route.route} key={j}>
+                    <AuthorizedComponent component={route.component} route={route} />
+                  </Route>
+                ))}
+              </Switch>
+            </MainLayout>
+          </Route>
         </Switch>
         <ModalLoader />
       </Router>

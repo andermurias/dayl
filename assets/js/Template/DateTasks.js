@@ -102,4 +102,4 @@ const DateTasks = () => {
   );
 };
 
-export default React.memo(withLayout(MainLayout)(DateTasks));
+export default React.memo(DateTasks);
