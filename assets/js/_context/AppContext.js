@@ -9,6 +9,9 @@ export const AppProvider = ({children}) => {
   const [editTask, setEditTask] = useState(null);
   const [optionTask, setOptionTask] = useState(null);
   const [token, setToken] = useState(null);
+  const [openDrawer, setOpenDrawerState] = useState(false);
+  const setOpenDrawer = () => setOpenDrawerState(true);
+  const setCloseDrawer = () => setOpenDrawerState(false);
 
   return (
     <AppContext.Provider
@@ -23,6 +26,10 @@ export const AppProvider = ({children}) => {
         setToken,
         optionTask,
         setOptionTask,
+        openDrawer,
+        setOpenDrawerState,
+        setOpenDrawer,
+        setCloseDrawer,
       }}
     >
       {children}

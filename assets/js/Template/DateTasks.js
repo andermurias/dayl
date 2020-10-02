@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
@@ -18,8 +17,11 @@ import TaskForm from '../Component/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader';
 import TaskItemDialog from '../Component/TaskItemDialog';
 
+import {withLayout} from '../_hoc/withLayout';
+
 import TasksTable from '../Component/TasksTable';
 import AccordionComponent from '../Component/AccordionComponent';
+import MainLayout from '../Layout/MainLayout';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -100,4 +102,4 @@ const DateTasks = () => {
   );
 };
 
-export default React.memo(DateTasks);
+export default React.memo(withLayout(MainLayout)(DateTasks));

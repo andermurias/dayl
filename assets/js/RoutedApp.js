@@ -14,7 +14,7 @@ import Login from './Template/Login';
 import DateTasks from './Template/DateTasks';
 
 import ModalLoader from './Component/ModalLoader';
-import Footer from './Component/Footer';
+import SearchTasks from './Template/SearchTasks';
 
 const routerConfiguration = [
   {
@@ -34,6 +34,13 @@ const routerConfiguration = [
   {
     route: '/tasks',
     component: DateTasks,
+    props: {
+      secure: true,
+    },
+  },
+  {
+    route: '/search',
+    component: SearchTasks,
     props: {
       secure: true,
     },
@@ -61,7 +68,6 @@ const RoutedApp = () => {
           })}
         </Switch>
         <ModalLoader />
-        <Footer />
       </Router>
     </MuiThemeProvider>
   );

@@ -15,7 +15,8 @@
     "edit": "Editar tarea",
     "new": "Nueva tarea",
     "done": "Finalizadas",
-    "pending": "Pendientes"
+    "pending": "Pendientes",
+    "export": "Exportar a CSV"
   },
   "form": {
     "description": "¿Que has hecho?",
@@ -46,5 +47,23 @@
     "time": "Tiempo",
     "duration": "Duración",
     "noTasks": "Parece que no tienes ninguna tarea ¡Agrega algunas!"
+  },
+  "search": {
+    "title": "Buscador",
+    "input": "¿Que quieres buscar?",
+    "results": "Se han encontrado %s tareas"
+  },
+  "menu": {
+    "header": {
+      "tasks": "Tareas",
+      "more": "Otros",
+      "about": "Acerca de"
+    },
+    "today": "Hoy",
+    "tasks": "Tareas",
+    "search": "Buscador",
+    "exit": "Logout",
+    "github": "Github",
+    "theme": "Tema"
   }
 }

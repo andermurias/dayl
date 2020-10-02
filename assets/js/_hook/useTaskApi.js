@@ -50,6 +50,15 @@ export const useTaskApi = () => {
       setDoneTasks(done.data);
     });
 
+  const getTasksForSearch = ({search, page, elements}) =>
+    client.get('/api/task/search', {
+      params: {
+        s: search,
+        page: page || 1,
+        elements: elements || 20,
+      },
+    });
+
   return {
     getTasks,
     deleteTask,
@@ -58,5 +67,6 @@ export const useTaskApi = () => {
     getTasksForDate,
     getTasksForDateAndSave,
     getExportTask,
+    getTasksForSearch,
   };
 };

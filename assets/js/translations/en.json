@@ -15,7 +15,8 @@
     "edit": "Edit Task",
     "new": "New Task",
     "done": "Done",
-    "pending": "Pending"
+    "pending": "Pending",
+    "export": "Export to CSV"
   },
   "form": {
     "description": "What have you done?",
@@ -46,5 +47,23 @@
     "time": "Time",
     "duration": "Duration",
     "noTasks": "Seems like you don't have any task, Add some!"
+  },
+  "search": {
+    "title": "Search",
+    "input": "What you want to search?",
+    "results": "%s task found"
+  },
+  "menu": {
+    "header": {
+      "tasks": "Tasks",
+      "more": "More",
+      "about": "About"
+    },
+    "today": "Today",
+    "tasks": "Tasks",
+    "search": "Search",
+    "exit": "Logout",
+    "github": "Github",
+    "theme": "Theme"
   }
 }

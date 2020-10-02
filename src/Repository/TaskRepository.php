@@ -51,7 +51,8 @@ class TaskRepository extends ServiceEntityRepository
             ->andWhere('t.user = :user')
             ->setParameter('user', $user->getId())
             ->addOrderBy('t.date', 'DESC')
-            ->addOrderBy('t.start', 'DESC');
+            ->addOrderBy('t.start', 'DESC')
+            ->andWhere('date(t.date) IS NOT NULL');
     }
 
     public function searchByDescription(UserInterface $user, string $search, int $page, int $results = 30)
