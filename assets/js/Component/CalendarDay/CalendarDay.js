@@ -95,7 +95,7 @@ const CalendarDay = ({day}) => {
       style={{marginLeft: day.monthDay === 1 ? `${dayWidth * day.weekDay}%` : null}}
       xs={12}
     >
-      <Link to={day.url} className={classes.dayItemLink}>
+      <Link to={day.url} disabled={isSmlOrDown} className={classes.dayItemLink}>
         <Typography
           variant="caption"
           classes={{root: classNames(classes.dayItemDay, {[`${classes.dayItemToday}`]: isToday(day.date)})}}
