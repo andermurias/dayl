@@ -83,7 +83,7 @@ class ApiTaskController extends AbstractController
     {
         $date = $request->get('date');
 
-        if (Helper::isValidDate($date)) {
+        if (!Helper::isValidDate($date)) {
             throw new \JsonException('If sent, date param MUST be YYYY-MM-DD format');
         }
 
@@ -282,6 +282,11 @@ class ApiTaskController extends AbstractController
      *     description="Day to request (YYYY-MM-DD)"
      * )
      *
+     * @SWG\Response(
+     *     response=200,
+     *     description="CSV File"
+     * )
+     *
      * @SWG\Tag(name="Tasks")
      * @Security(name="Bearer")
      */
@@ -289,7 +294,7 @@ class ApiTaskController extends AbstractController
     {
         $date = $request->get('date');
 
-        if (Helper::isValidDate($date)) {
+        if (!Helper::isValidDate($date)) {
             throw new \JsonException('The date param MUST be YYYY-MM-DD format');
         }
 
@@ -326,14 +331,71 @@ class ApiTaskController extends AbstractController
     }
 
     /**
+     * @Route("/range", name="range", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all done tasks of an User and specific month",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="start",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="end",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
+     */
+    public function tasksForRange(Request $request)
+    {
+        $start = $request->get('start');
+        $end = $request->get('end');
+
+        if (!Helper::isValidDate($start) || !Helper::isValidDate($end)) {
+            throw new \JsonException('If sent, date param MUST be YYYY-MM-DD format');
+        }
+
+        $datetimeStart = new \DateTime($start ?? date('Y-m-d'));
+        $datetimeEnd = new \DateTime($end ?? date('Y-m-d'));
+
+        $userTasks = $this->taskRepository->finByUserAndRange($this->getUser(), $datetimeStart, $datetimeEnd);
+
+        $serializedTask = $this->serializer->serialize($userTasks, 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
      * @Route("/search", name="search", methods={"GET"})
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns all pending tasks of an User",
+     *     description="Returns all done tasks for a given search with pagination",
      *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=Task::class))
+     *         type="object",
+     *         @SWG\Property(
+     *              property="items",
+     *              type="object",
+     *              @SWG\Property(property="currentPage", type="integer"),
+     *              @SWG\Property(property="prevPage", type="integer"),
+     *              @SWG\Property(property="nextPage", type="integer"),
+     *              @SWG\Property(property="totalPages", type="integer"),
+     *              @SWG\Property(property="totalResults", type="integer"),
+     *          ),
+     *         @SWG\Property(property="results", type="array", @SWG\Items(ref=@Model(type=Task::class))),
+     *
      *     )
      * )
      *

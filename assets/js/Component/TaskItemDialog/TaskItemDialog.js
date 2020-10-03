@@ -28,7 +28,7 @@ import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import EventIcon from '@material-ui/icons/Event';
 
-import {AppContext} from '../_context/AppContext';
+import {AppContext} from '../../_context/AppContext';
 import {
   DELETE_TASK,
   EDIT_TASK,
@@ -37,9 +37,9 @@ import {
   UPDATE_TASK,
   DUPLICATE_EMPTY_TASK,
   useTaskProcessor,
-} from '../_hook/useTaskProcessor';
-import {taskHighlighter} from '../Common/Helper';
-import {colors} from '../Common/Colors';
+} from '../../_hook/useTaskProcessor';
+import {taskHighlighter} from '../../Common/Helper';
+import {colors} from '../../Common/Colors';
 
 const UPDATE_DATE_TASK = 'update_date';
 

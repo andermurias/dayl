@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Accordion from '@material-ui/core/Accordion';
+import MuiAccordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 
@@ -46,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccordionComponent = ({title, sideTitle, children, ...rest}) => {
+const Accordion = ({title, sideTitle, children, ...rest}) => {
   const classes = useStyles();
 
   return (
-    <Accordion classes={{root: classes.accordion}} {...rest}>
+    <MuiAccordion classes={{root: classes.accordion}} {...rest}>
       <AccordionSummary
         classes={{content: classes.accordionSummaryContent, expandIcon: classes.accordionExpandIcon}}
         expandIcon={<ExpandMoreIcon />}
@@ -76,14 +76,14 @@ const AccordionComponent = ({title, sideTitle, children, ...rest}) => {
           </Grid>
         </Grid>
       </AccordionDetails>
-    </Accordion>
+    </MuiAccordion>
   );
 };
 
-AccordionComponent.propTypes = {
+Accordion.propTypes = {
   title: PropTypes.string,
   sideTitle: PropTypes.string,
   children: PropTypes.node,
 };
 
-export default React.memo(AccordionComponent);
+export default React.memo(Accordion);

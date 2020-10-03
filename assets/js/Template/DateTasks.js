@@ -13,14 +13,14 @@ import {DoneTaskContext} from '../_context/DoneTaskContext';
 import {PendingTaskContext} from '../_context/PendingTaskContext';
 import {AppContext} from '../_context/AppContext';
 
-import TaskForm from '../Component/TaskForm';
-import TaskListHeader from '../Component/TaskListHeader';
-import TaskItemDialog from '../Component/TaskItemDialog';
+import TaskForm from '../Component/TaskForm/TaskForm';
+import TaskListHeader from '../Component/TaskListHeader/TaskListHeader';
+import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
 import {withLayout} from '../_hoc/withLayout';
 
-import TasksTable from '../Component/TasksTable';
-import AccordionComponent from '../Component/AccordionComponent';
+import TasksTable from '../Component/TasksTable/TasksTable';
+import Accordion from '../Component/Accordion/Accordion';
 import MainLayout from '../Layout/MainLayout';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,24 +79,24 @@ const DateTasks = () => {
   return (
     <Paper classes={{root: classes.paper}}>
       <TaskListHeader currentDate={currentDate} />
-      <AccordionComponent
+      <Accordion
         expanded={!!editTask || taskFormOpen}
         onChange={() => setTaskFormOpen(!taskFormOpen)}
         defaultExpanded={false}
         title={editTask ? t('tasks.edit') : t('tasks.new')}
       >
         <TaskForm />
-      </AccordionComponent>
-      <AccordionComponent defaultExpanded={true} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'}>
+      </Accordion>
+      <Accordion defaultExpanded={true} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'}>
         <TasksTable tasks={pendingTasks} />
-      </AccordionComponent>
-      <AccordionComponent
+      </Accordion>
+      <Accordion
         defaultExpanded={true}
         title={t('tasks.done') + ' (' + doneTasks.length + ')'}
         sideTitle={spendTimeFormat}
       >
         <TasksTable done={true} tasks={doneTasks} />
-      </AccordionComponent>
+      </Accordion>
       <TaskItemDialog />
     </Paper>
   );

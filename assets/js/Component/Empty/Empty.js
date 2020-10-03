@@ -2,7 +2,7 @@ import React from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 
-import logo from '../../static/img/logo/dayl_logo_full_white.svg';
+import logo from '../../../static/img/logo/dayl_logo_full_white.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {

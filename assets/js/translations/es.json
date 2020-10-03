@@ -60,10 +60,19 @@
       "about": "Acerca de"
     },
     "today": "Hoy",
+    "calendar": "Calendario",
     "tasks": "Tareas",
     "search": "Buscador",
     "exit": "Logout",
     "github": "Github",
     "theme": "Tema"
+  },
+  "calendar": {
+    "amount": "Se añadieron %d tareas en %s",
+    "more": "%d Tareas",
+    "goto": "Ir a %s",
+    "popover": {
+      "count": "Hay %s Tareas"
+    }
   }
 }

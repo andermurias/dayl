@@ -1,16 +1,20 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+
 import moment from 'moment';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
 import Paper from '@material-ui/core/Paper';
+
 import {useTaskApi} from '../_hook/useTaskApi';
 import {AppContext} from '../_context/AppContext';
-import {useTranslation} from 'react-i18next';
-import {colors} from '../Common/Colors';
-import esLocale from '@fullcalendar/core/locales/es';
-import interactionPlugin from '@fullcalendar/interaction';
+
+import CalendarHeader from '../Component/CalendarHeader/CalendarHeader';
+import Empty from '../Component/Empty/Empty';
+import CCalendar from '../Component/Calendar/Calendar';
+import {CalendarProvider} from '../_context/CalendarContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,75 +23,97 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
     padding: theme.spacing(2),
-    maxWidth: 1000,
-    height: '80vh',
+    maxWidth: 1200,
     width: '100%',
     margin: `${theme.spacing(1)}px auto`,
-    //    background: 'transparent',
-    '& .fc-daygrid-day-number': {
-      ...theme.typography.caption,
-    },
+    background: 'transparent',
   },
 }));
 
+const generateDateRangeForDate = (date) => {
+  const dateObject = moment(date, 'YYYY-MM-DD');
+  return {
+    start: dateObject.startOf('month').format('YYYY-MM-DD'),
+    end: dateObject.endOf('month').format('YYYY-MM-DD'),
+    days: dateObject.daysInMonth(),
+  };
+};
+
 const Calendar = () => {
   const classes = useStyles();
-  const history = useHistory();
   const query = useParams();
 
   const {i18n} = useTranslation();
-
   moment.locale(i18n.language);
 
   const {currentDate, setLoading} = useContext(AppContext);
 
-  const [startDate, setStartDate] = useState(currentDate);
-  const [endDate, setEndDate] = useState(currentDate);
-
-  const [tasks, setTasks] = useState([]);
+  const [calendarData, setCalendarData] = useState({month: {}, days: []});
 
   const {getTasksForRange} = useTaskApi();
 
-  const initialDate = query.date || moment(currentDate).format('YYYY-MM-01');
-
   useEffect(() => {
     setLoading(true);
-    const start = moment(startDate).format('YYYY-MM-DD');
-    const end = moment(endDate).format('YYYY-MM-DD');
-    getTasksForRange({start, end}).then(({data}) => {
-      setTasks(data.map((t) => ({title: t.description, date: t.date})));
+    const dateRange = generateDateRangeForDate(query.date || currentDate);
+    getTasksForRange({start: dateRange.start, end: dateRange.end}).then(({data}) => {
+      setCalendarData(
+        generateCalendarStructureFromRange({
+          ...dateRange,
+          tasks: data,
+        }),
+      );
       setLoading(false);
     });
-  }, [endDate]);
+  }, [query]);
 
-  const onMonthChange = ({endStr, startStr, view}) => {
-    const toDate = moment(view.getCurrentData().currentDate).format('YYYY-MM-DD');
-    if (toDate !== query.date && toDate !== initialDate) {
-      history.push('/calendar/' + moment(toDate).format('YYYY-MM-DD'));
-    }
-    setStartDate(startStr);
-    setEndDate(endStr);
-  };
+  const filterTasksForCurrentDate = (currentDate) => (task) =>
+    moment(task.date).format('YYYY-MM-DD') === currentDate.format('YYYY-MM-DD');
 
-  const goToDate = ({dateStr}) => history.push('/tasks/' + moment(dateStr).format('YYYY-MM-DD'));
+  const generateCalendarStructureFromRange = ({start, end, days, tasks}) => ({
+    month: {
+      name: moment(start).format('MMMM'),
+      nameShort: moment(start).format('MMM'),
+      number: parseInt(moment(start).format('MM')),
+      start: start,
+      end: end,
+      days: days,
+      tasksTotal: tasks.length,
+      pagination: {
+        current: moment(start).format('YYYY-MM-DD'),
+        next: moment(moment(start)).add(1, 'month').format('YYYY-MM-DD'),
+        prev: moment(moment(start)).subtract(1, 'month').format('YYYY-MM-DD'),
+      },
+    },
+    days: new Array(days)
+      .fill({
+        start,
+        end,
+      })
+      .map(({start, end}, i) => {
+        const currentDate = moment(moment(start, 'YYYY-MM-DD').add(i, 'days').toDate());
+        return {
+          i: i,
+          date: currentDate,
+          monthDay: parseInt(currentDate.format('D')),
+          weekDay: parseInt(currentDate.format('e')),
+          weekDayStr: currentDate.format('dddd'),
+          url: '/tasks/' + currentDate.format('YYYY-MM-DD'),
+          tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
+        };
+      }),
+  });
 
   return (
-    <Paper className={classes.paper} elevation={0}>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={tasks}
-        views={console.log}
-        datesSet={onMonthChange}
-        eventBackgroundColor={colors.orangePeel}
-        eventBorderColor={colors.orangePeel}
-        locales={[esLocale]}
-        locale={i18n.locale}
-        dateClick={goToDate}
-        initialDate={initialDate}
-        dayMaxEvents={4}
-      />
-    </Paper>
+    <CalendarProvider>
+      {!!calendarData.days.length ? (
+        <Paper classes={{root: classes.paper}} elevation={0}>
+          <CalendarHeader month={calendarData.month} />
+          <CCalendar calendarData={calendarData} />
+        </Paper>
+      ) : (
+        <Empty />
+      )}
+    </CalendarProvider>
   );
 };
 

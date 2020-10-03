@@ -43,6 +43,23 @@ class TaskRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @return Task[] Returns an array of Task objects
+     */
+    public function finByUserAndRange(UserInterface $user, \DateTimeInterface $start, \DateTimeInterface $end)
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('t.date BETWEEN :start AND :end')
+            ->setParameter('start', $start->format('Y-m-d 00:00:00'))
+            ->setParameter('end', $end->format('Y-m-d 23:59:59'))
+            ->addOrderBy('t.date', 'ASC')
+            ->addOrderBy('t.start', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     private function searchQueryByDescription(UserInterface $user, string $search)
     {
         return $this->createQueryBuilder('t')

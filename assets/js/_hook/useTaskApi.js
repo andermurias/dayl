@@ -59,6 +59,14 @@ export const useTaskApi = () => {
       },
     });
 
+  const getTasksForRange = ({start, end}) =>
+    client.get('/api/task/range', {
+      params: {
+        start: start,
+        end: end,
+      },
+    });
+
   return {
     getTasks,
     deleteTask,
@@ -68,5 +76,6 @@ export const useTaskApi = () => {
     getTasksForDateAndSave,
     getExportTask,
     getTasksForSearch,
+    getTasksForRange,
   };
 };

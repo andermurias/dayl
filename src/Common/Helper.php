@@ -78,7 +78,7 @@ class Helper extends AbstractController
         return new JsonResponse($serializedTask, 200, [], true);
     }
 
-    /** @deprecated Deprecated for now, future implementations will be taken in consideration  */
+    /** @deprecated Deprecated for now, future implementations will be taken in consideration */
     public static function getEncryptionData()
     {
         return [
@@ -88,7 +88,7 @@ class Helper extends AbstractController
         ];
     }
 
-    /** @deprecated Deprecated for now, future implementations will be taken in consideration  */
+    /** @deprecated Deprecated for now, future implementations will be taken in consideration */
     public static function encrypt($string)
     {
         ['method' => $method, 'key' => $key, 'iv' => $iv] = static::getEncryptionData();
@@ -96,7 +96,7 @@ class Helper extends AbstractController
         return base64_encode(openssl_encrypt($string, $method, $key, 0, $iv));
     }
 
-    /** @deprecated Deprecated for now, future implementations will be taken in consideration  */
+    /** @deprecated Deprecated for now, future implementations will be taken in consideration */
     public static function decrypt($string)
     {
         ['method' => $method, 'key' => $key, 'iv' => $iv] = static::getEncryptionData();
@@ -106,7 +106,12 @@ class Helper extends AbstractController
 
     public static function isValidDate(string $date): bool
     {
-        return !is_null($date) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date);
+        return !is_null($date) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $date);
+    }
+
+    public static function isValidMonth(string $date): bool
+    {
+        return !is_null($date) && preg_match('/^\d{4}-\d{2}$/', $date);
     }
 
     public static function hyphenize($string)

@@ -3,8 +3,8 @@ import React from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import logo from '../../static/img/logo/dayl_logo_full.svg';
-import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
+import logo from '../../../static/img/logo/dayl_logo_full.svg';
+import logoDark from '../../../static/img/logo/dayl_logo_full_dark.svg';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {

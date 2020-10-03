@@ -12,8 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import {useTaskApi} from '../_hook/useTaskApi';
 import {AppContext} from '../_context/AppContext';
 
-import SearchList from '../Component/SearchList';
-import SearchHeader from '../Component/SearchHeader';
+import SearchList from '../Component/SearchList/SearchList';
+import SearchHeader from '../Component/SearchHeader/SearchHeader';
 import {withLayout} from '../_hoc/withLayout';
 import MainLayout from '../Layout/MainLayout';
 

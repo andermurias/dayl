@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
-import SearchListItem from '../Component/SearchListItem';
+import SearchListItem from '../SearchListItem/SearchListItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
