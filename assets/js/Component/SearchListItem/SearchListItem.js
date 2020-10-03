@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
-import {taskHighlighter, getDiffTime} from '../Common/Helper';
+import {taskHighlighter, getDiffTime} from '../../Common/Helper';
 
 const useStyles = makeStyles((theme) => ({
   secondary: {

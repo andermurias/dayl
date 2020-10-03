@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 
 import {Redirect} from 'react-router-dom';
 
-import Empty from '../Component/Empty';
+import Empty from '../Component/Empty/Empty';
 
 import {useUserApi} from '../_hook/useUserApi';
 import {AppContext} from '../_context/AppContext';

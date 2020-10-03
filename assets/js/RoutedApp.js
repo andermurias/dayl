@@ -12,8 +12,9 @@ import AuthorizedComponent from './_hoc/AuthorizedComponent';
 
 import Login from './Template/Login';
 import DateTasks from './Template/DateTasks';
+import Calendar from './Template/Calendar';
 
-import ModalLoader from './Component/ModalLoader';
+import ModalLoader from './Component/ModalLoader/ModalLoader';
 import SearchTasks from './Template/SearchTasks';
 import MainLayout from './Layout/MainLayout';
 
@@ -28,6 +29,20 @@ const routerConfiguration = [
   {
     route: '/tasks',
     component: DateTasks,
+    props: {
+      secure: true,
+    },
+  },
+  {
+    route: '/calendar/:date',
+    component: Calendar,
+    props: {
+      secure: true,
+    },
+  },
+  {
+    route: '/calendar',
+    component: Calendar,
     props: {
       secure: true,
     },

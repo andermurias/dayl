@@ -15,10 +15,10 @@ import Hidden from '@material-ui/core/Hidden';
 
 import MoreVertIccon from '@material-ui/icons/MoreVert';
 
-import {AppContext} from '../_context/AppContext';
-import {UPDATE_STATUS_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
-import {getDiffTime, taskHighlighter} from '../Common/Helper';
-import WrapSkeletonOnLoading from '../_hoc/WrapSkeletonOnLoading';
+import {AppContext} from '../../_context/AppContext';
+import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
+import {getDiffTime, taskHighlighter} from '../../Common/Helper';
+import WrapSkeletonOnLoading from '../../_hoc/WrapSkeletonOnLoading';
 
 const timeCellWidth = 150;
 const durationCellWidth = 80;

@@ -9,8 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import TaskRowItem from '../Component/TaskRowItem';
-import EmptyTasks from '../Component/EmptyTasks';
+import TaskRowItem from '../TaskRowItem/TaskRowItem';
+import EmptyTasks from '../EmptyTasks/EmptyTasks';
 
 const useStyles = makeStyles(() => ({
   listItem: {

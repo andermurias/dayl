@@ -60,10 +60,19 @@
       "about": "About"
     },
     "today": "Today",
+    "calendar": "Calendar",
     "tasks": "Tasks",
     "search": "Search",
     "exit": "Logout",
     "github": "Github",
     "theme": "Theme"
+  },
+  "calendar": {
+    "amount": "%d tasks where added during %s",
+    "more": "%d tasks",
+    "goto": "Go to %s",
+    "popover": {
+      "count": "%s Tasks"
+    }
   }
 }

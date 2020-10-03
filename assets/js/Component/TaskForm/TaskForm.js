@@ -17,9 +17,9 @@ import {MuiPickersUtilsProvider, TimePicker} from '@material-ui/pickers';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../_hook/useTaskProcessor';
+import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
 
-import {AppContext} from '../_context/AppContext';
+import {AppContext} from '../../_context/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {

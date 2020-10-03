@@ -27,9 +27,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-import {useTaskApi} from '../_hook/useTaskApi';
+import {useTaskApi} from '../../_hook/useTaskApi';
 
-import Link from '../Atom/Link';
+import Link from '../../Atom/Link';
 
 const useStyles = makeStyles((theme) => ({
   title: {

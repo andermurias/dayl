@@ -8,7 +8,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 
-import {colors} from '../Common/Colors';
+import {colors} from '../../Common/Colors';
 
 const useStyles = makeStyles((theme) => ({
   noTasks: {

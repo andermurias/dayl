@@ -7,6 +7,11 @@ doctrine:
         #server_version: '5.7'
     orm:
         dql:
+            datetime_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
             string_functions:
                 DATE: DoctrineExtensions\Query\Mysql\Date
                 MATCH_AGAINST: App\Extensions\Doctrine\MatchAgainst

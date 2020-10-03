@@ -12,11 +12,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import {Box} from '@material-ui/core';
 
-import Link from '../Atom/Link';
+import Link from '../../Atom/Link';
 
-import {colors} from '../Common/Colors';
+import {colors} from '../../Common/Colors';
 
-import {AppContext} from '../_context/AppContext';
+import {AppContext} from '../../_context/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   listItemIcon: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MenuItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
+const DrawerItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
   const classes = useStyles();
   const location = useLocation();
   const {setCloseDrawer} = useContext(AppContext);
@@ -80,7 +80,7 @@ const MenuItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
   }
 };
 
-MenuItem.propTypes = {
+DrawerItem.propTypes = {
   item: PropTypes.shape({
     text: PropTypes.string,
     Icon: PropTypes.object,
@@ -90,4 +90,4 @@ MenuItem.propTypes = {
   }),
 };
 
-export default React.memo(MenuItem);
+export default React.memo(DrawerItem);

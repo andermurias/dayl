@@ -5,10 +5,8 @@ import {useTranslation} from 'react-i18next';
 import useTheme from '@material-ui/core/styles/useTheme';
 import {makeStyles} from '@material-ui/core/styles';
 
-import Drawer from '@material-ui/core/Drawer';
+import MuiDrawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import Fab from '@material-ui/core/Fab';
-import Hidden from '@material-ui/core/Hidden';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
@@ -16,20 +14,19 @@ import SearchIcon from '@material-ui/icons/Search';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import TodayIcon from '@material-ui/icons/Today';
 import CodeIcon from '@material-ui/icons/Code';
-import MenuIcon from '@material-ui/icons/Menu';
 
-import {colors} from '../Common/Colors';
+import {colors} from '../../Common/Colors';
 
-import {logout} from '../Common/Helper';
-import {AppContext} from '../_context/AppContext';
+import {logout} from '../../Common/Helper';
+import {AppContext} from '../../_context/AppContext';
 
-import Link from '../Atom/Link';
-import Footer from '../Component/Footer';
-import DrawerItemComponent from '../Component/DrawerItemComponent';
+import Link from '../../Atom/Link';
+import DrawerItem from '../DrawerItem/DrawerItem';
 
-import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
-import logo from '../../static/img/logo/dayl_logo_full.svg';
+import logoDark from '../../../static/img/logo/dayl_logo_full_dark.svg';
+import logo from '../../../static/img/logo/dayl_logo_full.svg';
 
 const drawerWidth = 180;
 
@@ -81,7 +78,7 @@ const generateMenuHeader = ({text}) => generateMenuItem({text: text, type: 'head
 
 const generateMenuDivider = () => generateMenuItem({type: 'divider'});
 
-const DrawerComponent = () => {
+const Drawer = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
@@ -91,7 +88,7 @@ const DrawerComponent = () => {
 
   const mainMenu = [
     generateMenuItem({
-      icon: CalendarTodayIcon,
+      icon: TodayIcon,
       text: t('menu.today'),
       url: '/tasks',
     }),
@@ -102,6 +99,11 @@ const DrawerComponent = () => {
       icon: FormatListNumberedIcon,
       text: t('menu.tasks'),
       url: '/tasks/' + currentDate,
+    }),
+    generateMenuItem({
+      icon: CalendarTodayIcon,
+      text: t('menu.calendar'),
+      url: '/calendar',
     }),
     generateMenuItem({
       icon: SearchIcon,
@@ -134,7 +136,7 @@ const DrawerComponent = () => {
   ];
 
   return (
-    <Drawer
+    <MuiDrawer
       className={classes.drawer}
       variant={isSmlOrDown ? 'temporary' : 'permanent'}
       open={openDrawer}
@@ -154,17 +156,17 @@ const DrawerComponent = () => {
         </div>
         <List dense>
           {mainMenu.map((item, i) => (
-            <DrawerItemComponent item={item} key={i} />
+            <DrawerItem item={item} key={i} />
           ))}
         </List>
       </div>
       <div className={classes.bottomList}>
         {secondaryMenu.map((item, i) => (
-          <DrawerItemComponent item={item} key={i} />
+          <DrawerItem item={item} key={i} />
         ))}
       </div>
-    </Drawer>
+    </MuiDrawer>
   );
 };
 
-export default React.memo(DrawerComponent);
+export default React.memo(Drawer);

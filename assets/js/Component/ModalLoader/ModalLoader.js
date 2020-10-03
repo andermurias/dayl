@@ -4,7 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {makeStyles} from '@material-ui/core/styles';
 
-import {AppContext} from '../_context/AppContext';
+import {AppContext} from '../../_context/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {

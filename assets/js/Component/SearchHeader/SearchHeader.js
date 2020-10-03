@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import SearchIcon from '@material-ui/icons/Search';
 
-import {AppContext} from '../_context/AppContext';
+import {AppContext} from '../../_context/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   title: {

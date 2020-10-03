@@ -6,7 +6,7 @@ import {AppProvider} from './_context/AppContext';
 
 import RoutedApp from './RoutedApp';
 
-import Empty from './Component/Empty';
+import Empty from './Component/Empty/Empty';
 
 const Contextualize = ({children}) => {
   return [AppProvider, DoneTaskProvider, PendingTaskProvider]
