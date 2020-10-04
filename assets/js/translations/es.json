@@ -1,6 +1,7 @@
 {
   "login": {
     "google": "Accede con Google",
+    "message": "¡Bienvenido de nuevo!",
     "credentials": {
       "invalid": "Los datos de usuario no son válidos"
     }

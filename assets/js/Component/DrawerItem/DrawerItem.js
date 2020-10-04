@@ -18,6 +18,8 @@ import {colors} from '../../Common/Colors';
 
 import {AppContext} from '../../_context/AppContext';
 
+import {item} from '../../_proptypes/drawer';
+
 const useStyles = makeStyles((theme) => ({
   listItemIcon: {
     minWidth: theme.spacing(5),
@@ -81,13 +83,7 @@ const DrawerItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
 };
 
 DrawerItem.propTypes = {
-  item: PropTypes.shape({
-    text: PropTypes.string,
-    Icon: PropTypes.object,
-    url: PropTypes.string,
-    type: PropTypes.string,
-    action: PropTypes.func,
-  }),
+  item: PropTypes.shape(item),
 };
 
 export default React.memo(DrawerItem);

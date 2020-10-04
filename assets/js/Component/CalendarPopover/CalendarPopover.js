@@ -1,15 +1,23 @@
 import React, {useContext} from 'react';
-import {CalendarContext} from '../../_context/CalendarContext';
+import {useTranslation} from 'react-i18next';
+import PropTypes from 'prop-types';
+
+import makeStyles from '@material-ui/core/styles/makeStyles';
+
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import Divider from '@material-ui/core/Divider';
-import CalendarTask from '../CalendarTask/CalendarTask';
 import Chip from '@material-ui/core/Chip';
+
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+import {CalendarContext} from '../../_context/CalendarContext';
+
 import Link from '../../Atom/Link';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import {useTranslation} from 'react-i18next';
+import CalendarTask from '../CalendarTask/CalendarTask';
+
+import {calendar} from '../../_proptypes/calendar';
 
 const useStyles = makeStyles((theme) => ({
   popoverPaper: {
@@ -98,6 +106,10 @@ const CalendarPopover = ({calendarData}) => {
       )}
     </Popover>
   );
+};
+
+CalendarPopover.propTypes = {
+  calendarData: PropTypes.shape(calendar),
 };
 
 export default React.memo(CalendarPopover);

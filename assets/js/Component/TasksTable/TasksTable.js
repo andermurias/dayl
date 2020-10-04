@@ -12,6 +12,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TaskRowItem from '../TaskRowItem/TaskRowItem';
 import EmptyTasks from '../EmptyTasks/EmptyTasks';
 
+import {task} from '../../_proptypes/task';
+
 const useStyles = makeStyles(() => ({
   listItem: {
     paddingRight: 95,
@@ -53,7 +55,7 @@ const TasksTable = ({done, tasks}) => {
 
 TasksTable.propTypes = {
   done: PropTypes.bool,
-  tasks: PropTypes.array,
+  tasks: PropTypes.arrayOf(PropTypes.shape(task)),
 };
 
 export default React.memo(TasksTable);

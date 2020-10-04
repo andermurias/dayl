@@ -1,19 +1,28 @@
 import React, {useContext} from 'react';
-import Link from '../../Atom/Link';
-import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import {useTranslation} from 'react-i18next';
 import classNames from 'classnames';
+
+import moment from 'moment';
+
+import {lighten} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {lighten} from '@material-ui/core';
-import {colors} from '../../Common/Colors';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useTheme from '@material-ui/core/styles/useTheme';
-import moment from 'moment';
-import {useTranslation} from 'react-i18next';
+
+import AddIcon from '@material-ui/icons/Add';
+
+import {colors} from '../../Common/Colors';
+
 import CalendarTask from '../CalendarTask/CalendarTask';
+import Link from '../../Atom/Link';
+
 import {CalendarContext} from '../../_context/CalendarContext';
+
+import {day} from '../../_proptypes/calendar';
 
 const dayWidth = 14.28;
 const maxTasks = 3;
@@ -126,6 +135,10 @@ const CalendarDay = ({day}) => {
       </div>
     </Grid>
   );
+};
+
+CalendarDay.propTypes = {
+  day: PropTypes.shape(day),
 };
 
 export default React.memo(CalendarDay);

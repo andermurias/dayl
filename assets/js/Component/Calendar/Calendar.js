@@ -1,15 +1,20 @@
-import React, {useContext} from 'react';
-import {CalendarContext} from '../../_context/CalendarContext';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {useTranslation} from 'react-i18next';
+
+import moment from 'moment';
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CalendarDay from '../CalendarDay/CalendarDay';
-import CalendarPopover from '../CalendarPopover/CalendarPopover';
-import moment from 'moment';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useTheme from '@material-ui/core/styles/useTheme';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {useTranslation} from 'react-i18next';
+
+import CalendarDay from '../CalendarDay/CalendarDay';
+import CalendarPopover from '../CalendarPopover/CalendarPopover';
+
+import {calendar} from '../../_proptypes/calendar';
 
 const dayWidth = 14.28;
 
@@ -75,6 +80,10 @@ const Calendar = ({calendarData}) => {
       <CalendarPopover calendarData={calendarData} />
     </>
   );
+};
+
+Calendar.propTypes = {
+  calendarData: PropTypes.shape(calendar),
 };
 
 export default React.memo(Calendar);

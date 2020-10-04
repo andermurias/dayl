@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -11,6 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
 import {taskHighlighter, getDiffTime} from '../../Common/Helper';
+
+import {task} from '../../_proptypes/task';
 
 const useStyles = makeStyles((theme) => ({
   secondary: {
@@ -60,6 +63,10 @@ const SearchListItem = ({task}) => {
       />
     </ListItem>
   );
+};
+
+SearchListItem.propTypes = {
+  task: PropTypes.shape(task),
 };
 
 export default React.memo(SearchListItem);

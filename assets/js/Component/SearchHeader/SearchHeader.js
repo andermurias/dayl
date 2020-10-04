@@ -1,4 +1,6 @@
 import React, {useContext, useState} from 'react';
+import PropTypes from 'prop-types';
+
 import {useHistory, useLocation} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -13,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import SearchIcon from '@material-ui/icons/Search';
 
-import {AppContext} from '../../_context/AppContext';
+import {pagination} from '../../_proptypes/search';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -40,8 +42,6 @@ const SearchHeader = ({pagination}) => {
   const {t, i18n} = useTranslation();
 
   moment.locale(i18n.language);
-
-  const {currentDate} = useContext(AppContext);
 
   const goToSearch = () => {
     const searchParams = new URLSearchParams({
@@ -87,6 +87,10 @@ const SearchHeader = ({pagination}) => {
       </Grid>
     </Grid>
   );
+};
+
+SearchHeader.propTypes = {
+  pagination: PropTypes.shape(pagination),
 };
 
 export default React.memo(SearchHeader);

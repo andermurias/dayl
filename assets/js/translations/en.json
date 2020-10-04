@@ -1,6 +1,7 @@
 {
   "login": {
     "google": "Login With Google",
+    "message": "Welcome Again!",
     "credentials": {
       "invalid": "The credentials are invalid"
     }

@@ -20,6 +20,8 @@ import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor
 import {getDiffTime, taskHighlighter} from '../../Common/Helper';
 import WrapSkeletonOnLoading from '../../_hoc/WrapSkeletonOnLoading';
 
+import {task} from '../../_proptypes/task';
+
 const timeCellWidth = 150;
 const durationCellWidth = 80;
 const actionCellWidth = 80;
@@ -147,15 +149,7 @@ const TaskListItem = ({done, task}) => {
 
 TaskListItem.propTypes = {
   done: PropTypes.bool,
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      date: PropTypes.string,
-      start: PropTypes.string,
-      end: PropTypes.string,
-      id: PropTypes.number,
-    }),
-  ),
+  tasks: PropTypes.arrayOf(PropTypes.shape(task)),
 };
 
 export default React.memo(TaskListItem);

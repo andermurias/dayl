@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
@@ -14,6 +15,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import Link from '../../Atom/Link';
+
+import {month} from '../../_proptypes/calendar';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -57,6 +60,10 @@ const CalendarHeader = ({month}) => {
       </Grid>
     </Grid>
   );
+};
+
+CalendarHeader.propTypes = {
+  month: PropTypes.shape(month),
 };
 
 export default React.memo(CalendarHeader);
