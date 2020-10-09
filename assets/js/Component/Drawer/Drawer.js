@@ -16,10 +16,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import TodayIcon from '@material-ui/icons/Today';
 import CodeIcon from '@material-ui/icons/Code';
+import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
 
 import {colors} from '../../Common/Colors';
 
-import {logout} from '../../Common/Helper';
+import {logout, THEME_DARK, THEME_LIGHT} from '../../Common/Helper';
 import {AppContext} from '../../_context/AppContext';
 
 import Link from '../../Atom/Link';
@@ -27,6 +29,7 @@ import DrawerItem from '../DrawerItem/DrawerItem';
 
 import logoDark from '../../../static/img/logo/dayl_logo_full_dark.svg';
 import logo from '../../../static/img/logo/dayl_logo_full.svg';
+import {isDarkTheme} from '../../_config/theme';
 
 const drawerWidth = 180;
 
@@ -65,24 +68,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const generateMenuItem = ({text, icon, url, type, subtext, action}) => ({
+const generateMenuItem = ({text, icon, url, type, subtext, checked, action}) => ({
   text: text,
   subtext: subtext || null,
   Icon: icon,
   url: url || '#',
   type: type || 'item',
+  checked: checked || false,
   action: action || (() => {}),
 });
-
 const generateMenuHeader = ({text}) => generateMenuItem({text: text, type: 'header'});
 
 const generateMenuDivider = () => generateMenuItem({type: 'divider'});
+
+const generateMenuSwitch = ({text, icon, action, checked}) =>
+  generateMenuItem({text: text, icon: icon, type: 'switch', checked: checked, action: action});
 
 const Drawer = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
-  const {currentDate, openDrawer, setCloseDrawer} = useContext(AppContext);
+  const {currentDate, openDrawer, setCloseDrawer, updateTheme, theme: appTheme} = useContext(AppContext);
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -112,6 +118,14 @@ const Drawer = () => {
     }),
     generateMenuHeader({
       text: t('menu.header.more'),
+    }),
+    generateMenuItem({
+      text: t('menu.theme'),
+      icon: isDarkTheme(theme) ? Brightness2Icon : BrightnessHighIcon,
+      action: () => {
+        location.href =
+          location.origin + location.pathname + '?theme=' + (isDarkTheme(theme) ? THEME_LIGHT : THEME_DARK);
+      },
     }),
     generateMenuItem({
       icon: ExitToAppIcon,

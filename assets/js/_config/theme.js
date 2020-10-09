@@ -1,7 +1,14 @@
 import {colors} from '../Common/Colors';
 import {fade} from '@material-ui/core';
 
+export const isDarkTheme = (theme) => theme.palette.type === 'dark';
+
 export const theme = (prefersDarkMode) => ({
+  props: {
+    MuiButton: {
+      disableElevation: true,
+    },
+  },
   typography: {
     body2: {},
     h1: {
@@ -56,11 +63,11 @@ export const theme = (prefersDarkMode) => ({
       paper: prefersDarkMode ? colors.mineShaftLighter : colors.wildSand,
     },
     text: {
-      primary: prefersDarkMode ? colors.gallery : colors.richBlack,
-      secondary: prefersDarkMode ? colors.gallery : colors.richBlack,
+      primary: prefersDarkMode ? colors.gallery : colors.mineShaft,
+      secondary: prefersDarkMode ? colors.gallery : colors.mineShaft,
     },
     primary: {
-      main: prefersDarkMode ? colors.wildSand : colors.richBlack,
+      main: prefersDarkMode ? colors.wildSand : colors.mineShaft,
     },
     secondary: {
       main: colors.orangePeel,

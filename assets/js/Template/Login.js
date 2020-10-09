@@ -17,6 +17,9 @@ import {useUserApi} from '../_hook/useUserApi';
 import logo from '../../static/img/logo/dayl_logo_full.svg';
 import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
 import {colors} from '../Common/Colors';
+import {isDarkTheme} from '../_config/theme';
+
+import {fade} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     width: '100%',
     display: 'flex',
-    background: colors.mineShaft,
+    background: isDarkTheme(theme) ? colors.mineShaft : colors.wildSand,
     position: 'relative',
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
@@ -55,7 +58,10 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       bottom: 0,
       right: 0,
-      background: `linear-gradient(to top right, hsla(0,0%,13%, 1), hsl(0,0%,13%, 0))`,
+      background: `linear-gradient(to top right, 
+        ${fade(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 1)} 30%,
+        ${fade(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 0)}
+        )`,
       zIndex: 5,
     },
   },
@@ -71,8 +77,8 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     flexGrow: 1,
     opacity: 0.7,
-    filter: 'grayscale(1) brightness(50%) contrast(150%)',
-    mixBlendMode: 'luminosity',
+    filter: 'grayscale(1) brightness(75%) contrast(175%)',
+    mixBlendMode: isDarkTheme(theme) ? 'lighten' : 'darken',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -109,7 +115,7 @@ const Login = () => {
   return (
     <div className={classes.container}>
       <div className={classes.panel}>
-        <img src="https://source.unsplash.com/1080x1920/?nature" className={classes.image} />
+        <img src="https://source.unsplash.com/1920x1080/?nature" className={classes.image} />
         <Paper className={classes.paper} elevation={0}>
           <Grid container spacing={8}>
             <Grid container item classes={classes.gridItem} xs={12} justify="flex-start">
@@ -135,7 +141,7 @@ const Login = () => {
                 clientId={process.env.GOOGLE_API_KEY}
                 render={(renderProps) => (
                   <Button
-                    variant="outlined"
+                    variant={isDarkTheme(theme) ? 'outlined' : 'contained'}
                     fullWidth
                     color="secondary"
                     startIcon={<Google />}

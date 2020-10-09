@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import moment from 'moment';
+import {saveTheme, THEME_LIGHT} from '../Common/Helper';
 
 export const AppContext = React.createContext({});
 
@@ -10,8 +11,14 @@ export const AppProvider = ({children}) => {
   const [optionTask, setOptionTask] = useState(null);
   const [token, setToken] = useState(null);
   const [openDrawer, setOpenDrawerState] = useState(false);
+  const [theme, setTheme] = useState(THEME_LIGHT);
   const setOpenDrawer = () => setOpenDrawerState(true);
   const setCloseDrawer = () => setOpenDrawerState(false);
+
+  const updateTheme = (theme) => {
+    saveTheme(theme);
+    setTheme(theme);
+  };
 
   return (
     <AppContext.Provider
@@ -30,6 +37,8 @@ export const AppProvider = ({children}) => {
         setOpenDrawerState,
         setOpenDrawer,
         setCloseDrawer,
+        theme,
+        updateTheme,
       }}
     >
       {children}

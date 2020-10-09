@@ -1,0 +1,44 @@
+{% extends 'landing.html.twig' %}
+
+{% block content %}
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-1 mb-3">
+                    {{ "discover.title"|trans|raw }}
+                </h1>
+                <h2 class="display-6">
+                    {{ "discover.subtitle"|trans }}
+                </h2>
+                <hr class="my-5"/>
+            </div>
+        </div>
+        {% for i in range(1,4) %}
+            <div class="row {% if loop.index != 1 %}my-5 py-lg-5{% endif%} {% if loop.index is odd %}flex-lg-row-reverse{% endif %}">
+                <div class="col-12 col-lg-6">
+                    <img src="/assets/img/mockup/{{ ("discover.blocks."~i~".image")|trans }}"
+                         class="w-100 discover__image"/>
+                </div>
+                <div class="col-12 col-lg-5 {% if loop.index is odd %}mr-auto{% else %}ml-auto{% endif %} d-flex flex-column  justify-content-center py-5">
+                    <h3 class="pt-5 text-center text-lg-left">
+                        {{ ("discover.blocks."~i~".title")|trans }}
+                    </h3>
+                    <p class="pb-5 text-center text-lg-left">
+                        {{ ("discover.blocks."~i~".text")|trans }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row flex-lg-row-reverse d-flex justify-content-center mt-lg-5">
+            <div class="col-12 col-lg-8 d-flex flex-column align-items-center text-center justify-content-center py-lg-5">
+                <h3 class="display-3 mb-5">{{ "discover.last.title"|trans|raw }}</h3>
+                <p class="mb-5">
+                    C{{ "discover.last.text"|trans }}
+                </p>
+                <a href="/login" class="btn btn-primary btn-lg">
+                    {{ "discover.last.button"|trans }}
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

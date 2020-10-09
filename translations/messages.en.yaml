@@ -1,37 +1,91 @@
 page:
-    title: dayl - easy as a spoon
-    description: Save the task you have done for the next day, and prepare your pending task, fast and easy.
+    title: dayl
+    description: Your tasks and objectivs always with you
 header:
-    button: Sign In
+    discover: Discover
+    contact: Contact
+    button: Login
 home:
-    title: Easy, fast and secure<br/><strong class="text-primary">Daily log</strong>
-    subtitle: Mark the task you have done, and save your pending task for the next day, fast, easy and secure.
+    title: Yesterday tasks<br/><span class="text-primary">Tomorrow objectives</span>
+    subtitle: ¿Que hiciste ayer? ¿Que harás hoy? Guarda un historial de todo lo que has hecho de manera sencilla y rápida
     main_button: Start now
     section_info:
-        label: Why dayl
-        title: Log for your daily
-        subtitle: Keep track of what you've done, what you have to do, and how many time did you spent.
-        info_block_1:
-            title: Tasks, Today, Tomorrow
-            text: Keep track of your pending tasks and carry them with you to the next day, mark then as donw, and they will be attached to the day.
-        info_block_2:
-            title: Easy, period
-            text: Easy to use, without complications. Forgot all these huge apps with tons of functionalities that you need a degree to use them.
-        info_block_3:
-            title: Anywhere, Anytime
-            text: Dayl is mobile ready, prepared to work in mobile devices so you can use it anytime you need it.
-    section_about:
-        title: Simple as a spoon, Ready for SCRUM
-        subtitle: Keep a detailed log of all the task you have done with a simple UI and carry it always with you
-        list_1: Perfect personal organization at work
-        list_2: Ready for SCRUM teams
+        left:
+            title: Your tasks
+            text: Save what you've done and the the time you've spent, keep a task history
+        center:
+            title: Your objectives
+            text: Save your objectives and take them with you, plan what you'll do tomorrow
+        right:
+            title: Wherever you are,
+            text: Use it in your computer, tablet or phone, ready to work whenever you are
+    section_divider:
+        title: The tool for your <i>daily</i>
+        text: Easy to read, easy to edit, without complications
+    section_left:
+        title: All that you need, at a glance
+        text: No importa tu profesión o donde trabajes, con dayl puedes almacenar todo lo que has hecho día a día y mantener un registro detallado de tus tareas.</p><p><i>¿Necesitas acceder rápidamente a una fecha en concreto?</i> Entra en la vista de calendario.<p/><p><i>¿No encuentras una tarea?</i> Utiliza el buscador todo está preparado para que gastes el mennor tiempo posible.
+    section_right:
+        title: Wherever you are, always with you
+        text: Pensado para escritorio, pensado para movil</p><p>Ya trabajes con un ordenador, o solo tengas tu móvil a mano, tus reuniones sean online o en persona, <span class="text-primary">dayl</span> está pensado para estar ahí siempre que lo necesites.</p><p>Todas las funcionalidades están disponibles en cualquier dispositivo para que no tengas limitaciones
+    section_points:
+        left:
+            point: 10s
+            text: The time yo will expend to add a task
+        center:
+            point: CSV
+            text: Export your tasks to CSV and import them where you need
+        right:
+            point: ∞
+            text: Use as much as you want, whenever you want, always available
+
+    secton_cta:
+        title: Start now using <span class="text-primary">dayl</span>
+        text: Free and without limitations, all you need is a Google account to acces.
+        button: Start now
+discover:
+    title: What's <span class="text-primary">dayl</span>
+    subtitle: This is what you can do
+    blocks:
+        1:
+            title: Login with Google
+            text: Solo necesitas una cuenta de google para acceder, sin proceso de registro, sin email de validación, sin complicaciones, listo para usarse de manera inmediata
+            image: desktop_login.svg
+        2:
+            title: Diferent layouts
+            text: Facil de utilizar y preparado para que cuentres todo lo que necesitas. Vista de día en la que puedes ver tus tareas y tu objetivos, Buscador, para cuando conoces la tarea pero no cuando, y calendario, para cuando quieres revisar varios días a la vez.
+            image: mobile_devices.svg
+        3:
+            title: Work on any devices
+            text: Usalo en tu movil, tablet y ordenador, da igual, dayl está preparado para funcionar a la vez en cualquier dispositivo, ya sea de escritorio o movil y en tantos dispositivos como necesites.
+            image: mobile_desktop.svg
+        4:
+            title: Export your data
+            text: Exporta tus tareas de cada día y llévatelas donde quieras, con un sencillo click puede generar un csv con tus tareas realizadas para la fecha seleccionada, facil y son complicaciones.
+            image: desktop_export.svg
+    last:
+        title: Start usign <span class="text-primary">dayl</span>
+        text: Sin costes, sin tarjetas y sin registros complicados, accede ahora mismo y empieza a usarlo para organzar tu trabajo diario y tus objetivos del día a día
+        button: Start now
+cookies:
+    title: Cookies
+    subtitle: Yes, we use cookies
+privacy:
+    title: Privacy Policy
+    subtitle: You'll be safe, don't worry
+terms:
+    title: Terms and Conditions
+    subtitle: Don't be evil with us
 footer:
+    text: Dayl es una herramienta de software libre, para gestionar tu día a día, puedes ver mas información al respecto en nuestro repositorio de <a href="https://github.com/andermurias/dayl">Github</a>
     about:
-        title: About
+        title: Dayl
         login: Login
+        discover: Discover
         github: Github
-        support: Support
+        support: Contact 👋
     bottom:
-        terms: Terms
+        title: Small print
+        terms: Terms and Conditions
         privacy: Privacy
         cookies: Cookies

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('landing') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('landing') }}
+{% endblock %}
+
+{% block body %}
+    {% include 'partials/_header.html.twig' %}
+    {% block content %}
+    {% endblock %}
+    {% include 'partials/_footer.html.twig' %}
+{% endblock %}

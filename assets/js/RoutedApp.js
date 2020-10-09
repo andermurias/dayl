@@ -6,7 +6,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
 
 import {theme} from './_config/theme';
-import {getForcedTheme} from './Common/Helper';
+import {checkAndUpdateTheme, getForcedTheme, getSavedTheme, THEME_DARK} from './Common/Helper';
 
 import AuthorizedComponent from './_hoc/AuthorizedComponent';
 
@@ -20,28 +20,14 @@ import MainLayout from './Layout/MainLayout';
 
 const routerConfiguration = [
   {
-    route: '/tasks/:date',
+    route: '/tasks/:date?',
     component: DateTasks,
     props: {
       secure: true,
     },
   },
   {
-    route: '/tasks',
-    component: DateTasks,
-    props: {
-      secure: true,
-    },
-  },
-  {
-    route: '/calendar/:date',
-    component: Calendar,
-    props: {
-      secure: true,
-    },
-  },
-  {
-    route: '/calendar',
+    route: '/calendar/:date?',
     component: Calendar,
     props: {
       secure: true,
@@ -57,9 +43,10 @@ const routerConfiguration = [
 ];
 
 const RoutedApp = () => {
-  const forceTheme = getForcedTheme();
+  checkAndUpdateTheme();
+  const forceTheme = getSavedTheme();
 
-  const prefersDarkMode = forceTheme ? forceTheme === 'dark' : useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = forceTheme ? forceTheme === THEME_DARK : useMediaQuery('(prefers-color-scheme: dark)');
 
   const muiTheme = createMuiTheme(theme(prefersDarkMode));
 

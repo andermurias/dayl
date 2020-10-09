@@ -8,6 +8,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
 import SearchListItem from '../SearchListItem/SearchListItem';
+import {colors} from '../../Common/Colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: 'solid 1px ' + theme.palette.background.paper,
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    backgroundColor: colors.mineShaft,
   },
 }));
 

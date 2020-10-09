@@ -41,6 +41,14 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/about/discover", name="discover")
+     */
+    public function discover()
+    {
+        return $this->render('pages/discover.html.twig');
+    }
+
+    /**
      * @Route("/about/privacy", name="provacy")
      */
     public function privacy()

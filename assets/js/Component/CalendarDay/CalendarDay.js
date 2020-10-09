@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import moment from 'moment';
 
-import {lighten} from '@material-ui/core';
+import {darken, lighten} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +23,7 @@ import Link from '../../Atom/Link';
 import {CalendarContext} from '../../_context/CalendarContext';
 
 import {day} from '../../_proptypes/calendar';
+import {isDarkTheme} from '../../_config/theme';
 
 const dayWidth = 14.28;
 const maxTasks = 3;
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 0,
     maxWidth: `${dayWidth}%`,
     flexBasis: `${dayWidth}%`,
-    border: 'solid 1px ' + lighten(colors.mineShaft, 0.05),
+    border: 'solid 1px ' + (isDarkTheme(theme) ? lighten(colors.mineShaft, 0.05) : darken(colors.gallery, 0.03)),
     [theme.breakpoints.down('sm')]: {
       border: 'none',
       justifyContent: 'center',

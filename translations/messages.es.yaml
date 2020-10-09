@@ -1,37 +1,91 @@
 page:
-    title: dayl - easy as a spoon
-    description: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil y rápido.
+    title: dayl
+    description: Tus tareas y objetivos siempre contigo
 header:
-    button: Entrar
+    discover: Descubre
+    contact: Contacta
+    button: Entra
 home:
-    title: Facil, rápido y seguro,<br/>ten tu <strong class="text-primary">Log Diario</strong>
-    subtitle: Guarda las tareas que has hecho y prepara tus tareas pendientes, facil, sencillo y seguro.
+    title: Tus tareas de ayer<br/><span class="text-primary">Tus objetivos de mañana</span>
+    subtitle: ¿Que hiciste ayer? ¿Que harás hoy? Guarda un historial de todo lo que has hecho de manera sencilla y rápida
     main_button: Empieza ahora
     section_info:
-        label: ¿Por que dayl?
-        title: Un historico para tus dailys
-        subtitle: Mantén un registro de lo que has hecho, que te queda pendiente y como has invertido tu tiempo.
-        info_block_1:
-            title: Tareas, Hoy y Ayer
-            text: Mantén un registro de las tareas pentientes y llevalas contingo al días siguiente, marcalas como finalizadas una vez las termines y qudarán almacenadas.
-        info_block_2:
-            title: Facil y punto
-            text: Facil de usar, sin complicaciones.<br/>Olvidate de usar platadormas complejas con cientos de funcionalidades, centrate en tu día a día.
-        info_block_3:
-            title: Estés donde estés
-            text: Dayl está preparado para usarse en el movil, adaptada a las pantallas mas pequeñas para que lo puedas usar en cualquier sitio que lo necesites.
-    section_about:
-        title: Tán sencillo como una cuchara, preparado para SCRUM
-        subtitle: Mantén un registro diario de todas las tareas que has hecho con un interfaz sencilla y llévalo siempre encima.
-        list_1: Perfecto para uso personal y organizarte en el trabajo
-        list_2: Preaprado para equipos que usan SCRUM
+        left:
+            title: Tus tareas
+            text: Guarda que has hecho y el tiempo que has invertido, mantén un histórico de tus tareas
+        center:
+            title: Tus objetivos
+            text: Guarda tus objetivos y llévatelos contigo, plánifica lo que harás mañana
+        right:
+            title: Allá donde estés
+            text: Úsalo en el tu ordenador, table o móvil, preparado para funcionar estés donde estés
+    section_divider:
+        title: Una herramienta para tu <i>daily</i>
+        text: Sencillo de consultar, sencillo de editar. Accesible y sin complicaciones
+    section_left:
+        title: Todo lo que necesitas, en un vistazo
+        text: No importa tu profesión o donde trabajes, con dayl puedes almacenar todo lo que has hecho día a día y mantener un registro detallado de tus tareas.</p><p><i>¿Necesitas acceder rápidamente a una fecha en concreto?</i> Entra en la vista de calendario.<p/><p><i>¿No encuentras una tarea?</i> Utiliza el buscador todo está preparado para que gastes el mennor tiempo posible.
+    section_right:
+        title: Estés donde estés, siempre contigo
+        text: Pensado para escritorio, pensado para movil</p><p>Ya trabajes con un ordenador, o solo tengas tu móvil a mano, tus reuniones sean online o en persona, <span class="text-primary">dayl</span> está pensado para estar ahí siempre que lo necesites.</p><p>Todas las funcionalidades están disponibles en cualquier dispositivo para que no tengas limitaciones
+    section_points:
+        left:
+            point: 10s
+            text: Es el tiempo que te costará ingresar cada tarea
+        center:
+            point: CSV
+            text: Exporta tus tareas a CSV e importalas donde quieras
+        right:
+            point: ∞
+            text: Úsalo tanto como quieras, cuando quieras, siempre disponible
+
+    secton_cta:
+        title: Prueba <span class="text-primary">dayl</span> hoy mismo
+        text: Gratis y sin limitaciones, solo necesitas una cueta de Google para acceder,
+        button: Empieza ya
+discover:
+    title: Que es <span class="text-primary">dayl</span>
+    subtitle: Esto es lo que puedes hacer
+    blocks:
+        1:
+            title: Login with Google
+            text: Solo necesitas una cuenta de google para acceder, sin proceso de registro, sin email de validación, sin complicaciones, listo para usarse de manera inmediata
+            image: desktop_login.svg
+        2:
+            title: Diferentes vistas
+            text: Facil de utilizar y preparado para que cuentres todo lo que necesitas. Vista de día en la que puedes ver tus tareas y tu objetivos, Buscador, para cuando conoces la tarea pero no cuando, y calendario, para cuando quieres revisar varios días a la vez.
+            image: mobile_devices.svg
+        3:
+            title: Adaptado a tu dispositivo
+            text: Usalo en tu movil, tablet y ordenador, da igual, dayl está preparado para funcionar a la vez en cualquier dispositivo, ya sea de escritorio o movil y en tantos dispositivos como necesites.
+            image: mobile_desktop.svg
+        4:
+            title: Exporta tus datos
+            text: Exporta tus tareas de cada día y llévatelas donde quieras, con un sencillo click puede generar un csv con tus tareas realizadas para la fecha seleccionada, facil y son complicaciones.
+            image: desktop_export.svg
+    last:
+        title: Empieza a usar <span class="text-primary">dayl</span>
+        text: Sin costes, sin tarjetas y sin registros complicados, accede ahora mismo y empieza a usarlo para organzar tu trabajo diario y tus objetivos del día a día
+        button: Empieza ahora
+cookies:
+    title: Cookies
+    subtitle: Si, usamos cookies
+privacy:
+    title: Politica de Privacidad
+    subtitle: Estás a salvo, no te preocupes
+terms:
+    title: Terminos y Condiciones
+    subtitle: No seas malvado
 footer:
+    text: Dayl es una herramienta de software libre, para gestionar tu día a día, puedes ver mas información al respecto en nuestro repositorio de <a href="https://github.com/andermurias/dayl">Github</a>
     about:
-        title: Sobre Dayl
+        title: Dayl
         login: Login
+        discover: Descubre
         github: Github
-        support: Soporte
+        support: Contacto 👋
     bottom:
+        title: Letra Pequeña
         terms: Terminos y Condiciones
         privacy: Privacidad
         cookies: Cookies

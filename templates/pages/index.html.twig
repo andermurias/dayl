@@ -1,217 +1,153 @@
-{% extends 'base.html.twig' %}
+{% extends 'landing.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        @keyframes hidePreloader {
-            0% {
-                width: 100%;
-                height: 100%;
-            }
-
-            100% {
-                width: 0;
-                height: 0;
-            }
-        }
-
-        body > div.preloader {
-            position: fixed;
-            background: white;
-            width: 100%;
-            height: 100%;
-            z-index: 1071;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            overflow: hidden;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        body:not(.loaded) > div.preloader {
-            opacity: 1;
-        }
-
-        body:not(.loaded) {
-            overflow: hidden;
-        }
-
-        body.loaded > div.preloader {
-            animation: hidePreloader 0.5s linear 0.5s forwards;
-        }
-    </style>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/landing/libs/@fortawesome/fontawesome-free/css/all.min.css"/>
-    <!-- Quick CSS -->
-    <link rel="stylesheet" href="/landing/css/quick-website.css" id="stylesheet"/>
-{% endblock %}
-
-{% block body %}
-    {% include 'partials/_header.html.twig' %}
-    <!-- Main content -->
-    <section class="slice py-7">
-        <div class="container">
-            <div class="row row-grid align-items-center">
-                <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
-                    <!-- Image -->
-                    <figure class="w-100">
-                        <img
-                                alt="Image placeholder"
-                                src="/landing/img/svg/illustrations/illustration-3.svg"
-                                class="img-fluid mw-md-120"
-                        />
-                    </figure>
+{% block content %}
+    <main>
+        <section class="section section-header text-dark py-5 my-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10 text-center mb-5 mb-md-7">
+                        <h1 class="display-2 font-weight-bolder mb-3">
+                            {{ 'home.title'|trans|raw }}
+                        </h1>
+                        <p class="lead mb-3 mb-lg-5">
+                            {{ 'home.subtitle'|trans }}
+                        </p>
+                    </div>
+                    <div class="col-10 col-md-6 justify-content-center">
+                        <img class="d-inline-block w-100" src="/assets/img/tasks_computer.svg"
+                             alt="Mobile App Mockup">
+                    </div>
                 </div>
-                <div class="col-12 col-md-7 col-lg-6 order-md-1 pr-md-5">
-                    <!-- Heading -->
-                    <h1 class="display-4 text-center text-md-left mb-3">
-                        {{ 'home.title'|trans|raw }}
-                    </h1>
-                    <!-- Text -->
-                    <p class="lead text-center text-md-left text-muted">
-                        {{ 'home.subtitle'|trans }}
-                    </p>
-                    <!-- Buttons -->
-                    <div class="text-center text-md-left mt-5">
-                        <a href="/login" class="btn btn-primary btn-lg">
-                            <span class="btn-inner--text">{{ 'home.main_button'|trans }}</span>
+            </div>
+        </section>
+        <section class="section section-lg mb-5 mb-lg-0 ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                        <div class="card border-0 bg-white text-center p-1">
+                            <div class="card-header bg-white border-0 pb-0">
+                                <h2 class="h3 text-dark m-0">
+                                    {{ 'home.section_info.left.title'|trans }}
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    {{ 'home.section_info.left.text'|trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                        <div class="card border-0 bg-white text-center p-1">
+                            <div class="card-header bg-white border-0 pb-0">
+                                <h2 class="h3 text-dark m-0">
+                                    {{ 'home.section_info.center.title'|trans }}
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    {{ 'home.section_info.center.text'|trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                        <div class="card border-0 bg-white text-center p-1">
+                            <div class="card-header bg-white border-0 pb-0">
+                                <h2 class="h3 text-dark m-0">
+                                    {{ 'home.section_info.right.title'|trans }}
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    {{ 'home.section_info.right.text'|trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section section-lg bg-light my-5" id="about">
+            <div class="container">
+                <div class="row justify-content-center mb-3 mt-3 py-5">
+                    <div class="col-12 col-lg-8 text-center">
+                        <h2 class="h1 mb-3">{{ "home.section_divider.title"|trans|raw }}</h2>
+                        <p class="lead">{{ "home.section_divider.text"|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section section-lg" id="info">
+            <div class="container">
+                <div class="row row-grid align-items-center mb-5 pb-lg-5">
+                    <div class="col-12 col-lg-6 text-center text-lg-left  mb-5">
+                        <h2 class="mb-3">{{ "home.section_left.title"|trans }}</h2>
+                        <p>
+                            {{ "home.section_left.text"|trans|raw }}
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-5 ml-lg-auto">
+                        <img src="/assets/img/working.svg" class="w-100" alt="">
+                    </div>
+                </div>
+                <div class="row row-grid align-items-center mb-5 pb-lg-5">
+                    <div class="col-12 col-lg-6 order-lg-2 text-center text-lg-left  mb-5">
+                        <h2 class="mb-3">{{ 'home.section_right.title'|trans }}</h2>
+                        <p>
+                            {{ "home.section_right.text"|trans|raw }}
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-5 mr-lg-auto">
+                        <img src="/assets/img/devices.svg" class="w-100" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 mb-5 pb-5 mx-auto d-flex">
+                        <div class="card border-light p-3">
+                            <div class="card-body">
+                                <h2 class="display-2 mb-3">{{ "home.section_points.left.point"|trans|raw }}</h2>
+                                <span>{{ "home.section_points.left.text"|trans|raw }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 mb-5 pb-5 mx-auto d-flex">
+                        <div class="card border-light p-3">
+                            <div class="card-body">
+                                <h2 class="display-2 mb-3">{{ "home.section_points.center.point"|trans|raw }}</h2>
+                                <span>{{ "home.section_points.center.text"|trans|raw }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 mb-5 pb-5 mx-auto d-flex">
+                        <div class="card border-light p-3">
+                            <div class="card-body">
+                                <h2 class="display-2 mb-3">{{ "home.section_points.right.point"|trans|raw }}</h2>
+                                <span>{{ "home.section_points.right.text"|trans|raw }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="section bg-soft" id="download">
+            <div class="container">
+                <div class="row row-grid align-items-center">
+                    <div class="col-12 col-lg-6 text-center text-lg-left mb-5">
+                        <h2 class="display-3 mb-3">{{ "home.secton_cta.title"|trans|raw }}</h2>
+                        <p class="lead">{{ "home.secton_cta.text"|trans|raw }}</p>
+                        <a href="#" class="btn btn-primary mt-3">
+                            {{ 'home.secton_cta.button'|trans }}
+                            <span class="icon icon-xs ml-2">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
                         </a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="slice slice-lg pt-lg-6 pb-0 pb-lg-6 bg-section-secondary">
-        <div class="container">
-            <div class="row mb-5 justify-content-center text-center">
-                <div class="col-lg-6">
-            <span class="badge badge-soft-primary badge-pill badge-lg">
-                {{ 'home.section_info.label'|trans }}
-            </span>
-                    <h2 class="mt-4">{{ 'home.section_info.title'|trans }}</h2>
-                    <div class="mt-2">
-                        <p class="lead lh-180">
-                            {{ 'home.section_info.subtitle'|trans }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- Card -->
-            <div class="row mt-5">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body pb-5">
-                            <div class="pt-4 pb-5">
-                                <img
-                                        src="/landing/img/svg/illustrations/illustration-5.svg"
-                                        class="img-fluid img-center"
-                                        style="height: 150px;"
-                                        alt="Illustration"
-                                />
-                            </div>
-                            <h5 class="h4 lh-130 mb-3">
-                                {{ 'home.section_info.info_block_1.title'|trans }}
-                            </h5>
-                            <p class="text-muted mb-0">
-                                {{ 'home.section_info.info_block_1.text'|trans|raw }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body pb-5">
-                            <div class="pt-4 pb-5">
-                                <img
-                                        src="/landing/img/svg/illustrations/illustration-6.svg"
-                                        class="img-fluid img-center"
-                                        style="height: 150px;"
-                                        alt="Illustration"
-                                />
-                            </div>
-                            <h5 class="h4 lh-130 mb-3">{{ 'home.section_info.info_block_2.title'|trans }}</h5>
-                            <p class="text-muted mb-0">
-                                {{ 'home.section_info.info_block_2.text'|trans|raw }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body pb-5">
-                            <div class="pt-4 pb-5">
-                                <img
-                                        src="/landing/img/svg/illustrations/illustration-7.svg"
-                                        class="img-fluid img-center"
-                                        style="height: 150px;"
-                                        alt="Illustration"
-                                />
-                            </div>
-                            <h5 class="h4 lh-130 mb-3">{{ 'home.section_info.info_block_3.title'|trans }}</h5>
-                            <p class="text-muted mb-0">
-                                {{ 'home.section_info.info_block_3.text'|trans|raw }}
-                            </p>
-                        </div>
+                    <div class="col-12 col-lg-5 ml-lg-auto">
+                        <img src="/assets/img/productive.svg" class="w-100" alt="">
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <section class="slice slice-lg">
-        <div class="container">
-            <div class="py-6">
-                <div class="row row-grid justify-content-between align-items-center">
-                    <div class="col-lg-5 order-lg-2">
-                        <h5 class="h3">{{ 'home.section_about.title'|trans }}</h5>
-                        <p class="lead my-4">
-                            {{ 'home.section_about.subtitle'|trans }}
-                        </p>
-                        <ul class="list-unstyled mb-0">
-                            <li class="py-2">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <div class="icon icon-shape bg-primary text-white icon-sm rounded-circle mr-3">
-                                            <i class="fas fa-file-invoice"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="h6 mb-0">{{ 'home.section_about.list_1'|trans }}</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="py-2">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <div class="icon icon-shape bg-primary text-white icon-sm rounded-circle mr-3">
-                                            <i class="fas fa-store-alt"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="h6 mb-0">{{ 'home.section_about.list_2'|trans }}</span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6 order-lg-1">
-                        <div class="card mb-0 mr-lg-5">
-                            <div class="card-body p-0">
-                                <img
-                                        alt="Image placeholder"
-                                        src="/landing/img/theme/light/frame-dayl-capture.png"
-                                        class="img-fluid shadow rounded"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    {% include 'partials/_footer.html.twig' %}
-{% endblock %}
-
-{% block javascripts %}
-
+    </main>
 {% endblock %}

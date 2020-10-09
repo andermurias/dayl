@@ -1,84 +1,30 @@
-<footer class="position-relative" id="footer-main">
-    <div class="footer pt-lg-7 footer-dark bg-dark">
-        <!-- SVG shape -->
-        <div class="shape-container shape-line shape-position-top shape-orientation-inverse">
-            <svg
-                    width="2560px"
-                    height="100px"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    preserveAspectRatio="none"
-                    x="0px"
-                    y="0px"
-                    viewBox="0 0 2560 100"
-                    style="enable-background: new 0 0 2560 100;"
-                    xml:space="preserve"
-                    class="fill-section-secondary"
-            >
-            <polygon points="2560 0 2560 100 0 100"></polygon>
-          </svg>
-        </div>
-        <!-- Footer -->
-        <div class="container pt-4">
-            <div class="row">
-                <div class="col-lg-4 mb-5 mb-lg-0 align-items-center d-flex justify-content-center justify-content-md-start">
-                    <!-- Theme's logo -->
-                    <a href="/login">
-                        <img
-                                alt="Image placeholder"
-                                src="/landing/img/brand/dayl_logo_full_dark.svg"
-                                style="width: 10rem;"
-                                id="footer-logo"
-                        />
-                    </a>
-                </div>
-                <div class="col-lg-2 col-6 col-sm-4 ml-lg-auto mb-5 mb-lg-0"></div>
-                <div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0"></div>
-                <div class="col-lg-2 col-12">
-                    <h6 class="heading mb-3 text-center text-md-left">{{ 'footer.about.title'|trans }}</h6>
-                    <ul class="list-unstyled text-center text-md-left">
-                        <li><a href="/login">{{ 'footer.about.login'|trans }}</a></li>
-                        <li><a href="https://github.com/andermurias/dayl">{{ 'footer.about.github'|trans }}</a></li>
-                        <li><a href="mailto:ander@murias.nl">{{ 'footer.about.support'|trans }}</a></li>
-                    </ul>
-                </div>
+<div class="container pt-5">
+    <footer class="footer my-5 py-5 border-top">
+        <div class="row justify-content-between pt-5">
+            <div class="col-12 d-flex  justify-content-center justify-content-lg-start">
+                <a class="navbar-brand" href="/">
+                    <img src="/assets/img/brand/dayl_logo_full.svg" width="150" class="mb-3">
+                </a>            </div>
+            <div class="col-12 col-lg-4 mb-5 mb-lg-0 text-center text-lg-left">
+                <p>{{ "footer.text"|trans|raw }}</p>
             </div>
-            <hr class="divider divider-fade divider-dark my-4"/>
-            <div class="row align-items-center justify-content-md-between pb-4">
-                <div class="col-md-6">
-                    <ul class="nav justify-content-center justify-content-md-start mt-3 mt-md-0 text-center text-md-left">
-                        <li class="nav-item col-md-auto col-12">
-                            <a class="nav-link" href="/?lang=es">
-                                ES
-                            </a>
-                        </li>
-                        <li class="nav-item col-md-auto col-12">
-                            <a class="nav-link" href="/?lang=en">
-                                EN
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <ul class="nav justify-content-center justify-content-md-end mt-3 mt-md-0 text-center text-md-right">
-                        <li class="nav-item col-md-auto col-12">
-                            <a class="nav-link" href="/about/terms">
-                                {{ 'footer.bottom.terms'|trans }}
-                            </a>
-                        </li>
-                        <li class="nav-item col-md-auto col-12">
-                            <a class="nav-link" href="/about/privacy">
-                                {{ 'footer.bottom.privacy'|trans }}
-                            </a>
-                        </li>
-                        <li class="nav-item col-md-auto col-12">
-                            <a class="nav-link" href="/about/cookies">
-                                {{ 'footer.bottom.cookies'|trans }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0 text-center text-lg-left ml-auto">
+                <span class="h5 font-weight-bold">{{ 'footer.about.title'|trans }}</span>
+                <ul class="footer-links mt-2">
+                    <li><a target="_blank"
+                           href="https://github.com/andermurias/dayl">{{ 'footer.about.github'|trans }}</a></li>
+                    <li><a href="/about/discover">{{ 'footer.about.discover'|trans }}</a></li>
+                    <li><a href="mailto:ander@murias.nl">{{ 'footer.about.support'|trans }}</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0 text-center text-lg-left">
+                <span class="h5 font-weight-bold">{{ 'footer.bottom.title'|trans }}</span>
+                <ul class="footer-links mt-2">
+                    <li><a href="/about/terms">{{ 'footer.bottom.terms'|trans }}</a></li>
+                    <li><a href="/about/privacy">{{ 'footer.bottom.privacy'|trans }}</a></li>
+                    <li><a href="/about/cookies">{{ 'footer.bottom.cookies'|trans }}</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</div>

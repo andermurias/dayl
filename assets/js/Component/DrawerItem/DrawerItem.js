@@ -10,7 +10,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import {Box} from '@material-ui/core';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Switch from '@material-ui/core/Switch';
+import Box from '@material-ui/core/Box';
 
 import Link from '../../Atom/Link';
 
@@ -19,6 +21,7 @@ import {colors} from '../../Common/Colors';
 import {AppContext} from '../../_context/AppContext';
 
 import {item} from '../../_proptypes/drawer';
+import {isDarkTheme} from '../../_config/theme';
 
 const useStyles = makeStyles((theme) => ({
   listItemIcon: {
@@ -30,9 +33,12 @@ const useStyles = makeStyles((theme) => ({
   selectedListItem: {
     borderRight: 'solid ' + theme.spacing(0.5) + 'px ' + colors.orangePeel,
   },
+  listItem: {
+    listStyle: 'none',
+  },
 }));
 
-const DrawerItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
+const DrawerItem = ({item: {text, Icon, url, type, action, checked}, ...rest}) => {
   const classes = useStyles();
   const location = useLocation();
   const {setCloseDrawer} = useContext(AppContext);
@@ -63,6 +69,35 @@ const DrawerItem = ({item: {text, Icon, url, type, action}, ...rest}) => {
             primaryTypographyProps={{variant: 'body2', color: isUrlSelected(url) ? 'secondary' : 'primary'}}
             primary={text}
           />
+        </ListItem>
+      );
+    case 'switch':
+      return (
+        <ListItem
+          dense
+          onClick={() => {
+            setCloseDrawer();
+          }}
+          classes={{container: classes.listItem}}
+          {...rest}
+        >
+          {Icon && (
+            <ListItemIcon classes={{root: classes.listItemIcon}}>
+              <Icon fontSize="small" color={isUrlSelected(url) ? 'secondary' : 'primary'} />
+            </ListItemIcon>
+          )}
+          <ListItemText
+            primaryTypographyProps={{variant: 'body2', color: isUrlSelected(url) ? 'secondary' : 'primary'}}
+            primary={text}
+          />
+          <ListItemSecondaryAction>
+            <Switch
+              edge="end"
+              onChange={action}
+              checked={checked}
+              inputProps={{'aria-labelledby': 'switch-list-label-theme'}}
+            />
+          </ListItemSecondaryAction>
         </ListItem>
       );
     case 'divider':

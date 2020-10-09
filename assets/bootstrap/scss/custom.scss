@@ -1,0 +1,40 @@
+@import "variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+footer.footer {
+  padding-top: 3rem;
+  margin-top: 3rem;
+}
+
+.navbar-nav {
+  border-left: solid 2px $orangePeel;
+
+  @include media-breakpoint-up(lg) {
+    border-left: 0;
+  }
+}
+
+.page-text {
+  p, li {
+    @include margin-bottom(2rem);
+    line-height: 2rem;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .h2, .h3, .h4, h2, h3, h4 {
+    @include margin-top(2rem);
+    @include margin-bottom(2rem);
+  }
+}
+
+.discover__image {
+  filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.12)) drop-shadow(0 1px 10px rgba(0, 0, 0, 0.14)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12)) drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1));
+  height: 100%;
+}
