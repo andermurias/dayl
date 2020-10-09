@@ -3,12 +3,12 @@
     "short_name": "dayl",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png?v=1.2",
+            "src": "/favicon/android-chrome-192x192.png?v=1.2",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/android-chrome-256x256.png?v=1.2",
+            "src": "/favicon/android-chrome-256x256.png?v=1.2",
             "sizes": "256x256",
             "type": "image/png"
         }
