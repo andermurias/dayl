@@ -7,8 +7,7 @@ header:
     button: Login
 home:
     title: Yesterday tasks<br/><span class="text-primary">Tomorrow objectives</span>
-    subtitle: ¿Que hiciste ayer? ¿Que harás hoy? Guarda un historial de todo lo que has hecho de manera sencilla y rápida
-    main_button: Start now
+    subtitle: ¿What you did yesterday? ¿What you'll do today? Save a a task histroy with everithing you've done in an easy and fast way.
     section_info:
         left:
             title: Your tasks
@@ -24,10 +23,10 @@ home:
         text: Easy to read, easy to edit, without complications
     section_left:
         title: All that you need, at a glance
-        text: No importa tu profesión o donde trabajes, con dayl puedes almacenar todo lo que has hecho día a día y mantener un registro detallado de tus tareas.</p><p><i>¿Necesitas acceder rápidamente a una fecha en concreto?</i> Entra en la vista de calendario.<p/><p><i>¿No encuentras una tarea?</i> Utiliza el buscador todo está preparado para que gastes el mennor tiempo posible.
+        text: No matter your profession or where you work, with dayl you can store everything you have done every day and keep a detailed record of your tasks.</p><p><i>Do you need to quickly access a specific date? </i> Enter the calendar view.<p/><p><i>Can't find a task?</i> Use the search engine, everything is prepared so that you spend as little time as possible.
     section_right:
         title: Wherever you are, always with you
-        text: Pensado para escritorio, pensado para movil</p><p>Ya trabajes con un ordenador, o solo tengas tu móvil a mano, tus reuniones sean online o en persona, <span class="text-primary">dayl</span> está pensado para estar ahí siempre que lo necesites.</p><p>Todas las funcionalidades están disponibles en cualquier dispositivo para que no tengas limitaciones
+        text: Ready for desktop, Ready for mobile.</p><p>Whether you work with a computer, or you only have your mobile at hand, your meetings are online or in person, <span class="text-primary">dayl</span> It is designed to be there whenever you need it.</p><p>All the functionalities are available on any device so that you do not have limitations
     section_points:
         left:
             point: 10s
@@ -49,23 +48,23 @@ discover:
     blocks:
         1:
             title: Login with Google
-            text: Solo necesitas una cuenta de google para acceder, sin proceso de registro, sin email de validación, sin complicaciones, listo para usarse de manera inmediata
+            text: You only need a google account to access, no registration process, no validation email, no complications, ready to use immediately
             image: desktop_login.svg
         2:
             title: Diferent layouts
-            text: Facil de utilizar y preparado para que cuentres todo lo que necesitas. Vista de día en la que puedes ver tus tareas y tu objetivos, Buscador, para cuando conoces la tarea pero no cuando, y calendario, para cuando quieres revisar varios días a la vez.
+            text: Easy to use and ready for you, everithing you need at a glance. Day view in which you can see your tasks and your objectives, Finder, for when you know the task but not when, and calendar, for when you want to review several days at a time.
             image: mobile_devices.svg
         3:
             title: Work on any devices
-            text: Usalo en tu movil, tablet y ordenador, da igual, dayl está preparado para funcionar a la vez en cualquier dispositivo, ya sea de escritorio o movil y en tantos dispositivos como necesites.
+            text: Use it on your mobile, tablet and computer, it doesn't matter, dayl is ready to work at the same time on any device, whether desktop or mobile, and on as many devices as you need.
             image: mobile_desktop.svg
         4:
             title: Export your data
-            text: Exporta tus tareas de cada día y llévatelas donde quieras, con un sencillo click puede generar un csv con tus tareas realizadas para la fecha seleccionada, facil y son complicaciones.
+            text: Export your daily tasks and take them wherever you want, with a simple click you can generate a csv with your tasks performed for the selected date, easy and they are complications.
             image: desktop_export.svg
     last:
         title: Start usign <span class="text-primary">dayl</span>
-        text: Sin costes, sin tarjetas y sin registros complicados, accede ahora mismo y empieza a usarlo para organzar tu trabajo diario y tus objetivos del día a día
+        text: No costs, no cards and no complicated registrations, access right now and start using it to organize your daily work and your day-to-day goals
         button: Start now
 cookies:
     title: Cookies
@@ -77,7 +76,7 @@ terms:
     title: Terms and Conditions
     subtitle: Don't be evil with us
 footer:
-    text: Dayl es una herramienta de software libre, para gestionar tu día a día, puedes ver mas información al respecto en nuestro repositorio de <a href="https://github.com/andermurias/dayl">Github</a>
+    text: Dayl is a free software tool, to manage your day to day, you can see more information about it in our repository <a href="https://github.com/andermurias/dayl">Github</a>
     about:
         title: Dayl
         login: Login
