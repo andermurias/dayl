@@ -32,6 +32,7 @@ export const useTaskApi = () => {
       start: task.start,
       end: task.end,
       date: task.date,
+      deadline: task.deadline,
     });
 
   const addTask = (data) =>
@@ -40,6 +41,7 @@ export const useTaskApi = () => {
       start: data.start,
       end: data.end,
       date: data.date,
+      deadline: data.deadline,
     });
 
   const getTasksForDate = (date) => Promise.all([getTasks('pending', null), getTasks('done', date)]);

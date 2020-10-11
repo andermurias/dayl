@@ -17,7 +17,10 @@
     "new": "Nueva tarea",
     "done": "Finalizadas",
     "pending": "Pendientes",
-    "export": "Exportar a CSV"
+    "export": "Exportar a CSV",
+    "days": "días",
+    "day": "día",
+    "remaining": "días restantes"
   },
   "form": {
     "description": "¿Que has hecho?",
@@ -25,7 +28,8 @@
     "end": "Hasta",
     "done": "Finalizada",
     "edit": "Editar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "deadline": "Fecha de entrega"
   },
   "dialog": {
     "edit": {
@@ -41,7 +45,11 @@
       "empty": "Crear una copia vacía"
     },
     "delete": "Eliminar",
-    "date": "Seleccionar fecha de finalización"
+    "date": "Seleccionar fecha de finalización",
+    "deadline": {
+      "set": "Seleccionar fecha límite",
+      "remove": "Eliminar fecha límite"
+    }
   },
   "table": {
     "description": "Descripción",

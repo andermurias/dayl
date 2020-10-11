@@ -132,6 +132,13 @@ class ApiTaskController extends AbstractController
      *     description="End time (HH:MM)"
      * )
      *
+     * @SWG\Parameter(
+     *     name="deadline",
+     *     in="header",
+     *     type="string",
+     *     description="Date to set as done (YYYY-MM-DD)"
+     * )
+     *
      * @SWG\Tag(name="Tasks")
      * @Security(name="Bearer")
      */
@@ -156,6 +163,10 @@ class ApiTaskController extends AbstractController
 
             if (array_key_exists('date', $data)) {
                 $task->setDate(null === $data['date'] ? null : new \DateTime($data['date']));
+            }
+
+            if (array_key_exists('deadline', $data)) {
+                $task->setDeadline(null === $data['deadline'] ? null : new \DateTime($data['deadline']));
             }
             $entityManager->persist($task);
             $entityManager->flush();
@@ -207,6 +218,13 @@ class ApiTaskController extends AbstractController
      *     description="End time (HH:MM)"
      * )
      *
+     * @SWG\Parameter(
+     *     name="deadline",
+     *     in="header",
+     *     type="string",
+     *     description="Date to set as done (YYYY-MM-DD)"
+     * )
+     *
      * @SWG\Tag(name="Tasks")
      * @Security(name="Bearer")
      */
@@ -231,6 +249,10 @@ class ApiTaskController extends AbstractController
         }
         if (array_key_exists('date', $data) && $data['date']) {
             $task->setDate(new \DateTime($data['date']));
+        }
+
+        if (array_key_exists('deadline', $data) && $data['deadline']) {
+            $task->setDeadline(new \DateTime($data['deadline']));
         }
 
         $entityManager->persist($task);
@@ -309,6 +331,7 @@ class ApiTaskController extends AbstractController
             'start',
             'end',
             'date',
+            'deadline',
         ]);
 
         foreach ($userTasks as $task) {
@@ -318,6 +341,7 @@ class ApiTaskController extends AbstractController
                 $task->getStart() ? $task->getStart()->format('H:i') : '08:00',
                 $task->getEnd() ? $task->getEnd()->format('H:i') : '08:00',
                 $task->getDate()->format('Y-m-d'),
+                $task->getDeadline()->format('Y-m-d'),
             ]);
         }
 

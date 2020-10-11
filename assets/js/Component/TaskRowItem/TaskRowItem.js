@@ -1,4 +1,6 @@
 import React, {useContext} from 'react';
+import classNames from 'classnames';
+import {useTranslation} from 'react-i18next';
 
 import PropTypes from 'prop-types';
 
@@ -17,17 +19,20 @@ import MoreVertIccon from '@material-ui/icons/MoreVert';
 
 import {AppContext} from '../../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
-import {getDiffTime, taskHighlighter} from '../../Common/Helper';
+import {getDiffDays, getDiffTime, taskHighlighter} from '../../Common/Helper';
 import WrapSkeletonOnLoading from '../../_hoc/WrapSkeletonOnLoading';
 
 import {task} from '../../_proptypes/task';
+import {colors} from '../../Common/Colors';
 
-const timeCellWidth = 150;
-const durationCellWidth = 80;
-const actionCellWidth = 80;
+const timeCellWidth = 125;
+const durationCellWidth = 75;
+const actionCellWidth = 70;
 const checkboxCellWidth = 80;
+const deadlineCellWidth = 110;
 
-const getFixedCellsSize = () => timeCellWidth * timeCellWidth + durationCellWidth + actionCellWidth + checkboxCellWidth;
+const getFixedCellsSize = () =>
+  timeCellWidth * timeCellWidth + durationCellWidth + actionCellWidth + checkboxCellWidth + deadlineCellWidth;
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -64,6 +69,26 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
+  deadline: {
+    paddingTop: theme.spacing(1),
+    opacity: '.5',
+  },
+  deadlineCellText: {
+    marginLeft: theme.spacing(1),
+    opacity: '.5',
+  },
+  deadlineCell: {
+    width: deadlineCellWidth,
+  },
+  deadlineToday: {
+    color: colors.orangePeel,
+    opacity: '1',
+  },
+  deadlineLate: {
+    color: colors.orangePeel,
+    fontWeight: 'bold',
+    opacity: '1',
+  },
   descriptionCellSubtitle: {
     opacity: '.5',
     paddingTop: theme.spacing(1),
@@ -72,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TaskListItem = ({done, task}) => {
   const classes = useStyles();
+  const {t} = useTranslation();
 
   const labelId = `checkbox-list-label-${task.id}`;
 
@@ -80,6 +106,18 @@ const TaskListItem = ({done, task}) => {
   const {processTask} = useTaskProcessor();
 
   const duration = task.start && task.end && moment.utc(getDiffTime(task.start, task.end)).format('HH:mm');
+
+  const getDeadlineTextAsDate = (task) => task.deadline && moment(task.deadline).format('L');
+  const getDeadlineTextAsTimeDiff = (task) =>
+    task.deadline ? getDiffDays(task.deadline, moment().format('YYYY-MM-DD')) : null;
+  const getDeadlineData = (task) => ({
+    date: getDeadlineTextAsDate(task),
+    remaining: getDeadlineTextAsTimeDiff(task),
+  });
+
+  const displayRemainingDays = (task) => !task.date && task.deadline != null;
+
+  const deadline = getDeadlineData(task);
 
   return (
     <TableRow key={labelId} role="checkbox" hover>
@@ -108,6 +146,20 @@ const TaskListItem = ({done, task}) => {
             }}
           />
           <Hidden mdUp>
+            {displayRemainingDays(task) && (
+              <Typography
+                variant="body2"
+                classes={{
+                  root: classNames(
+                    classes.deadline,
+                    {[classes.deadlineToday]: !task.date && deadline.remaining === 0},
+                    {[classes.deadlineLate]: deadline.remaining < 0},
+                  ),
+                }}
+              >
+                {deadline.remaining + ' ' + t('tasks.remaining')}
+              </Typography>
+            )}
             <Typography variant="body2" classes={{root: classes.descriptionCellSubtitle}}>
               {task.start && task.end && task.start + ' - ' + task.end + ' (' + duration + ')'}
             </Typography>
@@ -115,6 +167,43 @@ const TaskListItem = ({done, task}) => {
         </WrapSkeletonOnLoading>
       </TableCell>
       <Hidden smDown>
+        <TableCell
+          align="right"
+          classes={{root: classes.deadlineCell}}
+          onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+        >
+          <WrapSkeletonOnLoading>
+            {displayRemainingDays(task) && (
+              <>
+                <Typography
+                  variant="h6"
+                  display="inline"
+                  classes={{
+                    root: classNames(
+                      {[classes.deadlineToday]: !task.date && deadline.remaining === 0},
+                      {[classes.deadlineLate]: deadline.remaining < 0},
+                    ),
+                  }}
+                >
+                  {deadline.remaining}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  display="inline"
+                  classes={{
+                    root: classNames(
+                      classes.deadlineCellText,
+                      {[classes.deadlineToday]: !task.date && deadline.remaining === 0},
+                      {[classes.deadlineLate]: deadline.remaining < 0},
+                    ),
+                  }}
+                >
+                  {Math.abs(deadline.remaining) === 1 ? t('tasks.day') : t('tasks.days')}
+                </Typography>
+              </>
+            )}
+          </WrapSkeletonOnLoading>
+        </TableCell>
         <TableCell
           align="right"
           classes={{root: classes.timeCell}}

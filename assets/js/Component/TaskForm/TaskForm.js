@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonIcon: {
     margin: 0,
+    padding: 0,
+    minWidth: 'unset',
   },
 }));
 
@@ -56,7 +58,7 @@ const TaskForm = () => {
 
   const {currentDate, editTask, setEditTask, setLoading} = useContext(AppContext);
 
-  const [startDate, handlestartDateChange] = useState(new Date());
+  const [startDate, handleStartDateChange] = useState(new Date());
   const [endDate, handleEndDateChange] = useState(new Date());
   const [description, setDescription] = useState('');
   const [done, setDone] = useState(false);
@@ -66,7 +68,7 @@ const TaskForm = () => {
 
   useEffect(() => {
     if (editTask) {
-      handlestartDateChange(editTask.start ? new Date(moment(editTask.start, 'HH:mm').toDate()) : new Date());
+      handleStartDateChange(editTask.start ? new Date(moment(editTask.start, 'HH:mm').toDate()) : new Date());
       handleEndDateChange(editTask.end ? new Date(moment(editTask.end, 'HH:mm').toDate()) : new Date());
       setDescription(editTask.description);
       setDone(!!editTask.date);
@@ -78,7 +80,7 @@ const TaskForm = () => {
 
   const cleanForm = () => {
     taskDescriptionRef.current.value = '';
-    handlestartDateChange(new Date());
+    handleStartDateChange(new Date());
     handleEndDateChange(new Date());
     setDescription('');
     setDone(false);
@@ -150,21 +152,19 @@ const TaskForm = () => {
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Grid container item xs={6} sm={5} md={2}>
             <TimePicker
-              inputVariant="outlined"
               id="task-start"
               label={t('form.start')}
               minutesStep={5}
               className={classes.inputText}
               ampm={false}
               value={startDate}
-              onChange={handlestartDateChange}
+              onChange={handleStartDateChange}
               fullWidth
               autoOk
             />
           </Grid>
           <Grid container item xs={6} sm={5} md={2}>
             <TimePicker
-              inputVariant="outlined"
               id="task-end"
               label={t('form.end')}
               minutesStep={5}

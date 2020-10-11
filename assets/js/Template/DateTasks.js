@@ -17,11 +17,8 @@ import TaskForm from '../Component/TaskForm/TaskForm';
 import TaskListHeader from '../Component/TaskListHeader/TaskListHeader';
 import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
-import {withLayout} from '../_hoc/withLayout';
-
 import TasksTable from '../Component/TasksTable/TasksTable';
 import Accordion from '../Component/Accordion/Accordion';
-import MainLayout from '../Layout/MainLayout';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

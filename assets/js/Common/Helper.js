@@ -32,3 +32,4 @@ export const taskHighlighter = (description, classes) =>
 export const generateList = (length) => Object.keys(new Array(length).fill());
 
 export const getDiffTime = (start, end) => moment(end, 'HH:mm').diff(moment(start, 'HH:mm'));
+export const getDiffDays = (start, end) => moment(start, 'YYYY-MM-DD').diff(moment(end, 'YYYY-MM-DD'), 'days');

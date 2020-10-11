@@ -17,7 +17,10 @@
     "new": "New Task",
     "done": "Done",
     "pending": "Pending",
-    "export": "Export to CSV"
+    "export": "Export to CSV",
+    "days": "days",
+    "day": "day",
+    "remaining": "remaining days"
   },
   "form": {
     "description": "What have you done?",
@@ -25,7 +28,8 @@
     "end": "To",
     "done": "Done",
     "edit": "Edit",
-    "save": "Save"
+    "save": "Save",
+    "deadline": "Deadline"
   },
   "dialog": {
     "edit": {
@@ -41,7 +45,11 @@
       "empty": "Create a clean copy"
     },
     "delete": "Delete",
-    "date": "Mark as done with date"
+    "date": "Mark as done with date",
+    "deadline": {
+      "set": "Set deadline date",
+      "remove": "Remove deadline date"
+    }
   },
   "table": {
     "description": "Description",

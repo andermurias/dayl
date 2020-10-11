@@ -27,6 +27,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import EventIcon from '@material-ui/icons/Event';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 import {AppContext} from '../../_context/AppContext';
 import {
@@ -42,6 +43,7 @@ import {taskHighlighter} from '../../Common/Helper';
 import {colors} from '../../Common/Colors';
 
 const UPDATE_DATE_TASK = 'update_date';
+const UPDATE_DUE_DATE_TASK = 'update_due_date';
 
 const createOption = ({icon, text, action, color}) => ({
   icon: icon,
@@ -84,7 +86,8 @@ const TaskItemDialog = () => {
 
   const {setOptionTask, optionTask, editTask} = useContext(AppContext);
 
-  const [pickerStatus, setPickerStatus] = useState(false);
+  const [endDatePickerStatus, setEndDatePickerStatus] = useState(false);
+  const [deadlinePickerStatus, setDeadlinePickerStatus] = useState(false);
 
   const isSmallOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -96,8 +99,8 @@ const TaskItemDialog = () => {
 
   const options = [
     createOption({
-      icon: editTask ? ClearIcon : EditIcon,
-      text: editTask ? t('dialog.edit.cancel') : t('dialog.edit.enable'),
+      icon: editTask && editTask.id === optionTask?.id ? ClearIcon : EditIcon,
+      text: editTask && editTask.id === optionTask?.id ? t('dialog.edit.cancel') : t('dialog.edit.enable'),
       action: EDIT_TASK,
     }),
     createOption({
@@ -109,6 +112,11 @@ const TaskItemDialog = () => {
       icon: EventIcon,
       text: t('dialog.date'),
       action: UPDATE_DATE_TASK,
+    }),
+    createOption({
+      icon: EventNoteIcon,
+      text: t('dialog.deadline.set'),
+      action: UPDATE_DUE_DATE_TASK,
     }),
     createOption({
       icon: FileCopyOutlinedIcon,
@@ -130,7 +138,10 @@ const TaskItemDialog = () => {
   const performAction = (action, task) => async () => {
     switch (action) {
       case UPDATE_DATE_TASK:
-        setPickerStatus(true);
+        setEndDatePickerStatus(true);
+        break;
+      case UPDATE_DUE_DATE_TASK:
+        setDeadlinePickerStatus(true);
         break;
       default:
         setOptionTask(null);
@@ -139,7 +150,12 @@ const TaskItemDialog = () => {
   };
 
   const performMoveTask = (date) => performAction(UPDATE_TASK, {...optionTask, date: date.format('YYYY-MM-DD')})();
-
+  const performSetDeadline = (date) =>
+    performAction(UPDATE_TASK, {...optionTask, deadline: date.format('YYYY-MM-DD')})();
+  const performClearDeadline = () => {
+    performAction(UPDATE_TASK, {...optionTask, deadline: null})();
+    setDeadlinePickerStatus(false);
+  };
   return (
     <>
       <Dialog
@@ -186,10 +202,26 @@ const TaskItemDialog = () => {
           todayLabel={t('tasks.today')}
           cancelLabel={t('tasks.cancel')}
           okLabel={t('tasks.ok')}
-          open={pickerStatus}
-          onOpen={() => setPickerStatus(true)}
-          onAccept={() => setPickerStatus(false)}
-          onClose={() => setPickerStatus(false)}
+          open={deadlinePickerStatus}
+          onOpen={() => setDeadlinePickerStatus(true)}
+          onAccept={() => setDeadlinePickerStatus(false)}
+          onClose={() => setDeadlinePickerStatus(false)}
+          onChange={performSetDeadline}
+          clearable={true}
+          onClear={performClearDeadline}
+          TextFieldComponent={() => null}
+        />
+        <DatePicker
+          autoOk
+          label="Date Picker"
+          showTodayButton={true}
+          todayLabel={t('tasks.today')}
+          cancelLabel={t('tasks.cancel')}
+          okLabel={t('tasks.ok')}
+          open={endDatePickerStatus}
+          onOpen={() => setEndDatePickerStatus(true)}
+          onAccept={() => setEndDatePickerStatus(false)}
+          onClose={() => setEndDatePickerStatus(false)}
           onChange={performMoveTask}
           TextFieldComponent={() => null}
         />
