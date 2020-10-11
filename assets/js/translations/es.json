@@ -41,14 +41,14 @@
       "pending": "Marcar como pendiente"
     },
     "copy": {
-      "full": "Crear un duplicado",
-      "empty": "Crear una copia vacía"
+      "full": "Duplicar",
+      "empty": "Copiar sin fechas"
     },
     "delete": "Eliminar",
     "date": "Seleccionar fecha de finalización",
     "deadline": {
-      "set": "Seleccionar fecha límite",
-      "remove": "Eliminar fecha límite"
+      "set": "Añadir fecha límite",
+      "change": "Cambiar fecha límite"
     }
   },
   "table": {

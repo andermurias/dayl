@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
 import MomentUtils from '@date-io/moment';
+import moment from 'moment';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -45,12 +46,15 @@ import {colors} from '../../Common/Colors';
 const UPDATE_DATE_TASK = 'update_date';
 const UPDATE_DUE_DATE_TASK = 'update_due_date';
 
-const createOption = ({icon, text, action, color}) => ({
+const createOption = ({icon, text, action, color, type}) => ({
   icon: icon,
   text: text,
   action: action,
   color: color || 'primary',
+  type: type || 'item',
 });
+
+const createDivider = () => createOption({type: 'divider'});
 
 const useStyles = makeStyles((theme) => ({
   tag: {
@@ -72,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogContent: {
     padding: theme.spacing(1),
+  },
+  divider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -103,6 +111,7 @@ const TaskItemDialog = () => {
       text: editTask && editTask.id === optionTask?.id ? t('dialog.edit.cancel') : t('dialog.edit.enable'),
       action: EDIT_TASK,
     }),
+    createDivider(),
     createOption({
       icon: optionTask?.date === null ? CheckBoxOutlinedIcon : CheckBoxOutlineBlankIcon,
       text: optionTask?.date === null ? t('dialog.status.done') : t('dialog.status.pending'),
@@ -115,9 +124,13 @@ const TaskItemDialog = () => {
     }),
     createOption({
       icon: EventNoteIcon,
-      text: t('dialog.deadline.set'),
+      text:
+        optionTask?.deadline === null
+          ? t('dialog.deadline.set')
+          : t('dialog.deadline.change') + ' (' + moment(optionTask?.deadline).format('L') + ')',
       action: UPDATE_DUE_DATE_TASK,
     }),
+    createDivider(),
     createOption({
       icon: FileCopyOutlinedIcon,
       text: t('dialog.copy.empty'),
@@ -128,6 +141,7 @@ const TaskItemDialog = () => {
       text: t('dialog.copy.full'),
       action: DUPLICATE_TASK,
     }),
+    createDivider(),
     createOption({
       icon: DeleteOutlineIcon,
       text: t('dialog.delete'),
@@ -176,21 +190,29 @@ const TaskItemDialog = () => {
         <Divider />
         <DialogContent classes={{root: classes.dialogContent}}>
           <List>
-            {(isSmallOrDown ? options.reverse() : options).map(({icon: Icon, text, action, color}) => (
-              <ListItem button onClick={performAction(action, optionTask)} key={action}>
-                <ListItemIcon>
-                  <Icon style={{color: color}} />
-                </ListItemIcon>
-                <ListItemText
-                  disableTypography
-                  primary={
-                    <Typography type="body2" style={{color: color}}>
-                      {text}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
+            {(isSmallOrDown ? options.reverse() : options).map(({icon: Icon, text, action, color, type}) => {
+              switch (type) {
+                case 'divider':
+                  return <Divider classes={{root: classes.divider}} />;
+                  break;
+                default:
+                  return (
+                    <ListItem button onClick={performAction(action, optionTask)} key={action}>
+                      <ListItemIcon>
+                        <Icon style={{color: color}} />
+                      </ListItemIcon>
+                      <ListItemText
+                        disableTypography
+                        primary={
+                          <Typography type="body2" style={{color: color}}>
+                            {text}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  );
+              }
+            })}
           </List>
         </DialogContent>
       </Dialog>

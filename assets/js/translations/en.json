@@ -41,14 +41,14 @@
       "pending": "Mark as pending"
     },
     "copy": {
-      "full": "Create a duplicate",
-      "empty": "Create a clean copy"
+      "full": "Duplicate",
+      "empty": "Clean copy"
     },
     "delete": "Delete",
     "date": "Mark as done with date",
     "deadline": {
-      "set": "Set deadline date",
-      "remove": "Remove deadline date"
+      "set": "Add deadline date",
+      "change": "Change deadline date"
     }
   },
   "table": {
