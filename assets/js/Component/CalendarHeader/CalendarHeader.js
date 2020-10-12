@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
+import {useHistory} from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -17,27 +18,60 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Link from '../../Atom/Link';
 
 import {month} from '../../_proptypes/calendar';
+import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
 }));
 
 const CalendarHeader = ({month}) => {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [selectedDate, setSelectedDate] = useState(moment().format('YYYY-MM-DD'));
+  const [pickerStatus, setPickerStatus] = useState(false);
 
   const {t, i18n} = useTranslation();
   moment.locale(i18n.language);
 
+  const onChangeDate = (date) => {
+    setSelectedDate(date);
+    history.push('/calendar/' + moment(date).format('YYYY-MM-01'));
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid container item xs={6} sm={8}>
-        <Typography variant="h2" component="h1" className={classes.title}>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <DatePicker
+            autoOk
+            views={['year', 'month']}
+            label="Date Picker"
+            showTodayButton={true}
+            todayLabel={t('tasks.today')}
+            cancelLabel={t('tasks.cancel')}
+            okLabel={t('tasks.ok')}
+            value={selectedDate}
+            open={pickerStatus}
+            onOpen={() => setPickerStatus(true)}
+            onAccept={() => setPickerStatus(false)}
+            onClose={() => setPickerStatus(false)}
+            onChange={onChangeDate}
+            TextFieldComponent={() => null}
+          />
+        </MuiPickersUtilsProvider>
+        <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
           {isSmlOrDown ? month.nameShort : month.name}
         </Typography>
       </Grid>
