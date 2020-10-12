@@ -341,7 +341,7 @@ class ApiTaskController extends AbstractController
                 $task->getStart() ? $task->getStart()->format('H:i') : '08:00',
                 $task->getEnd() ? $task->getEnd()->format('H:i') : '08:00',
                 $task->getDate()->format('Y-m-d'),
-                $task->getDeadline()->format('Y-m-d'),
+                $task->getDeadline() ? $task->getDeadline()->format('Y-m-d') : '',
             ]);
         }
 

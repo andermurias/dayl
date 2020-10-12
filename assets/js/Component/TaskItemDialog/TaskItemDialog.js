@@ -190,14 +190,14 @@ const TaskItemDialog = () => {
         <Divider />
         <DialogContent classes={{root: classes.dialogContent}}>
           <List>
-            {(isSmallOrDown ? options.reverse() : options).map(({icon: Icon, text, action, color, type}) => {
+            {(isSmallOrDown ? options.reverse() : options).map(({icon: Icon, text, action, color, type}, i) => {
               switch (type) {
                 case 'divider':
-                  return <Divider classes={{root: classes.divider}} />;
+                  return <Divider classes={{root: classes.divider}} key={i} />;
                   break;
                 default:
                   return (
-                    <ListItem button onClick={performAction(action, optionTask)} key={action}>
+                    <ListItem button onClick={performAction(action, optionTask)} key={i}>
                       <ListItemIcon>
                         <Icon style={{color: color}} />
                       </ListItemIcon>

@@ -120,7 +120,7 @@ const TaskListItem = ({done, task}) => {
   const deadline = getDeadlineData(task);
 
   return (
-    <TableRow key={labelId} role="checkbox" hover>
+    <TableRow role="checkbox" hover>
       <TableCell padding="checkbox" classes={{root: classes.checkboxCell}}>
         <WrapSkeletonOnLoading>
           <Checkbox
