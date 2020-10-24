@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import classNames from 'classnames';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -9,6 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Footer from '../Component/Footer/Footer';
 import DrawerComponent from '../Component/Drawer/Drawer';
 import {AppContext} from '../_context/AppContext';
+import CalendarEvents from '../Component/CalendarEvents/CalendarEvents';
+import Empty from '../Component/Empty/Empty';
+import {useUserApi} from '../_hook/useUserApi';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +24,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     position: 'relative',
     flexDirection: 'column',
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginRight: -300,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: 0,
   },
   fab: {
     margin: theme.spacing(1),
@@ -32,24 +48,41 @@ const useStyles = makeStyles((theme) => ({
 
 const MainLayout = ({children}) => {
   const classes = useStyles();
-  const {setOpenDrawer} = useContext(AppContext);
+  const {token, setLoading, setOpenDrawer, openCalendarEvents} = useContext(AppContext);
 
-  return (
-    <div className={classes.root}>
-      <div>
-        <DrawerComponent />
+  const {refreshTokenAndSave} = useUserApi();
+
+  const rToken = localStorage.getItem('refreshToken');
+
+  if (token !== null) {
+    return (
+      <div className={classes.root}>
+        <div>
+          <DrawerComponent />
+        </div>
+        <main
+          className={classNames(classes.content, {
+            [classes.contentShift]: openCalendarEvents,
+          })}
+        >
+          {children}
+          <Footer />
+          <Hidden mdUp>
+            <Fab size="medium" color="secondary" aria-label="menu" className={classes.fab} onClick={setOpenDrawer}>
+              <MenuIcon />
+            </Fab>
+          </Hidden>
+        </main>
+        <>
+          <CalendarEvents />
+        </>
       </div>
-      <main className={classes.content}>
-        {children}
-        <Footer />
-        <Hidden mdUp>
-          <Fab size="medium" color="secondary" aria-label="menu" className={classes.fab} onClick={setOpenDrawer}>
-            <MenuIcon />
-          </Fab>
-        </Hidden>
-      </main>
-    </div>
-  );
+    );
+  } else {
+    setLoading(true);
+    refreshTokenAndSave(rToken).then(() => setLoading(false));
+    return <Empty />;
+  }
 };
 
 export default React.memo(MainLayout);

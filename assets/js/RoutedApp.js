@@ -22,23 +22,14 @@ const routerConfiguration = [
   {
     route: '/tasks/:date?',
     component: DateTasks,
-    props: {
-      secure: true,
-    },
   },
   {
     route: '/calendar/:date?',
     component: Calendar,
-    props: {
-      secure: true,
-    },
   },
   {
     route: '/search',
     component: SearchTasks,
-    props: {
-      secure: true,
-    },
   },
 ];
 
@@ -56,25 +47,20 @@ const RoutedApp = () => {
       <Router>
         <Switch>
           <Route path="/login" exact>
-            <AuthorizedComponent
-              component={Login}
-              route={{
-                props: {
-                  isLogin: true,
-                },
-              }}
-            />
+            <Login />
           </Route>
           <Route>
-            <MainLayout>
-              <Switch>
-                {routerConfiguration.map((route, j) => (
-                  <Route path={route.route} key={j}>
-                    <AuthorizedComponent component={route.component} route={route} />
-                  </Route>
-                ))}
-              </Switch>
-            </MainLayout>
+            <AuthorizedComponent>
+              <MainLayout>
+                <Switch>
+                  {routerConfiguration.map((route, j) => (
+                    <Route path={route.route} key={j}>
+                      <route.component route={route} />
+                    </Route>
+                  ))}
+                </Switch>
+              </MainLayout>
+            </AuthorizedComponent>
           </Route>
         </Switch>
         <ModalLoader />

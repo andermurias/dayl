@@ -20,6 +20,7 @@ import {colors} from '../Common/Colors';
 import {isDarkTheme} from '../_config/theme';
 
 import {fade} from '@material-ui/core/styles';
+import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -94,7 +95,7 @@ const Login = () => {
 
   const {t} = useTranslation();
 
-  const {setToken, setLoading} = useContext(AppContext);
+  const {setToken, token, setLoading} = useContext(AppContext);
   const [loginError, setLoginError] = useState(false);
 
   useEffect(() => {
@@ -103,14 +104,28 @@ const Login = () => {
 
   const {registerUser} = useUserApi();
 
+  const googleScope = [
+    'profile',
+    'email',
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.events',
+    'https://www.googleapis.com/auth/calendar.events.readonly',
+  ];
+
   const handleLoginWithGoogle = (response) => {
-    registerUser({token: response.tokenId}).then((res) => {
+    registerUser({token: response.tokenObj}).then((res) => {
       localStorage.setItem('refreshToken', res.data.refresh_token);
       document.cookie = 'logged=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
       setLoginError(false);
       setToken(res.data.token);
     });
   };
+
+  const rToken = localStorage.getItem('refreshToken');
+
+  if (token !== null || rToken) {
+    return <Redirect to={{pathname: '/tasks'}} />;
+  }
 
   return (
     <div className={classes.container}>
@@ -156,6 +171,7 @@ const Login = () => {
                 onSuccess={handleLoginWithGoogle}
                 onFailure={() => setLoginError(true)}
                 cookiePolicy={'single_host_origin'}
+                scope={googleScope.join(' ')}
               />
             </Grid>
           </Grid>

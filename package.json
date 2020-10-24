@@ -37,10 +37,12 @@
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.20",
     "react-i18next": "^11.5.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-spring": "^8.0.27"
   },
   "scripts": {
-    "serve": "symfony serve --no-tls",
+    "serve": "symfony serve",
+    "serve:notls": "symfony serve --no-tls",
     "build": "yarn encore dev",
     "build:prod": "yarn encore production",
     "start": "yarn encore dev --watch",

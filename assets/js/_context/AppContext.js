@@ -6,11 +6,12 @@ export const AppContext = React.createContext({});
 
 export const AppProvider = ({children}) => {
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [editTask, setEditTask] = useState(null);
   const [optionTask, setOptionTask] = useState(null);
   const [token, setToken] = useState(null);
   const [openDrawer, setOpenDrawerState] = useState(false);
+  const [openCalendarEvents, setOpenCalendarEvents] = useState(false);
   const [theme, setTheme] = useState(THEME_LIGHT);
   const setOpenDrawer = () => setOpenDrawerState(true);
   const setCloseDrawer = () => setOpenDrawerState(false);
@@ -39,6 +40,8 @@ export const AppProvider = ({children}) => {
         setCloseDrawer,
         theme,
         updateTheme,
+        openCalendarEvents,
+        setOpenCalendarEvents,
       }}
     >
       {children}

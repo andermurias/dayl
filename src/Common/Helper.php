@@ -27,7 +27,7 @@ class Helper extends AbstractController
         $this->taskRepository = $_taskRepository;
         $this->passwordEncoder = $_passwordEncoder;
         $this->serializer = SerializerFactory::create();
-        $this->googleClient = new \Google_Client(['client_id' => '']);
+        $this->googleClient = new \Google_Client(['client_id' => $_SERVER['GOOGLE_API_KEY']]);
     }
 
     public function verifyTokenWithGoogle($token): ?array
@@ -40,7 +40,7 @@ class Helper extends AbstractController
         return $payload;
     }
 
-    public function generateUserFromGooglePayload(array $payload, string $token): ?User
+    public function generateUserFromGooglePayload(array $payload, array $token): ?User
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -54,6 +54,20 @@ class Helper extends AbstractController
         $user->setRoles(['ROLE_USER']);
         $password = $this->passwordEncoder->encodePassword($user, $this->generateRandomPassword(16));
         $user->setPassword($password);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $user;
+    }
+
+    public function updateUserDataFromPayload(User $user, array $payload, array $token): ?User
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user->setGoogleToken($token);
+        $user->setGoogleData($payload);
+        $user->setUpdatedAt(new \DateTime());
 
         $entityManager->persist($user);
         $entityManager->flush();

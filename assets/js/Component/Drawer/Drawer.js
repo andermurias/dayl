@@ -18,6 +18,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import CodeIcon from '@material-ui/icons/Code';
 import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 import {colors} from '../../Common/Colors';
 
@@ -88,7 +89,14 @@ const Drawer = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
-  const {currentDate, openDrawer, setCloseDrawer, updateTheme, theme: appTheme} = useContext(AppContext);
+  const {
+    currentDate,
+    openDrawer,
+    setCloseDrawer,
+    openCalendarEvents,
+    setOpenCalendarEvents,
+    theme: appTheme,
+  } = useContext(AppContext);
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -115,6 +123,16 @@ const Drawer = () => {
       icon: SearchIcon,
       text: t('menu.search'),
       url: '/search',
+    }),
+    generateMenuHeader({
+      text: t('menu.header.calendar'),
+    }),
+    generateMenuItem({
+      text: t('menu.calendarevents'),
+      icon: EventNoteIcon,
+      action: () => {
+        setOpenCalendarEvents(!openCalendarEvents);
+      },
     }),
     generateMenuHeader({
       text: t('menu.header.more'),
