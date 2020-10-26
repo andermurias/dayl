@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import classNames from 'classnames';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -10,9 +10,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Footer from '../Component/Footer/Footer';
 import DrawerComponent from '../Component/Drawer/Drawer';
 import {AppContext} from '../_context/AppContext';
-import CalendarEvents from '../Component/CalendarEvents/CalendarEvents';
+import CalendarEvents, {drawerWidth} from '../Component/CalendarEvents/CalendarEvents';
 import Empty from '../Component/Empty/Empty';
 import {useUserApi} from '../_hook/useUserApi';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: -300,
+    [theme.breakpoints.up('lg')]: {
+      marginRight: -drawerWidth,
+    },
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -48,11 +51,14 @@ const useStyles = makeStyles((theme) => ({
 
 const MainLayout = ({children}) => {
   const classes = useStyles();
+  const theme = useTheme();
   const {token, setLoading, setOpenDrawer, openCalendarEvents} = useContext(AppContext);
 
   const {refreshTokenAndSave} = useUserApi();
 
   const rToken = localStorage.getItem('refreshToken');
+
+  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('md'));
 
   if (token !== null) {
     return (
@@ -62,7 +68,7 @@ const MainLayout = ({children}) => {
         </div>
         <main
           className={classNames(classes.content, {
-            [classes.contentShift]: openCalendarEvents,
+            [classes.contentShift]: openCalendarEvents && !isMediumOrDown,
           })}
         >
           {children}

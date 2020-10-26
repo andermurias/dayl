@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    background: colors.mineShaft,
   },
   drawerPaper: {
     width: drawerWidth,
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: colors.mineShaft,
     padding: theme.spacing(3),
     position: 'relative',
     flexDirection: 'column',
@@ -89,14 +88,7 @@ const Drawer = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
-  const {
-    currentDate,
-    openDrawer,
-    setCloseDrawer,
-    openCalendarEvents,
-    setOpenCalendarEvents,
-    theme: appTheme,
-  } = useContext(AppContext);
+  const {currentDate, openDrawer, setCloseDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 

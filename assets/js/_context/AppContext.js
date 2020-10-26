@@ -11,7 +11,15 @@ export const AppProvider = ({children}) => {
   const [optionTask, setOptionTask] = useState(null);
   const [token, setToken] = useState(null);
   const [openDrawer, setOpenDrawerState] = useState(false);
-  const [openCalendarEvents, setOpenCalendarEvents] = useState(false);
+  const [openCalendarEvents, setOpenCalendarEventsState] = useState(
+    localStorage.getItem('calendarDrawerOpen') === 'true' || false,
+  );
+
+  const setOpenCalendarEvents = (state) => {
+    setOpenCalendarEventsState(state);
+    localStorage.setItem('calendarDrawerOpen', state);
+  };
+
   const [theme, setTheme] = useState(THEME_LIGHT);
   const setOpenDrawer = () => setOpenDrawerState(true);
   const setCloseDrawer = () => setOpenDrawerState(false);

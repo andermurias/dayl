@@ -32,9 +32,11 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexGrow: 1,
+    alignItems: 'center',
   },
   checkboxParent: {
     width: `${theme.spacing(3)}px!important`,
+    height: `${theme.spacing(3)}px!important`,
     padding: `0 ${theme.spacing(1.5)}px 0 ${theme.spacing(2)}px`,
   },
   checkbox: {

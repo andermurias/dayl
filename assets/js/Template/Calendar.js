@@ -39,6 +39,43 @@ const generateDateRangeForDate = (date) => {
   };
 };
 
+const filterTasksForCurrentDate = (currentDate) => (task) =>
+  moment(task.date).format('YYYY-MM-DD') === currentDate.format('YYYY-MM-DD');
+
+const generateCalendarStructureFromRange = ({start, end, days, tasks}) => ({
+  month: {
+    name: moment(start).format('MMMM'),
+    nameShort: moment(start).format('MMM'),
+    number: parseInt(moment(start).format('MM')),
+    start: start,
+    end: end,
+    days: days,
+    tasksTotal: tasks.length,
+    pagination: {
+      current: moment(start).format('YYYY-MM-DD'),
+      next: moment(moment(start)).add(1, 'month').format('YYYY-MM-DD'),
+      prev: moment(moment(start)).subtract(1, 'month').format('YYYY-MM-DD'),
+    },
+  },
+  days: new Array(days)
+    .fill({
+      start,
+      end,
+    })
+    .map(({start, end}, i) => {
+      const currentDate = moment(moment(start, 'YYYY-MM-DD').add(i, 'days').toDate());
+      return {
+        i: i,
+        date: currentDate,
+        monthDay: parseInt(currentDate.format('D')),
+        weekDay: parseInt(currentDate.format('e')),
+        weekDayStr: currentDate.format('dddd'),
+        url: '/tasks/' + currentDate.format('YYYY-MM-DD'),
+        tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
+      };
+    }),
+});
+
 const Calendar = () => {
   const classes = useStyles();
   const query = useParams();
@@ -65,43 +102,6 @@ const Calendar = () => {
       setLoading(false);
     });
   }, [query]);
-
-  const filterTasksForCurrentDate = (currentDate) => (task) =>
-    moment(task.date).format('YYYY-MM-DD') === currentDate.format('YYYY-MM-DD');
-
-  const generateCalendarStructureFromRange = ({start, end, days, tasks}) => ({
-    month: {
-      name: moment(start).format('MMMM'),
-      nameShort: moment(start).format('MMM'),
-      number: parseInt(moment(start).format('MM')),
-      start: start,
-      end: end,
-      days: days,
-      tasksTotal: tasks.length,
-      pagination: {
-        current: moment(start).format('YYYY-MM-DD'),
-        next: moment(moment(start)).add(1, 'month').format('YYYY-MM-DD'),
-        prev: moment(moment(start)).subtract(1, 'month').format('YYYY-MM-DD'),
-      },
-    },
-    days: new Array(days)
-      .fill({
-        start,
-        end,
-      })
-      .map(({start, end}, i) => {
-        const currentDate = moment(moment(start, 'YYYY-MM-DD').add(i, 'days').toDate());
-        return {
-          i: i,
-          date: currentDate,
-          monthDay: parseInt(currentDate.format('D')),
-          weekDay: parseInt(currentDate.format('e')),
-          weekDayStr: currentDate.format('dddd'),
-          url: '/tasks/' + currentDate.format('YYYY-MM-DD'),
-          tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
-        };
-      }),
-  });
 
   return (
     <CalendarProvider>

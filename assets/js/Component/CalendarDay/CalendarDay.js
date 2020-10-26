@@ -81,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const isToday = (date) => date.format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+
 const CalendarDay = ({day}) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -92,8 +94,6 @@ const CalendarDay = ({day}) => {
 
   const {t, i18n} = useTranslation();
   moment.locale(i18n.language);
-
-  const isToday = (date) => date.format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
 
   return (
     <Grid

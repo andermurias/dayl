@@ -4,8 +4,6 @@ import {useTranslation} from 'react-i18next';
 
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
-
 import {makeStyles} from '@material-ui/core/styles';
 
 import TableCell from '@material-ui/core/TableCell';
@@ -19,7 +17,13 @@ import MoreVertIccon from '@material-ui/icons/MoreVert';
 
 import {AppContext} from '../../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
-import {getDiffDays, getDiffTime, taskHighlighter} from '../../Common/Helper';
+import {
+  displayRemainingDays,
+  getDeadlineData,
+  getDiffTime,
+  getTaskDuration,
+  taskHighlighter,
+} from '../../Common/Helper';
 import WrapSkeletonOnLoading from '../../_hoc/WrapSkeletonOnLoading';
 
 import {task} from '../../_proptypes/task';
@@ -105,17 +109,7 @@ const TaskListItem = ({done, task}) => {
 
   const {processTask} = useTaskProcessor();
 
-  const duration = task.start && task.end && moment.utc(getDiffTime(task.start, task.end)).format('HH:mm');
-
-  const getDeadlineTextAsDate = (task) => task.deadline && moment(task.deadline).format('L');
-  const getDeadlineTextAsTimeDiff = (task) =>
-    task.deadline ? getDiffDays(task.deadline, moment().format('YYYY-MM-DD')) : null;
-  const getDeadlineData = (task) => ({
-    date: getDeadlineTextAsDate(task),
-    remaining: getDeadlineTextAsTimeDiff(task),
-  });
-
-  const displayRemainingDays = (task) => !task.date && task.deadline != null;
+  const duration = getTaskDuration(task);
 
   const deadline = getDeadlineData(task);
 

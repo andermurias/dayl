@@ -61,6 +61,8 @@ yarn-error.log
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
+/config/google/*
+
 /.env
 /assets/js/.env
 

@@ -113,7 +113,7 @@ const Login = () => {
   ];
 
   const handleLoginWithGoogle = (response) => {
-    registerUser({token: response.tokenObj}).then((res) => {
+    registerUser({code: response.code}).then((res) => {
       localStorage.setItem('refreshToken', res.data.refresh_token);
       document.cookie = 'logged=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
       setLoginError(false);
@@ -167,11 +167,18 @@ const Login = () => {
                     {t('login.google')}
                   </Button>
                 )}
+                responseType="code"
                 buttonText={t('login.google')}
                 onSuccess={handleLoginWithGoogle}
-                onFailure={() => setLoginError(true)}
+                onFailure={(err) => {
+                  console.log('ERR => ', err);
+                  debugger;
+                  setLoginError(true);
+                }}
                 cookiePolicy={'single_host_origin'}
                 scope={googleScope.join(' ')}
+                accessType="offline"
+                prompt={'consent'}
               />
             </Grid>
           </Grid>

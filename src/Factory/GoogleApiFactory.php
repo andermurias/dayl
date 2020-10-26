@@ -2,20 +2,22 @@
 
 namespace App\Factory;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Common\Helper;
+use App\Entity\User;
 
-class GoogleCalendarFactory
+class GoogleApiFactory
 {
     private $calendar;
 
-    public function __construct(UserInterface $user)
+    public function __construct(User $user, Helper $helper)
     {
-        $client = new \Google_Client(['client_id' => $_SERVER['GOOGLE_API_KEY']]);
+        $client = new \Google_Client(['client_id' => $_SERVER['GOOGLE_API_KEY'], 'client_secret' => $_SERVER['GOOGLE_API_SECRET']]);
         $client->setAccessToken($user->getGoogleToken());
         if ($client->isAccessTokenExpired()) {
-            $client->refreshTokenWithAssertion();
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $helper->updateUserDataFromPayload($user, null, $client->getAccessToken());
         }
-        $client->getAccessToken();
+
         $this->calendar = new \Google_Service_Calendar($client);
     }
 
