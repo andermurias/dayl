@@ -18,14 +18,15 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import {colors} from '../../Common/Colors';
 import {AppContext} from '../../_context/AppContext';
 import {useCalendarApi} from '../../_hook/useCalendarApi';
 
-import {ADD_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
+import {ADD_TASK, EDIT_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
 
-export const drawerWidth = 360;
+export const drawerWidth = 320;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -38,26 +39,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     justifyContent: 'space-between',
   },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-    position: 'relative',
-    flexDirection: 'column',
-  },
-  fab: {
-    margin: theme.spacing(1),
-    position: 'fixed',
-    bottom: theme.spacing(1),
-    left: theme.spacing(1),
-  },
-  logo: {
-    width: '66%',
-  },
-  topList: {},
-  bottomList: {
-    paddingBottom: theme.spacing(2),
-  },
   eventList: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -66,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     background: lighten(colors.orangePeel, 0.3),
     borderRadius: 4,
     marginTop: theme.spacing(2),
+    paddingRight: theme.spacing(11),
   },
   eventText: {
     color: colors.mineShaft,
@@ -106,6 +88,16 @@ const CalendarEvents = () => {
       deadline: currentDate,
     });
 
+  const setEventToEdit = (event) => () =>
+    processTask(EDIT_TASK, {
+      id: 0,
+      description: event.name,
+      start: event.start,
+      end: event.end,
+      date: null,
+      deadline: currentDate,
+    });
+
   return (
     <MuiDrawer
       className={classes.drawer}
@@ -139,14 +131,16 @@ const CalendarEvents = () => {
               <ListItemText
                 primaryTypographyProps={{variant: 'body2', className: classes.eventText}}
                 secondaryTypographyProps={{variant: 'caption', className: classes.eventText}}
-                color={'#333'}
                 primary={item.name}
                 secondary={item.start + ' - ' + item.end}
               />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(false)(item)}>
-                  <AddIcon className={classes.eventIcon} />
+                <IconButton edge="end" aria-label="Edit" onClick={setEventToEdit(item)}>
+                  <EditOutlinedIcon className={classes.eventIcon} />
                 </IconButton>
+                {/*<IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(false)(item)}>*/}
+                {/*  <AddIcon className={classes.eventIcon} />*/}
+                {/*</IconButton>*/}
                 <IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(true)(item)}>
                   <PlaylistAddCheckIcon className={classes.eventIcon} />
                 </IconButton>

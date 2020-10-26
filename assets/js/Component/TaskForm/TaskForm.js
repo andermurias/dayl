@@ -97,9 +97,9 @@ const TaskForm = () => {
     const start = moment(startDate).format('HH:mm');
     const end = moment(endDate).format('HH:mm');
 
-    if (editTask) {
+    if (editTask && editTask.id) {
       await processTask(UPDATE_TASK, {
-        id: editTask.id,
+        ...editTask,
         description: description,
         start: end === start ? null : start,
         end: end === start ? null : end,
@@ -111,6 +111,7 @@ const TaskForm = () => {
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? currentDate : null,
+        deadline: editTask?.deadline || null,
       });
     }
     setEditTask(null);
