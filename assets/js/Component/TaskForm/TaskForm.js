@@ -44,10 +44,17 @@ const useStyles = makeStyles((theme) => ({
     width: `${theme.spacing(5.25)}px`,
     height: `${theme.spacing(5.25)}px`,
   },
+  sendButton: {
+    minWidth: '100%',
+  },
   buttonIcon: {
-    margin: 0,
-    padding: 0,
-    minWidth: 'unset',
+    marginLeft: -theme.spacing(0.5),
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+      marginLeft: 0,
+      padding: 0,
+      minWidth: '100%',
+    },
   },
 }));
 
@@ -188,7 +195,7 @@ const TaskForm = () => {
             color="secondary"
             onClick={submitTask}
             size="large"
-            classes={{endIcon: !isXSmallOrDown ? classes.buttonIcon : ''}}
+            classes={{endIcon: classes.buttonIcon, root: classes.sendButton}}
             endIcon={<ChevronRightIcon />}
           >
             {isXSmallOrDown ? (editTask ? t('form.edit') : t('form.save')) : ''}

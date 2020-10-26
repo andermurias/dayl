@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
+import classNames from 'classnames';
 
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
@@ -16,7 +17,7 @@ import List from '@material-ui/core/List';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
+//import AddIcon from '@material-ui/icons/Add';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
@@ -29,6 +30,10 @@ import {ADD_TASK, EDIT_TASK, useTaskProcessor} from '../../_hook/useTaskProcesso
 export const drawerWidth = 320;
 
 const useStyles = makeStyles((theme) => ({
+  title: {
+    marginLeft: -theme.spacing(2),
+    marginRight: -theme.spacing(2),
+  },
   drawer: {
     width: drawerWidth,
     maxWidth: '100%',
@@ -48,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     marginTop: theme.spacing(2),
     paddingRight: theme.spacing(11),
+  },
+  eventTitle: {
+    fontWeight: '600',
   },
   eventText: {
     color: colors.mineShaft,
@@ -79,7 +87,7 @@ const CalendarEvents = () => {
     });
   }, [currentDate]);
 
-  const addEventToTaskList = (done) => (event) => () =>
+  const addEventToTaskList = (done) => (event) => () => {
     processTask(ADD_TASK, {
       description: event.name,
       start: event.start,
@@ -87,8 +95,12 @@ const CalendarEvents = () => {
       date: done ? currentDate : null,
       deadline: currentDate,
     });
+    if (isMediumOrDown) {
+      setOpenCalendarEvents(false);
+    }
+  };
 
-  const setEventToEdit = (event) => () =>
+  const setEventToEdit = (event) => () => {
     processTask(EDIT_TASK, {
       id: 0,
       description: event.name,
@@ -97,6 +109,10 @@ const CalendarEvents = () => {
       date: null,
       deadline: currentDate,
     });
+    if (isMediumOrDown) {
+      setOpenCalendarEvents(false);
+    }
+  };
 
   return (
     <MuiDrawer
@@ -114,6 +130,7 @@ const CalendarEvents = () => {
       <List dense classes={{root: classes.eventList}}>
         <ListItem>
           <ListItemText
+            classes={{root: classes.title}}
             primaryTypographyProps={{variant: 'h5', color: 'primary'}}
             primary={t('calendar.events')}
             secondary={date}
@@ -129,7 +146,10 @@ const CalendarEvents = () => {
           events.map((item, i) => (
             <ListItem dense key={i} classes={{root: classes.event}}>
               <ListItemText
-                primaryTypographyProps={{variant: 'body2', className: classes.eventText}}
+                primaryTypographyProps={{
+                  variant: 'body2',
+                  className: classNames(classes.eventText, classes.eventTitle),
+                }}
                 secondaryTypographyProps={{variant: 'caption', className: classes.eventText}}
                 primary={item.name}
                 secondary={item.start + ' - ' + item.end}

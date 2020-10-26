@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     border: 'solid 1px transparent',
     borderRadius: '100%',
     '&:hover': {
-      borderColor: theme.palette.text.primary,
+      borderColor: colors.orangePeel,
     },
   },
   dayItemDay: {

@@ -17,13 +17,7 @@ import MoreVertIccon from '@material-ui/icons/MoreVert';
 
 import {AppContext} from '../../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
-import {
-  displayRemainingDays,
-  getDeadlineData,
-  getDiffTime,
-  getTaskDuration,
-  taskHighlighter,
-} from '../../Common/Helper';
+import {displayRemainingDays, getDeadlineData, getTaskDuration, taskHighlighter} from '../../Common/Helper';
 import WrapSkeletonOnLoading from '../../_hoc/WrapSkeletonOnLoading';
 
 import {task} from '../../_proptypes/task';
