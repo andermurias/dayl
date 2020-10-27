@@ -33,7 +33,7 @@ class Helper extends AbstractController
         $this->googleClient->setAuthConfig($_kernel->getProjectDir().'/config/google/google.json');
         $this->googleClient->setAccessType('offline');
         $this->googleClient->setApprovalPrompt('force');
-        $this->googleClient->setRedirectUri('https://localhost:8000');
+        $this->googleClient->setRedirectUri('https://'.$_SERVER['HTTP_HOST']);
         $this->googleClient->setIncludeGrantedScopes(true);
     }
 
