@@ -33,7 +33,6 @@ const useStyles = makeStyles(() => ({
 
 const TasksTable = ({done, tasks}) => {
   const classes = useStyles();
-  const {t} = useTranslation();
 
   const theme = useTheme();
   const isMdOrUp = useMediaQuery(theme.breakpoints.up('md'));

@@ -66,7 +66,8 @@
     "header": {
       "tasks": "Tareas",
       "more": "Otros",
-      "about": "Acerca de"
+      "about": "Acerca de",
+      "calendar": "Calendario"
     },
     "today": "Hoy",
     "calendar": "Calendario",
@@ -74,9 +75,11 @@
     "search": "Buscador",
     "exit": "Logout",
     "github": "Github",
-    "theme": "Tema"
+    "theme": "Tema",
+    "calendarevents": "Eventos"
   },
   "calendar": {
+    "events": "Eventos",
     "amount": "Se añadieron %d tareas en %s",
     "more": "%d Tareas",
     "goto": "Ir a %s",

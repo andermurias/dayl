@@ -32,9 +32,11 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexGrow: 1,
+    alignItems: 'center',
   },
   checkboxParent: {
     width: `${theme.spacing(3)}px!important`,
+    height: `${theme.spacing(3)}px!important`,
     padding: `0 ${theme.spacing(1.5)}px 0 ${theme.spacing(2)}px`,
   },
   checkbox: {
@@ -42,10 +44,17 @@ const useStyles = makeStyles((theme) => ({
     width: `${theme.spacing(5.25)}px`,
     height: `${theme.spacing(5.25)}px`,
   },
+  sendButton: {
+    minWidth: '100%',
+  },
   buttonIcon: {
-    margin: 0,
-    padding: 0,
-    minWidth: 'unset',
+    marginLeft: -theme.spacing(0.5),
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+      marginLeft: 0,
+      padding: 0,
+      minWidth: '100%',
+    },
   },
 }));
 
@@ -95,9 +104,9 @@ const TaskForm = () => {
     const start = moment(startDate).format('HH:mm');
     const end = moment(endDate).format('HH:mm');
 
-    if (editTask) {
+    if (editTask && editTask.id) {
       await processTask(UPDATE_TASK, {
-        id: editTask.id,
+        ...editTask,
         description: description,
         start: end === start ? null : start,
         end: end === start ? null : end,
@@ -109,6 +118,7 @@ const TaskForm = () => {
         start: end === start ? null : start,
         end: end === start ? null : end,
         date: done ? currentDate : null,
+        deadline: editTask?.deadline || null,
       });
     }
     setEditTask(null);
@@ -185,7 +195,7 @@ const TaskForm = () => {
             color="secondary"
             onClick={submitTask}
             size="large"
-            classes={{endIcon: !isXSmallOrDown ? classes.buttonIcon : ''}}
+            classes={{endIcon: classes.buttonIcon, root: classes.sendButton}}
             endIcon={<ChevronRightIcon />}
           >
             {isXSmallOrDown ? (editTask ? t('form.edit') : t('form.save')) : ''}

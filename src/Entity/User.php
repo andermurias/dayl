@@ -57,9 +57,9 @@ class User implements UserInterface
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=1300, nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $google_token;
+    private $google_token = [];
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -211,12 +211,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getGoogleToken(): ?string
+    public function getGoogleToken(): ?array
     {
         return $this->google_token;
     }
 
-    public function setGoogleToken(?string $google_token): self
+    public function setGoogleToken(?array $google_token): self
     {
         $this->google_token = $google_token;
 

@@ -10,7 +10,7 @@ export const useUserApi = () => {
 
   const {setToken} = useContext(AppContext);
 
-  const registerUser = ({token}) => client.post('/api/auth/google', {token: token});
+  const registerUser = ({code}) => client.post('/api/auth/google', {code: code});
 
   const refreshToken = ({refreshToken}) => client.post('/api/token/refresh', {refresh_token: refreshToken});
 

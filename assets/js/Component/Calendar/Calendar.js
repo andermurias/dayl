@@ -49,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getWeekDays = (isSmlOrDown) => (isSmlOrDown ? moment.weekdaysMin(true) : moment.weekdays(true));
+
 const Calendar = ({calendarData}) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -58,14 +60,12 @@ const Calendar = ({calendarData}) => {
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const getWeekDays = () => (isSmlOrDown ? moment.weekdaysMin(true) : moment.weekdays(true));
-
   return (
     <>
       <Box mb={2}>
         <Grid container spacing={2}>
           {!!calendarData.days.length &&
-            getWeekDays().map((day, i) => (
+            getWeekDays(isSmlOrDown).map((day, i) => (
               <Grid container item justify="center" classes={{root: classes.dayHeader}} key={i}>
                 <Typography variant="h6">{day}</Typography>
               </Grid>

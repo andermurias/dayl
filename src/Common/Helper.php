@@ -8,6 +8,7 @@ use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Helper extends AbstractController
@@ -21,18 +22,24 @@ class Helper extends AbstractController
     public function __construct(
         TaskRepository $_taskRepository,
         UserRepository $_userRepository,
-        UserPasswordEncoderInterface $_passwordEncoder
+        UserPasswordEncoderInterface $_passwordEncoder,
+        KernelInterface $_kernel
     ) {
         $this->userRepository = $_userRepository;
         $this->taskRepository = $_taskRepository;
         $this->passwordEncoder = $_passwordEncoder;
         $this->serializer = SerializerFactory::create();
-        $this->googleClient = new \Google_Client(['client_id' => '']);
+        $this->googleClient = new \Google_Client(['client_id' => $_SERVER['GOOGLE_API_KEY'], 'client_secret' => $_SERVER['GOOGLE_API_SECRET']]);
+        $this->googleClient->setAuthConfig($_kernel->getProjectDir().'/config/google/google.json');
+        $this->googleClient->setAccessType('offline');
+        $this->googleClient->setApprovalPrompt('force');
+        $this->googleClient->setRedirectUri('https://localhost:8000');
+        $this->googleClient->setIncludeGrantedScopes(true);
     }
 
-    public function verifyTokenWithGoogle($token): ?array
+    public function verifyCodeWithGoogle($code): ?array
     {
-        $payload = $this->googleClient->verifyIdToken($token);
+        $payload = $this->googleClient->fetchAccessTokenWithAuthCode($code);
         if (!$payload) {
             return null;
         }
@@ -40,20 +47,45 @@ class Helper extends AbstractController
         return $payload;
     }
 
-    public function generateUserFromGooglePayload(array $payload, string $token): ?User
+    public function getGoogleUserData(): array
+    {
+        $oauth = new \Google_Service_Oauth2($this->googleClient);
+
+        return get_object_vars($oauth->userinfo->get()->toSimpleObject());
+    }
+
+    public function generateUserFromGooglePayload(array $userData, array $authData): ?User
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = new User();
-        $user->setEmail($payload['email']);
-        $user->setUsername($payload['email']);
-        $user->setGoogleToken($token);
-        $user->setGoogleData($payload);
+        $user->setEmail($userData['email']);
+        $user->setUsername($userData['email']);
+        $user->setGoogleToken($authData);
+        $user->setGoogleData($userData);
         $user->setCreatedAt(new \DateTime());
         $user->setUpdatedAt(new \DateTime());
         $user->setRoles(['ROLE_USER']);
         $password = $this->passwordEncoder->encodePassword($user, $this->generateRandomPassword(16));
         $user->setPassword($password);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $user;
+    }
+
+    public function updateUserDataFromPayload(User $user, ?array $userData, ?array $authData): ?User
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($authData) {
+            $user->setGoogleToken($authData);
+        }
+        if ($userData) {
+            $user->setGoogleData($userData);
+        }
+        $user->setUpdatedAt(new \DateTime());
 
         $entityManager->persist($user);
         $entityManager->flush();

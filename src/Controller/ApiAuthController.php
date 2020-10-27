@@ -56,15 +56,19 @@ class ApiAuthController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        $userData = $this->helper->verifyTokenWithGoogle($data['token']);
-        if (!$userData) {
-            return 'error';
+        $authData = $this->helper->verifyCodeWithGoogle($data['code']);
+        if (!$authData) {
+            return new JsonResponse([], 401);
         }
+
+        $userData = $this->helper->getGoogleUserData();
 
         $user = $this->userRepository->findOneBy(['email' => $userData['email']]);
 
         if (!$user) {
-            $user = $this->helper->generateUserFromGooglePayload($userData, $data['token']);
+            $user = $this->helper->generateUserFromGooglePayload($userData, $authData);
+        } else {
+            $user = $this->helper->updateUserDataFromPayload($user, $userData, $authData);
         }
 
         if ($user) {

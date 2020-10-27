@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 
 import {Redirect} from 'react-router-dom';
 
@@ -7,27 +7,27 @@ import Empty from '../Component/Empty/Empty';
 import {useUserApi} from '../_hook/useUserApi';
 import {AppContext} from '../_context/AppContext';
 
-const AuthorizedComponent = ({component: Component, route, ...props}) => {
-  const {token, setLoading} = useContext(AppContext);
+const AuthorizedComponent = ({children}) => {
+  const {token, loading, setLoading} = useContext(AppContext);
   const {refreshTokenAndSave} = useUserApi();
 
-  const isAuthenticated = () => token !== null;
   const rToken = localStorage.getItem('refreshToken');
 
-  if (!isAuthenticated() && rToken) {
-    setLoading(true);
-    refreshTokenAndSave(rToken).then(() => setLoading(false));
-    return <Empty />;
-  }
+  useEffect(() => {
+    if (!token && rToken && !loading) {
+      setLoading(true);
+      refreshTokenAndSave(rToken).then(() => setLoading(false));
+    }
+  }, []);
 
-  if (route.props.secure && !isAuthenticated()) {
+  if (!rToken) {
     return <Redirect to={{pathname: '/login'}} />;
   }
 
-  if (route.props.isLogin && isAuthenticated()) {
-    return <Redirect to={{pathname: '/tasks'}} />;
+  if (token && rToken) {
+    return children;
   }
 
-  return <Component {...props} {...route.props} />;
+  return <Empty />;
 };
 export default React.memo(AuthorizedComponent);

@@ -16,7 +16,7 @@ export const useTaskProcessor = () => {
   const {deleteTask, updateTask, getTasksForDateAndSave, addTask} = useTaskApi();
 
   const editTaskAction = (task) => {
-    if (editTask && task.id === editTask.id) {
+    if (editTask && task.id && task.id === editTask.id) {
       setEditTask(null);
     } else {
       setEditTask(task);
