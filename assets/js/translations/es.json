@@ -2,6 +2,7 @@
   "login": {
     "google": "Accede con Google",
     "message": "¡Bienvenido de nuevo!",
+    "submessage": "Accede con Google para seguir utilizando Dayl",
     "credentials": {
       "invalid": "Los datos de usuario no son válidos"
     }

@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
       marginLeft: 0,
       padding: 0,
-      minWidth: '100%',
     },
   },
 }));

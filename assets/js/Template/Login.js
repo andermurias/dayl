@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 
-import Google from 'mdi-material-ui/Google';
+import GoogleIcon from '../Icons/Google';
 
 import {AppContext} from '../_context/AppContext';
 import {useUserApi} from '../_hook/useUserApi';
@@ -87,6 +87,24 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     zIndex: 1,
   },
+  login: {
+    background: '#FFFFFF',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(1),
+    border: 'solid 1px ' + (isDarkTheme(theme) ? colors.mineShaftLighter : colors.gallery),
+    '&:hover': {
+      background: colors.gallery,
+    },
+  },
+  loginIcon: {
+    marginRight: theme.spacing(3),
+    marginLeft: 0,
+  },
+  loginText: {
+    fontSize: 14,
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontWeight: 500,
+  },
 }));
 
 const Login = () => {
@@ -140,7 +158,7 @@ const Login = () => {
             </Grid>
             <Grid container item xs={12} justify="flex-start">
               <Typography variant="h4">{t('login.message')}</Typography>
-              <Typography variant="h6">Accede con Google para seguir utilizando Dayl</Typography>
+              <Typography variant="h6">{t('login.submessage')}</Typography>
             </Grid>
             {loginError ? (
               <Grid item md={true} sm={true} xs={true}>
@@ -156,10 +174,11 @@ const Login = () => {
                 clientId={process.env.GOOGLE_API_KEY}
                 render={(renderProps) => (
                   <Button
-                    variant={isDarkTheme(theme) ? 'outlined' : 'contained'}
+                    variant="contained"
                     fullWidth
+                    classes={{root: classes.login, label: classes.loginText, startIcon: classes.loginIcon}}
                     color="secondary"
-                    startIcon={<Google />}
+                    startIcon={<GoogleIcon />}
                     size="medium"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}

@@ -1,7 +1,8 @@
 {
   "login": {
-    "google": "Login With Google",
+    "google": "Sign in with Google",
     "message": "Welcome Again!",
+    "submessage": "Sign-in with Google to keep using Dayl",
     "credentials": {
       "invalid": "The credentials are invalid"
     }
