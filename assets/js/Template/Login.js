@@ -125,7 +125,7 @@ const Login = () => {
   const googleScope = [
     'profile',
     'email',
-    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.readonly',
     'https://www.googleapis.com/auth/calendar.events',
     'https://www.googleapis.com/auth/calendar.events.readonly',
   ];
