@@ -2,23 +2,23 @@ import React, {useContext} from 'react';
 
 import {useTranslation} from 'react-i18next';
 
-import useTheme from '@material-ui/core/styles/useTheme';
-import {makeStyles} from '@material-ui/core/styles';
+import useTheme from '@mui/styles/useTheme';
+import {makeStyles} from '@mui/styles';
 
-import MuiDrawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import SearchIcon from '@material-ui/icons/Search';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import TodayIcon from '@material-ui/icons/Today';
-import CodeIcon from '@material-ui/icons/Code';
-import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
-import Brightness2Icon from '@material-ui/icons/Brightness2';
-import EventNoteIcon from '@material-ui/icons/EventNote';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import SearchIcon from '@mui/icons-material/Search';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import TodayIcon from '@mui/icons-material/Today';
+import CodeIcon from '@mui/icons-material/Code';
+import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
+import Brightness2Icon from '@mui/icons-material/Brightness2';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 import {colors} from '../../Common/Colors';
 
@@ -90,13 +90,13 @@ const Drawer = () => {
   const theme = useTheme();
   const {currentDate, openDrawer, setCloseDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
 
-  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('md'));
 
   const mainMenu = [
     generateMenuItem({
       icon: TodayIcon,
-      text: t('menu.today'),
-      url: '/tasks',
+      text: t('menu.dashboard'),
+      url: '/dashboard',
     }),
     generateMenuHeader({
       text: t('menu.header.tasks'),
@@ -175,7 +175,7 @@ const Drawer = () => {
       <div className={classes.topList}>
         <div className={classes.toolbar}>
           <Link className={classes.logoContainer} to="/tasks">
-            <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
+            <img src={theme.palette.mode === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
           </Link>
         </div>
         <List dense>

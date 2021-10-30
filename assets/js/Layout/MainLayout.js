@@ -2,17 +2,17 @@ import React, {useContext} from 'react';
 import classNames from 'classnames';
 import {useHistory} from 'react-router-dom';
 
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {makeStyles, useTheme} from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Fab from '@material-ui/core/Fab';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Hidden from '@material-ui/core/Hidden';
+import Fab from '@mui/material/Fab';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Hidden from '@mui/material/Hidden';
 
-import MenuIcon from '@material-ui/icons/Menu';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@mui/icons-material/Menu';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SearchIcon from '@mui/icons-material/Search';
 
 import Footer from '../Component/Footer/Footer';
 import DrawerComponent from '../Component/Drawer/Drawer';
@@ -73,7 +73,7 @@ const MainLayout = ({children}) => {
 
   const rToken = localStorage.getItem('refreshToken');
 
-  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('md'));
+  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   const goToSearch = () => history.push('/search');
   const openCalendarEventsDrawer = () => setOpenCalendarEvents(true);

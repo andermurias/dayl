@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import {taskHighlighter} from '../../Common/Helper';
 
@@ -28,7 +28,6 @@ const CalendarTask = ({task}) => {
 
   return (
     <Chip
-      variant="default"
       size="small"
       color="secondary"
       classes={{root: classes.taskChip}}
@@ -39,8 +38,7 @@ const CalendarTask = ({task}) => {
             __html: taskHighlighter(task.description, classes.tag),
           }}
         />
-      }
-    />
+      } />
   );
 };
 

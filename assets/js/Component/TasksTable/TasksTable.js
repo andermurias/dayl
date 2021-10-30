@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import {useTranslation} from 'react-i18next';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import {makeStyles, useTheme} from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import TaskRowItem from '../TaskRowItem/TaskRowItem';
 import EmptyTasks from '../EmptyTasks/EmptyTasks';
@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const TasksTable = ({done, tasks}) => {
+const TasksTable = ({done, tasks, withActions}) => {
   const classes = useStyles();
 
   const theme = useTheme();
@@ -42,19 +42,24 @@ const TasksTable = ({done, tasks}) => {
       <Table className={classes.table} aria-label="simple table" size={isMdOrUp ? 'small' : 'medium'}>
         <TableBody>
           {tasks.map((task, i) => (
-            <TaskRowItem done={done} task={task} key={i} />
+            <TaskRowItem done={done} task={task} key={i} withActions={withActions}/>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   ) : (
-    <EmptyTasks />
+    <EmptyTasks/>
   );
 };
 
 TasksTable.propTypes = {
   done: PropTypes.bool,
   tasks: PropTypes.arrayOf(PropTypes.shape(task)),
+  withActions: PropTypes.bool
+};
+
+TasksTable.defaultProps = {
+  withActions: true
 };
 
 export default React.memo(TasksTable);

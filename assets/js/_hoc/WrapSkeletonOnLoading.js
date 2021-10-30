@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from '@mui/material/Skeleton';
 
 import {AppContext} from '../_context/AppContext';
 

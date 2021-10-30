@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@mui/styles';
+import List from '@mui/material/List';
+import ListSubheader from '@mui/material/ListSubheader';
+import Typography from '@mui/material/Typography';
 
 import SearchListItem from '../SearchListItem/SearchListItem';
 import {colors} from '../../Common/Colors';
@@ -32,7 +32,7 @@ const SearchList = ({tasks}) => {
         <React.Fragment key={i}>
           {listDate !== task.date ? (
             <ListSubheader classes={{root: classes.date}}>
-              <Typography variant="h5">{(listDate = task.date) && moment(listDate).format('L')}</Typography>
+              <Typography variant="h5">{(listDate = task.date) && format(parse(listDate, 'yyyy-MM-dd', new Date()), 'P')}</Typography>
             </ListSubheader>
           ) : null}
           <SearchListItem task={task} />

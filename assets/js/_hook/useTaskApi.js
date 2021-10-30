@@ -46,6 +46,12 @@ export const useTaskApi = () => {
 
   const getTasksForDate = (date) => Promise.all([getTasks('pending', null), getTasks('done', date)]);
 
+  const getTasksForDashboard = (currentDate, targetDate) => Promise.all([
+    getTasks('pending', null),
+    getTasks('done', currentDate),
+    getTasks('done', targetDate)
+  ]);
+
   const getTasksForDateAndSave = (date) =>
     getTasksForDate(date).then(([pending, done]) => {
       setPendingTasks(pending.data);
@@ -79,5 +85,6 @@ export const useTaskApi = () => {
     getExportTask,
     getTasksForSearch,
     getTasksForRange,
+    getTasksForDashboard
   };
 };

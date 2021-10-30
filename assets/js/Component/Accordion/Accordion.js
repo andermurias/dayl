@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import MuiAccordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import MuiAccordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
     boxShadow: 'none',
-    margin: `${theme.spacing(1)}px 0`,
+    margin: `${theme.spacing(1)} 0`,
     '&.Mui-expanded': {
-      margin: `${theme.spacing(1)}px 0`,
+      margin: `${theme.spacing(1)} 0`,
     },
     '&:before': {
       display: 'none',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   accordionExpandIcon: {
     order: -1,
-    padding: `0 ${theme.spacing(0.5)}px`,
+    padding: `0 ${theme.spacing(0.5)}`,
     marginRight: 0,
   },
   dividerFullWidth: {
@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
   dividerFullWidthRight: {
     fontWeight: 'bold',
-    margin: `5px ${theme.spacing(2)}px 0 0`,
+    margin: `5px ${theme.spacing(2)} 0 0`,
     textTransform: 'uppercase',
     textAlign: 'right',
   },
   accordionSummaryContent: {
     marginLeft: 0,
-    paddingLeft: `${theme.spacing(3)}px`,
+    paddingLeft: theme.spacing(3),
   },
 }));
 
@@ -63,7 +63,7 @@ const Accordion = ({title, sideTitle, children, ...rest}) => {
             {title}
           </Typography>
         </Grid>
-        <Grid container item xs={6} justify="flex-end">
+        <Grid container item xs={6} justifyContent="flex-end">
           <Typography className={classes.dividerFullWidthRight} display="block" variant="overline">
             {sideTitle}
           </Typography>

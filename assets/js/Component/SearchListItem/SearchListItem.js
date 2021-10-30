@@ -5,11 +5,11 @@ import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 import {taskHighlighter, getDiffTime} from '../../Common/Helper';
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
@@ -39,12 +39,10 @@ const SearchListItem = ({task}) => {
 
   const {i18n} = useTranslation();
 
-  moment.locale(i18n.language);
-
-  const timeDifference = moment(getDiffTime(task.start, task.end)).format('HH:mm');
+  const timeDifference = getDiffTime(task.start, task.end);
 
   return (
-    <ListItem button component={Link} to={'/tasks/' + moment(task.date).format('YYYY-MM-DD')}>
+    <ListItem button component={Link} to={'/tasks/' + format(parse(task.date,'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}>
       <ListItemText
         classes={{root: classes.listItem}}
         primary={

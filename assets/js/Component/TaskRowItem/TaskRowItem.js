@@ -4,16 +4,16 @@ import {useTranslation} from 'react-i18next';
 
 import PropTypes from 'prop-types';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
 
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Hidden from '@mui/material/Hidden';
 
-import MoreVertIccon from '@material-ui/icons/MoreVert';
+import MoreVertIccon from '@mui/icons-material/MoreVert';
 
 import {AppContext} from '../../_context/AppContext';
 import {UPDATE_STATUS_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
   },
   actionCell: {
     width: actionCellWidth,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: actionCellWidth / 2,
     },
   },
   checkboxCell: {
     width: checkboxCellWidth,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: checkboxCellWidth / 2,
     },
   },
@@ -62,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
     width: durationCellWidth,
   },
   descriptionCell: {
+    minHeight: 60.5,
     width: 'calc(100% - ' + getFixedCellsSize() + 'px)',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: 'auto',
     },
   },
@@ -91,9 +92,12 @@ const useStyles = makeStyles((theme) => ({
     opacity: '.5',
     paddingTop: theme.spacing(1),
   },
+  tableRow: {
+    minHeight: 60.5
+  }
 }));
 
-const TaskListItem = ({done, task}) => {
+const TaskListItem = ({done, task, withActions}) => {
   const classes = useStyles();
   const {t} = useTranslation();
 
@@ -108,19 +112,20 @@ const TaskListItem = ({done, task}) => {
   const deadline = getDeadlineData(task);
 
   return (
-    <TableRow role="checkbox" hover>
-      <TableCell padding="checkbox" classes={{root: classes.checkboxCell}}>
-        <WrapSkeletonOnLoading>
-          <Checkbox
-            edge="start"
-            checked={done}
-            onClick={() => processTask(UPDATE_STATUS_TASK, task)}
-            tabIndex={-1}
-            disableRipple
-            inputProps={{'aria-labelledby': labelId}}
-          />
-        </WrapSkeletonOnLoading>
-      </TableCell>
+    <TableRow classes={{root: classes.tableRow}} role="checkbox" hover>
+      {withActions && (
+        <TableCell padding="checkbox" classes={{root: classes.checkboxCell}}>
+          <WrapSkeletonOnLoading>
+            <Checkbox
+              edge="start"
+              checked={done}
+              onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+              tabIndex={-1}
+              disableRipple
+              inputProps={{'aria-labelledby': labelId}}
+            />
+          </WrapSkeletonOnLoading>
+        </TableCell>)}
       <TableCell
         align="left"
         classes={{root: classes.descriptionCell}}
@@ -154,11 +159,13 @@ const TaskListItem = ({done, task}) => {
           </Hidden>
         </WrapSkeletonOnLoading>
       </TableCell>
-      <Hidden smDown>
+      <Hidden mdDown>
         <TableCell
           align="right"
           classes={{root: classes.deadlineCell}}
-          onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+          onClick={() => {
+            withActions && processTask(UPDATE_STATUS_TASK, task)
+          }}
         >
           <WrapSkeletonOnLoading>
             {displayRemainingDays(task) && (
@@ -195,7 +202,9 @@ const TaskListItem = ({done, task}) => {
         <TableCell
           align="right"
           classes={{root: classes.timeCell}}
-          onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+          onClick={() => {
+            withActions && processTask(UPDATE_STATUS_TASK, task)
+          }}
         >
           <WrapSkeletonOnLoading>
             <Typography variant="body2" classes={{root: classes.timeCellText}}>
@@ -206,20 +215,28 @@ const TaskListItem = ({done, task}) => {
         <TableCell
           align="right"
           classes={{root: classes.durationCell}}
-          onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+          onClick={() => {
+            withActions && processTask(UPDATE_STATUS_TASK, task)
+          }}
         >
           <WrapSkeletonOnLoading>
             <Typography variant="body2">{duration || '-'}</Typography>
           </WrapSkeletonOnLoading>
         </TableCell>
       </Hidden>
-      <TableCell align="right" classes={{root: classes.actionCell}}>
-        <IconButton edge="end" aria-label="option" onClick={() => setOptionTask(task)}>
-          <WrapSkeletonOnLoading>
-            <MoreVertIccon />
-          </WrapSkeletonOnLoading>
-        </IconButton>
-      </TableCell>
+      {withActions && (
+        <TableCell align="right" classes={{root: classes.actionCell}}>
+          <IconButton
+            edge="end"
+            aria-label="option"
+            onClick={() => setOptionTask(task)}
+            size="large">
+            <WrapSkeletonOnLoading>
+              <MoreVertIccon/>
+            </WrapSkeletonOnLoading>
+          </IconButton>
+        </TableCell>
+      )}
     </TableRow>
   );
 };
@@ -227,6 +244,11 @@ const TaskListItem = ({done, task}) => {
 TaskListItem.propTypes = {
   done: PropTypes.bool,
   tasks: PropTypes.arrayOf(PropTypes.shape(task)),
+  withActions: PropTypes.bool
+};
+
+TaskListItem.defaultProps = {
+  withActions: true
 };
 
 export default React.memo(TaskListItem);

@@ -71,6 +71,7 @@
       "calendar": "Calendario"
     },
     "today": "Hoy",
+    "dashboard": "Dashboard",
     "calendar": "Calendario",
     "tasks": "Tareas",
     "search": "Buscador",
@@ -86,6 +87,30 @@
     "goto": "Ir a %s",
     "popover": {
       "count": "Hay %s Tareas"
-    }
+    },
+    "weekdays" : [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "weekdaysShort" : [
+      "Lun",
+      "Mar",
+      "Mie",
+      "Jue",
+      "Vie",
+      "Sab",
+      "Dom"
+    ]
+  },
+  "dashboard": {
+    "hello": "Hola",
+    "date": "Hoy es {{date}}",
+    "today": "Hoy",
+    "yesterday": "Ayer"
   }
 }

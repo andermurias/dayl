@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
-import moment from 'moment';
 
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useTheme from '@material-ui/core/styles/useTheme';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/styles/useTheme';
+import makeStyles from '@mui/styles/makeStyles';
 
 import CalendarDay from '../CalendarDay/CalendarDay';
 import CalendarPopover from '../CalendarPopover/CalendarPopover';
@@ -49,37 +48,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getWeekDays = (isSmlOrDown) => (isSmlOrDown ? moment.weekdaysMin(true) : moment.weekdays(true));
 
 const Calendar = ({calendarData}) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const {i18n} = useTranslation();
-  moment.locale(i18n.language);
+  const {t, i18n} = useTranslation();
 
-  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const getWeekDays = (isSmlOrDown) => isSmlOrDown ? t('calendar.weekdaysShort', { returnObjects: true }) : t('calendar.weekdays', { returnObjects: true });
 
-  return (
-    <>
-      <Box mb={2}>
-        <Grid container spacing={2}>
-          {!!calendarData.days.length &&
-            getWeekDays(isSmlOrDown).map((day, i) => (
-              <Grid container item justify="center" classes={{root: classes.dayHeader}} key={i}>
-                <Typography variant="h6">{day}</Typography>
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('md'));
+
+  return <>
+    <Box mb={2}>
       <Grid container spacing={2}>
-        {calendarData.days.map((day, i) => (
-          <CalendarDay day={day} key={i} />
-        ))}
+        {!!calendarData.days.length &&
+          getWeekDays(isSmlOrDown).map((day, i) => (
+            <Grid container item justifyContent="center" classes={{root: classes.dayHeader}} key={i}>
+              <Typography variant="h6">{day}</Typography>
+            </Grid>
+          ))}
       </Grid>
-      <CalendarPopover calendarData={calendarData} />
-    </>
-  );
+    </Box>
+    <Grid container spacing={2}>
+      {calendarData.days.map((day, i) => (
+        <CalendarDay day={day} key={i} />
+      ))}
+    </Grid>
+    <CalendarPopover calendarData={calendarData} />
+  </>;
 };
 
 Calendar.propTypes = {

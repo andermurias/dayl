@@ -4,10 +4,10 @@ import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Pagination from '@material-ui/lab/Pagination';
-import Grid from '@material-ui/core/Grid';
+import {makeStyles} from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+import Grid from '@mui/material/Grid';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 import {AppContext} from '../_context/AppContext';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     maxWidth: 800,
     width: '100%',
-    margin: `${theme.spacing(1)}px auto`,
+    margin: `${theme.spacing(1)} auto`,
     background: 'transparent',
   },
   title: {
@@ -55,8 +55,6 @@ const SearchTasks = () => {
   });
 
   const {i18n} = useTranslation();
-
-  moment.locale(i18n.language);
 
   const {setLoading} = useContext(AppContext);
   const {getTasksForSearch} = useTaskApi();
@@ -93,7 +91,7 @@ const SearchTasks = () => {
         <Grid container item xs={12}>
           <SearchList tasks={searchTasks} />
         </Grid>
-        <Grid container item xs={12} justify="center">
+        <Grid container item xs={12} justifyContent="center">
           {!!pagination.totalPages && (
             <Pagination
               count={pagination.totalPages}

@@ -3,23 +3,26 @@ import classNames from 'classnames';
 
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
+import {parse} from 'date-fns';
+import {format} from '../../Common/Time';
 
-import useTheme from '@material-ui/core/styles/useTheme';
-import {lighten, makeStyles} from '@material-ui/core/styles';
+import useTheme from '@mui/styles/useTheme';
+import {lighten} from '@mui/material/styles';
+import {makeStyles} from '@mui/styles';
 
-import MuiDrawer from '@material-ui/core/Drawer';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import MuiDrawer from '@mui/material/Drawer';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import LinearProgress from '@mui/material/LinearProgress';
 
-import CloseIcon from '@material-ui/icons/Close';
-//import AddIcon from '@material-ui/icons/Add';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+//import AddIcon from '@mui/icons-material/Add';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 import {colors} from '../../Common/Colors';
 import {AppContext} from '../../_context/AppContext';
@@ -75,9 +78,9 @@ const CalendarEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('md'));
+  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const date = moment(currentDate, 'YYYY-MM-DD').format('LL');
+  const date = format(parse(currentDate, 'yyyy-MM-dd', new Date()), 'PP');
 
   useEffect(() => {
     setLoading(true);
@@ -137,8 +140,12 @@ const CalendarEvents = () => {
             secondaryTypographyProps={{variant: 'body2'}}
           />
           <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="close" onClick={() => setOpenCalendarEvents(false)}>
-              <CloseIcon />
+            <IconButton
+              edge="end"
+              aria-label="close"
+              onClick={() => setOpenCalendarEvents(false)}
+              size="large">
+              <CloseIcon/>
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -155,20 +162,24 @@ const CalendarEvents = () => {
                 secondary={item.start + ' - ' + item.end}
               />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="Edit" onClick={setEventToEdit(item)}>
-                  <EditOutlinedIcon className={classes.eventIcon} />
+                <IconButton edge="end" aria-label="Edit" onClick={setEventToEdit(item)} size="large">
+                  <EditOutlinedIcon className={classes.eventIcon}/>
                 </IconButton>
                 {/*<IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(false)(item)}>*/}
                 {/*  <AddIcon className={classes.eventIcon} />*/}
                 {/*</IconButton>*/}
-                <IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(true)(item)}>
-                  <PlaylistAddCheckIcon className={classes.eventIcon} />
+                <IconButton
+                  edge="end"
+                  aria-label="Save"
+                  onClick={addEventToTaskList(true)(item)}
+                  size="large">
+                  <PlaylistAddCheckIcon className={classes.eventIcon}/>
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           ))
         ) : (
-          <LinearProgress color="secondary" />
+          <LinearProgress color="secondary"/>
         )}
       </List>
     </MuiDrawer>

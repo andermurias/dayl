@@ -6,14 +6,14 @@ import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {makeStyles} from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 
 import {pagination} from '../../_proptypes/search';
 
@@ -40,8 +40,6 @@ const SearchHeader = ({pagination}) => {
   const [search, setSearch] = useState(useQuery().get('s') || '');
 
   const {t, i18n} = useTranslation();
-
-  moment.locale(i18n.language);
 
   const goToSearch = () => {
     const searchParams = new URLSearchParams({
@@ -77,7 +75,7 @@ const SearchHeader = ({pagination}) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton aria-label="search" onClick={goToSearch}>
+                <IconButton aria-label="search" onClick={goToSearch} size="large">
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>

@@ -71,6 +71,7 @@
       "calendar": "Calendar"
     },
     "today": "Today",
+    "dashboard": "Dashboard",
     "calendar": "Calendar",
     "tasks": "Tasks",
     "search": "Search",
@@ -86,6 +87,30 @@
     "goto": "Go to %s",
     "popover": {
       "count": "%s Tasks"
-    }
+    },
+    "weekdays" : [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "weekdaysShort" : [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ]
+  },
+  "dashboard": {
+    "hello": "Hello",
+    "date": "Today is {{date}}",
+    "today": "Today",
+    "yesterday": "Yesterday"
   }
 }

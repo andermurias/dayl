@@ -2,15 +2,15 @@ import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
-import Divider from '@material-ui/core/Divider';
-import Chip from '@material-ui/core/Chip';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Popover from '@mui/material/Popover';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import {CalendarContext} from '../../_context/CalendarContext';
 
@@ -18,6 +18,7 @@ import Link from '../../Atom/Link';
 import CalendarTask from '../CalendarTask/CalendarTask';
 
 import {calendar} from '../../_proptypes/calendar';
+import {format} from '../../Common/Time';
 
 const useStyles = makeStyles((theme) => ({
   popoverPaper: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     padding: theme.spacing(2),
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
       maxWidth: '100%',
       left: '0px!important',
@@ -78,10 +79,10 @@ const CalendarPopover = ({calendarData}) => {
       {popoverAnchor && (
         <>
           <Typography variant="caption" classes={{root: classes.popoverTitle}}>
-            {calendarData.days[popoverDayIdx].date.format('dddd')}
+            {format(calendarData.days[popoverDayIdx].date, 'EEEEE')}
           </Typography>
           <Typography variant="h4" classes={{root: classes.popoverTitle}}>
-            {calendarData.days[popoverDayIdx].date.format('DD')}
+            {format(calendarData.days[popoverDayIdx].date, 'dd')}
           </Typography>
           <Typography variant="caption" classes={{root: classes.popoverTitle}}>
             {t('calendar.popover.count').replace('%s', calendarData.days[popoverDayIdx].tasks.length)}
@@ -99,8 +100,8 @@ const CalendarPopover = ({calendarData}) => {
             classes={{root: classes.taskGoTo}}
             icon={<ArrowForwardIcon />}
             component={Link}
-            to={'/tasks/' + calendarData.days[popoverDayIdx].date.format('YYYY-MM-DD')}
-            label={t('calendar.goto').replace('%s', calendarData.days[popoverDayIdx].date.format('L'))}
+            to={'/tasks/' + format(calendarData.days[popoverDayIdx].date, 'yyyy-MM-dd')}
+            label={t('calendar.goto').replace('%s', format(calendarData.days[popoverDayIdx].date, 'P'))}
           />
         </>
       )}

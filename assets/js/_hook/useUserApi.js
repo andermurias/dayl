@@ -20,7 +20,9 @@ export const useUserApi = () => {
         localStorage.setItem('refreshToken', res.data.refresh_token);
         setToken(res.data.token);
       })
-      .catch(logout);
+      .catch((e) => {
+        console.log(e);
+      });
 
   return {
     registerUser,

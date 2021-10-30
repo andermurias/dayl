@@ -3,11 +3,11 @@ import React, {useContext, useEffect, useState} from 'react';
 import {GoogleLogin} from 'react-google-login';
 import {useTranslation} from 'react-i18next';
 
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {Grid, Button} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Alert from '@material-ui/lab/Alert';
+import {makeStyles, useTheme} from '@mui/styles';
+import {Grid, Button} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/lab/Alert';
 
 import GoogleIcon from '../Icons/Google';
 
@@ -19,7 +19,7 @@ import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
 import {colors} from '../Common/Colors';
 import {isDarkTheme} from '../_config/theme';
 
-import {fade} from '@material-ui/core/styles';
+import { alpha } from '@mui/material/styles';
 import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme) => ({
       bottom: 0,
       right: 0,
       background: `linear-gradient(to top right, 
-        ${fade(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 1)} 30%,
-        ${fade(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 0)}
+        ${alpha(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 1)} 30%,
+        ${alpha(isDarkTheme(theme) ? colors.mineShaft : colors.wildSand, 0)}
         )`,
       zIndex: 5,
     },
@@ -151,12 +151,12 @@ const Login = () => {
         <img src="https://source.unsplash.com/1920x1080/?nature" className={classes.image} />
         <Paper className={classes.paper} elevation={0}>
           <Grid container spacing={8}>
-            <Grid container item classes={classes.gridItem} xs={12} justify="flex-start">
+            <Grid container item classes={classes.gridItem} xs={12} justifyContent="flex-start">
               <a href="/" className={classes.logoContainer}>
-                <img src={theme.palette.type === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
+                <img src={theme.palette.mode === 'dark' ? logoDark : logo} alt="Dayl" className={classes.logo} />
               </a>
             </Grid>
-            <Grid container item xs={12} justify="flex-start">
+            <Grid container item xs={12} justifyContent="flex-start">
               <Typography variant="h4">{t('login.message')}</Typography>
               <Typography variant="h6">{t('login.submessage')}</Typography>
             </Grid>
@@ -169,7 +169,7 @@ const Login = () => {
             ) : (
               ''
             )}
-            <Grid container item justify="center">
+            <Grid container item justifyContent="center">
               <GoogleLogin
                 clientId={process.env.GOOGLE_API_KEY}
                 render={(renderProps) => (
