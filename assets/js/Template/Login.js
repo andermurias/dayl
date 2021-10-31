@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import {GoogleLogin} from 'react-google-login';
 import {useTranslation} from 'react-i18next';
 
@@ -19,11 +21,25 @@ import logoDark from '../../static/img/logo/dayl_logo_full_dark.svg';
 import {colors} from '../Common/Colors';
 import {isDarkTheme} from '../_config/theme';
 
-import { alpha } from '@mui/material/styles';
+import {alpha} from '@mui/material/styles';
 import {Redirect} from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'Login';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  container: `${PREFIX}-container`,
+  panel: `${PREFIX}-panel`,
+  logoContainer: `${PREFIX}-logoContainer`,
+  logo: `${PREFIX}-logo`,
+  image: `${PREFIX}-image`,
+  login: `${PREFIX}-login`,
+  loginIcon: `${PREFIX}-loginIcon`,
+  loginText: `${PREFIX}-loginText`,
+};
+
+const Root = styled('div')(({theme}) => ({
+  [`& .${classes.paper}`]: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -34,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     zIndex: 10,
   },
-  container: {
+
+  [`&.${classes.container}`]: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -43,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     flexGrow: 1,
   },
-  panel: {
+
+  [`& .${classes.panel}`]: {
     flexGrow: 1,
     width: '100%',
     display: 'flex',
@@ -66,13 +84,16 @@ const useStyles = makeStyles((theme) => ({
       zIndex: 5,
     },
   },
-  logoContainer: {
+
+  [`& .${classes.logoContainer}`]: {
     width: '66%',
   },
-  logo: {
+
+  [`& .${classes.logo}`]: {
     width: '100%',
   },
-  image: {
+
+  [`& .${classes.image}`]: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
@@ -87,7 +108,8 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     zIndex: 1,
   },
-  login: {
+
+  [`& .${classes.login}`]: {
     background: '#FFFFFF',
     justifyContent: 'flex-start',
     padding: theme.spacing(1),
@@ -96,11 +118,13 @@ const useStyles = makeStyles((theme) => ({
       background: colors.gallery,
     },
   },
-  loginIcon: {
+
+  [`& .${classes.loginIcon}`]: {
     marginRight: theme.spacing(3),
     marginLeft: 0,
   },
-  loginText: {
+
+  [`& .${classes.loginText}`]: {
     fontSize: 14,
     color: 'rgba(0, 0, 0, 0.54)',
     fontWeight: 500,
@@ -108,7 +132,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const classes = useStyles();
   const theme = useTheme();
 
   const {t} = useTranslation();
@@ -146,7 +169,7 @@ const Login = () => {
   }
 
   return (
-    <div className={classes.container}>
+    <Root className={classes.container}>
       <div className={classes.panel}>
         <img src="https://source.unsplash.com/1920x1080/?nature" className={classes.image} />
         <Paper className={classes.paper} elevation={0}>
@@ -203,7 +226,7 @@ const Login = () => {
           </Grid>
         </Paper>
       </div>
-    </div>
+    </Root>
   );
 };
 

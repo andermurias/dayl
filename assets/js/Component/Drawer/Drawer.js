@@ -1,5 +1,7 @@
 import React, {useContext} from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import {useTranslation} from 'react-i18next';
 
 import useTheme from '@mui/styles/useTheme';
@@ -32,41 +34,61 @@ import logoDark from '../../../static/img/logo/dayl_logo_full_dark.svg';
 import logo from '../../../static/img/logo/dayl_logo_full.svg';
 import {isDarkTheme} from '../../_config/theme';
 
-const drawerWidth = 180;
+const PREFIX = 'Drawer';
 
-const useStyles = makeStyles((theme) => ({
-  drawer: {
+const classes = {
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  toolbar: `${PREFIX}-toolbar`,
+  content: `${PREFIX}-content`,
+  fab: `${PREFIX}-fab`,
+  logo: `${PREFIX}-logo`,
+  topList: `${PREFIX}-topList`,
+  bottomList: `${PREFIX}-bottomList`,
+};
+
+const StyledMuiDrawer = styled(MuiDrawer)(({theme}) => ({
+  [`&.${classes.drawer}`]: {
     width: drawerWidth,
     flexShrink: 0,
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     width: drawerWidth,
     justifyContent: 'space-between',
   },
-  toolbar: {
+
+  [`& .${classes.toolbar}`]: {
     padding: theme.spacing(4, 2, 1, 2),
   },
-  content: {
+
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     backgroundColor: colors.mineShaft,
     padding: theme.spacing(3),
     position: 'relative',
     flexDirection: 'column',
   },
-  fab: {
+
+  [`& .${classes.fab}`]: {
     margin: theme.spacing(1),
     position: 'fixed',
     bottom: theme.spacing(1),
     left: theme.spacing(1),
   },
-  logo: {
+
+  [`& .${classes.logo}`]: {
     width: '66%',
   },
-  topList: {},
-  bottomList: {
+
+  [`& .${classes.topList}`]: {},
+
+  [`& .${classes.bottomList}`]: {
     paddingBottom: theme.spacing(2),
   },
 }));
+
+const drawerWidth = 180;
 
 const generateMenuItem = ({text, icon, url, type, subtext, checked, action}) => ({
   text: text,
@@ -85,7 +107,6 @@ const generateMenuSwitch = ({text, icon, action, checked}) =>
   generateMenuItem({text: text, icon: icon, type: 'switch', checked: checked, action: action});
 
 const Drawer = () => {
-  const classes = useStyles();
   const {t} = useTranslation();
   const theme = useTheme();
   const {currentDate, openDrawer, setCloseDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
@@ -160,7 +181,7 @@ const Drawer = () => {
   ];
 
   return (
-    <MuiDrawer
+    <StyledMuiDrawer
       className={classes.drawer}
       variant={isSmlOrDown ? 'temporary' : 'permanent'}
       open={openDrawer}
@@ -189,7 +210,7 @@ const Drawer = () => {
           <DrawerItem item={item} key={i} />
         ))}
       </div>
-    </MuiDrawer>
+    </StyledMuiDrawer>
   );
 };
 

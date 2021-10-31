@@ -1,4 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
@@ -16,10 +17,16 @@ import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
 import TasksTable from '../Component/TasksTable/TasksTable';
 import Accordion from '../Component/Accordion/Accordion';
-import DashboardHeader from "../Component/DashboardHeader/DashboardHeader";
+import DashboardHeader from '../Component/DashboardHeader/DashboardHeader';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'Dashboard';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -32,13 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Dashboard = () => {
-
-  const classes = useStyles();
-
   const {t, i18n} = useTranslation();
-
 
   const [todayTasks, setTodayTasks] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
@@ -64,25 +66,19 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Paper classes={{root: classes.paper}}>
-      <DashboardHeader currentDate={currentDate}/>
+    <StyledPaper classes={{root: classes.paper}}>
+      <DashboardHeader currentDate={currentDate} />
       <Accordion defaultExpanded={true} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'}>
-        <TasksTable tasks={pendingTasks} withActions={false}/>
+        <TasksTable tasks={pendingTasks} withActions={false} />
       </Accordion>
-      <Accordion
-        defaultExpanded={true}
-        title={t('dashboard.today') + ' (' + todayTasks.length + ')'}
-      >
-        <TasksTable done={true} tasks={todayTasks} withActions={false}/>
+      <Accordion defaultExpanded={true} title={t('dashboard.today') + ' (' + todayTasks.length + ')'}>
+        <TasksTable done={true} tasks={todayTasks} withActions={false} />
       </Accordion>
-      <Accordion
-        defaultExpanded={true}
-        title={t('dashboard.yesterday') + ' (' + pastDayTask.length + ')'}
-      >
-        <TasksTable done={true} tasks={pastDayTask} withActions={false}/>
+      <Accordion defaultExpanded={true} title={t('dashboard.yesterday') + ' (' + pastDayTask.length + ')'}>
+        <TasksTable done={true} tasks={pastDayTask} withActions={false} />
       </Accordion>
-      <TaskItemDialog/>
-    </Paper>
+      <TaskItemDialog />
+    </StyledPaper>
   );
 };
 

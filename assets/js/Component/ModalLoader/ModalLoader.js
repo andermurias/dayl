@@ -1,26 +1,33 @@
 import React, {useContext} from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import {makeStyles} from '@mui/styles';
 
 import {AppContext} from '../../_context/AppContext';
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
+const PREFIX = 'ModalLoader';
+
+const classes = {
+  backdrop: `${PREFIX}-backdrop`,
+};
+
+const StyledBackdrop = styled(Backdrop)(({theme}) => ({
+  [`&.${classes.backdrop}`]: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
 }));
 
 const ModalLoader = () => {
-  const classes = useStyles();
   const {loading} = useContext(AppContext);
 
   return (
-    <Backdrop className={classes.backdrop} open={loading}>
+    <StyledBackdrop className={classes.backdrop} open={loading}>
       <CircularProgress color="secondary" size="6rem" />
-    </Backdrop>
+    </StyledBackdrop>
   );
 };
 

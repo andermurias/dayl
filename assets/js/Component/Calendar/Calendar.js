@@ -1,7 +1,7 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
-
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -15,10 +15,18 @@ import CalendarPopover from '../CalendarPopover/CalendarPopover';
 
 import {calendar} from '../../_proptypes/calendar';
 
-const dayWidth = 14.28;
+const PREFIX = 'Calendar';
 
-const useStyles = makeStyles((theme) => ({
-  dayHeader: {
+const classes = {
+  dayHeader: `${PREFIX}-dayHeader`,
+  popoverPaper: `${PREFIX}-popoverPaper`,
+  popoverTitle: `${PREFIX}-popoverTitle`,
+  taskGoTo: `${PREFIX}-taskGoTo`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')(({theme}) => ({
+  [`& .${classes.dayHeader}`]: {
     flexGrow: 0,
     maxWidth: `${dayWidth}%`,
     flexBasis: `${dayWidth}%`,
@@ -27,19 +35,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     paddingBottom: theme.spacing(2) + '!important',
   },
-  popoverPaper: {
+
+  [`& .${classes.popoverPaper}`]: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     padding: theme.spacing(2),
   },
-  popoverTitle: {
+
+  [`& .${classes.popoverTitle}`]: {
     width: '100%',
     textAlign: 'center',
     display: 'block',
   },
-  taskGoTo: {
+
+  [`& .${classes.taskGoTo}`]: {
     display: 'inline-flex',
     marginTop: theme.spacing(1),
     maxWidth: '100%',
@@ -48,35 +59,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const dayWidth = 14.28;
 
 const Calendar = ({calendarData}) => {
-  const classes = useStyles();
   const theme = useTheme();
 
   const {t, i18n} = useTranslation();
 
-  const getWeekDays = (isSmlOrDown) => isSmlOrDown ? t('calendar.weekdaysShort', { returnObjects: true }) : t('calendar.weekdays', { returnObjects: true });
+  const getWeekDays = (isSmlOrDown) =>
+    isSmlOrDown ? t('calendar.weekdaysShort', {returnObjects: true}) : t('calendar.weekdays', {returnObjects: true});
 
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('md'));
 
-  return <>
-    <Box mb={2}>
+  return (
+    <Root>
+      <Box mb={2}>
+        <Grid container spacing={2}>
+          {!!calendarData.days.length &&
+            getWeekDays(isSmlOrDown).map((day, i) => (
+              <Grid container item justifyContent="center" classes={{root: classes.dayHeader}} key={i}>
+                <Typography variant="h6">{day}</Typography>
+              </Grid>
+            ))}
+        </Grid>
+      </Box>
       <Grid container spacing={2}>
-        {!!calendarData.days.length &&
-          getWeekDays(isSmlOrDown).map((day, i) => (
-            <Grid container item justifyContent="center" classes={{root: classes.dayHeader}} key={i}>
-              <Typography variant="h6">{day}</Typography>
-            </Grid>
-          ))}
+        {calendarData.days.map((day, i) => (
+          <CalendarDay day={day} key={i} />
+        ))}
       </Grid>
-    </Box>
-    <Grid container spacing={2}>
-      {calendarData.days.map((day, i) => (
-        <CalendarDay day={day} key={i} />
-      ))}
-    </Grid>
-    <CalendarPopover calendarData={calendarData} />
-  </>;
+      <CalendarPopover calendarData={calendarData} />
+    </Root>
+  );
 };
 
 Calendar.propTypes = {

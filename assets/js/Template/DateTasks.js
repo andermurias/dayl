@@ -1,4 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -22,10 +23,16 @@ import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
 import TasksTable from '../Component/TasksTable/TasksTable';
 import Accordion from '../Component/Accordion/Accordion';
-import { formatDurationToHours } from '../Common/Helper';
+import {formatDurationToHours} from '../Common/Helper';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'DateTasks';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -38,24 +45,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getDiffTime = (start, end) => differenceInSeconds(
-  parse(end, 'HH:mm', new Date()),
-  parse(start, 'HH:mm', new Date())
-);
+const getDiffTime = (start, end) =>
+  differenceInSeconds(parse(end, 'HH:mm', new Date()), parse(start, 'HH:mm', new Date()));
 
 const getTotalTaskDuration = (tasks) => {
   const sumTime = tasks
     .map((t) => (t.start && t.end ? getDiffTime(t.start, t.end) : 0))
     .reduce((sum, time) => sum + time, 0);
 
-    var spendTime = intervalToDuration({ start: 0, end: sumTime * 1000 })
-    
+  var spendTime = intervalToDuration({start: 0, end: sumTime * 1000});
+
   return formatDurationToHours(spendTime);
 };
 
 const DateTasks = () => {
-  const classes = useStyles();
-
   const {t, i18n} = useTranslation();
 
   const [doneTasks] = useContext(DoneTaskContext);
@@ -67,11 +70,11 @@ const DateTasks = () => {
   const {getTasksForDateAndSave} = useTaskApi();
 
   const query = useParams();
-  const currentDate = parse(query.date, 'yyyy-MM-dd', new Date());
+  const currentDate = query.date ? parse(query.date, 'yyyy-MM-dd', new Date()) : new Date();
 
   useEffect(() => {
     setLoading(true);
-    const currentDate = parse(query.date, 'yyyy-MM-dd',new Date());
+    const currentDate = query.date ? parse(query.date, 'yyyy-MM-dd', new Date()) : new Date();
     const newDate = format(currentDate, 'yyyy-MM-dd');
     setCurrentDate(newDate);
     getTasksForDateAndSave(newDate).then(() => setLoading(false));
@@ -80,7 +83,7 @@ const DateTasks = () => {
   const spendTimeFormat = getTotalTaskDuration(doneTasks);
 
   return (
-    <Paper classes={{root: classes.paper}}>
+    <StyledPaper classes={{root: classes.paper}}>
       <TaskListHeader currentDate={currentDate} />
       <Accordion
         expanded={!!editTask || taskFormOpen}
@@ -101,7 +104,7 @@ const DateTasks = () => {
         <TasksTable done={true} tasks={doneTasks} />
       </Accordion>
       <TaskItemDialog />
-    </Paper>
+    </StyledPaper>
   );
 };
 

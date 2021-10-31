@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import {makeStyles} from '@mui/styles';
@@ -11,8 +12,18 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const useStyles = makeStyles((theme) => ({
-  accordion: {
+const PREFIX = 'Accordion';
+
+const classes = {
+  accordion: `${PREFIX}-accordion`,
+  accordionExpandIcon: `${PREFIX}-accordionExpandIcon`,
+  dividerFullWidth: `${PREFIX}-dividerFullWidth`,
+  dividerFullWidthRight: `${PREFIX}-dividerFullWidthRight`,
+  accordionSummaryContent: `${PREFIX}-accordionSummaryContent`,
+};
+
+const StyledMuiAccordion = styled(MuiAccordion)(({theme}) => ({
+  [`& .${classes.accordion}`]: {
     boxShadow: 'none',
     margin: `${theme.spacing(1)} 0`,
     '&.Mui-expanded': {
@@ -22,35 +33,37 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  accordionExpandIcon: {
+
+  [`& .${classes.accordionExpandIcon}`]: {
     order: -1,
     padding: `0 ${theme.spacing(0.5)}`,
     marginRight: 0,
   },
-  dividerFullWidth: {
+
+  [`& .${classes.dividerFullWidth}`]: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
     textAlign: 'left',
     display: 'flex',
     alignItems: 'center',
   },
-  dividerFullWidthRight: {
+
+  [`& .${classes.dividerFullWidthRight}`]: {
     fontWeight: 'bold',
     margin: `5px ${theme.spacing(2)} 0 0`,
     textTransform: 'uppercase',
     textAlign: 'right',
   },
-  accordionSummaryContent: {
+
+  [`& .${classes.accordionSummaryContent}`]: {
     marginLeft: 0,
     paddingLeft: theme.spacing(3),
   },
 }));
 
 const Accordion = ({title, sideTitle, children, ...rest}) => {
-  const classes = useStyles();
-
   return (
-    <MuiAccordion classes={{root: classes.accordion}} {...rest}>
+    <StyledMuiAccordion classes={{root: classes.accordion}} {...rest}>
       <AccordionSummary
         classes={{content: classes.accordionSummaryContent, expandIcon: classes.accordionExpandIcon}}
         expandIcon={<ExpandMoreIcon />}
@@ -76,7 +89,7 @@ const Accordion = ({title, sideTitle, children, ...rest}) => {
           </Grid>
         </Grid>
       </AccordionDetails>
-    </MuiAccordion>
+    </StyledMuiAccordion>
   );
 };
 

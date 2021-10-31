@@ -1,6 +1,8 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import {parse} from 'date-fns'
+import {styled} from '@mui/material/styles';
+
+import {parse} from 'date-fns';
 import {format} from '../../Common/Time';
 import {useTranslation} from 'react-i18next';
 
@@ -22,33 +24,51 @@ import {UPDATE_TASK, ADD_TASK, useTaskProcessor} from '../../_hook/useTaskProces
 
 import {AppContext} from '../../_context/AppContext';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'TaskForm';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  form: `${PREFIX}-form`,
+  description: `${PREFIX}-description`,
+  checkboxParent: `${PREFIX}-checkboxParent`,
+  checkbox: `${PREFIX}-checkbox`,
+  sendButton: `${PREFIX}-sendButton`,
+  buttonIcon: `${PREFIX}-buttonIcon`,
+};
+
+const StyledBox = styled(Box)(({theme}) => ({
+  [`&.${classes.root}`]: {
     width: '100%',
   },
-  form: {
+
+  [`& .${classes.form}`]: {
     paddingBottom: theme.spacing(2),
   },
-  description: {
+
+  [`& .${classes.description}`]: {
     margin: `${theme.spacing(1)} 0`,
     display: 'flex',
     flexGrow: 1,
     alignItems: 'center',
   },
-  checkboxParent: {
+
+  [`& .${classes.checkboxParent}`]: {
     width: `${theme.spacing(3)}!important`,
     height: `${theme.spacing(3)}!important`,
     padding: `0 ${theme.spacing(1.5)} 0 ${theme.spacing(2)}`,
   },
-  checkbox: {
+
+  [`& .${classes.checkbox}`]: {
     marginRight: theme.spacing(3.5),
     width: theme.spacing(5.25),
     height: theme.spacing(5.25),
   },
-  sendButton: {
+
+  [`& .${classes.sendButton}`]: {
     minWidth: '100%',
   },
-  buttonIcon: {
+
+  [`& .${classes.buttonIcon}`]: {
     marginLeft: theme.spacing(-0.5),
     [theme.breakpoints.down('sm')]: {
       margin: 0,
@@ -59,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TaskForm = () => {
-  const classes = useStyles();
   const theme = useTheme();
 
   const {t} = useTranslation();
@@ -133,10 +152,10 @@ const TaskForm = () => {
   };
 
   return (
-    <Box m={0} className={classes.root}>
+    <StyledBox m={0} className={classes.root}>
       <Grid container spacing={2} className={classes.form}>
         <Grid container item xs={12} sm={12} md={7} justifyContent="flex-start">
-          <input type="hidden" ref={taskIdRef} value={id}/>
+          <input type="hidden" ref={taskIdRef} value={id} />
           <div className={classes.description}>
             <Checkbox
               classes={{root: classes.checkboxParent}}
@@ -168,9 +187,7 @@ const TaskForm = () => {
             ampm={false}
             value={startDate}
             onChange={handleStartDateChange}
-            renderInput={(props) => (
-              <TextField {...props} />
-            )}
+            renderInput={(props) => <TextField {...props} />}
             fullWidth
             autoOk
           />
@@ -184,9 +201,7 @@ const TaskForm = () => {
             ampm={false}
             value={endDate}
             onChange={handleEndDateChange}
-            renderInput={(props) => (
-              <TextField {...props} />
-            )}
+            renderInput={(props) => <TextField {...props} />}
             fullWidth
             autoOk
           />
@@ -200,13 +215,13 @@ const TaskForm = () => {
             onClick={submitTask}
             size="large"
             classes={{endIcon: classes.buttonIcon, root: classes.sendButton}}
-            endIcon={<ChevronRightIcon/>}
+            endIcon={<ChevronRightIcon />}
           >
             {isXSmallOrDown ? (editTask ? t('form.edit') : t('form.save')) : ''}
           </Button>
         </Grid>
       </Grid>
-    </Box>
+    </StyledBox>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -20,8 +21,16 @@ import CalendarTask from '../CalendarTask/CalendarTask';
 import {calendar} from '../../_proptypes/calendar';
 import {format} from '../../Common/Time';
 
-const useStyles = makeStyles((theme) => ({
-  popoverPaper: {
+const PREFIX = 'CalendarPopover';
+
+const classes = {
+  popoverPaper: `${PREFIX}-popoverPaper`,
+  popoverTitle: `${PREFIX}-popoverTitle`,
+  taskGoTo: `${PREFIX}-taskGoTo`,
+};
+
+const StyledPopover = styled(Popover)(({theme}) => ({
+  [`& .${classes.popoverPaper}`]: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -35,12 +44,14 @@ const useStyles = makeStyles((theme) => ({
       bottom: 0,
     },
   },
-  popoverTitle: {
+
+  [`& .${classes.popoverTitle}`]: {
     width: '100%',
     textAlign: 'center',
     display: 'block',
   },
-  taskGoTo: {
+
+  [`& .${classes.taskGoTo}`]: {
     display: 'inline-flex',
     marginTop: theme.spacing(1),
     maxWidth: '100%',
@@ -50,14 +61,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CalendarPopover = ({calendarData}) => {
-  const classes = useStyles();
-
   const {t} = useTranslation();
 
   const {popoverAnchor, handlePopoverClose, popoverDayIdx} = useContext(CalendarContext);
 
   return (
-    <Popover
+    <StyledPopover
       id="more-task-popover"
       classes={{
         paper: classes.popoverPaper,
@@ -105,7 +114,7 @@ const CalendarPopover = ({calendarData}) => {
           />
         </>
       )}
-    </Popover>
+    </StyledPopover>
   );
 };
 

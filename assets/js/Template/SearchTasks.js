@@ -1,4 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useHistory, useLocation} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -17,8 +18,15 @@ import SearchHeader from '../Component/SearchHeader/SearchHeader';
 import {withLayout} from '../_hoc/withLayout';
 import MainLayout from '../Layout/MainLayout';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'SearchTasks';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  title: `${PREFIX}-title`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -29,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(1)} auto`,
     background: 'transparent',
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -44,7 +53,6 @@ function useQuery() {
 }
 
 const SearchTasks = () => {
-  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
 
@@ -83,7 +91,7 @@ const SearchTasks = () => {
   };
 
   return (
-    <Paper classes={{root: classes.paper}}>
+    <StyledPaper classes={{root: classes.paper}}>
       <Grid container spacing={3}>
         <Grid container item xs={12}>
           <SearchHeader pagination={pagination} />
@@ -102,7 +110,7 @@ const SearchTasks = () => {
           )}
         </Grid>
       </Grid>
-    </Paper>
+    </StyledPaper>
   );
 };
 

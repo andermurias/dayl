@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {styled} from '@mui/material/styles';
 import classNames from 'classnames';
 import {useHistory} from 'react-router-dom';
 
@@ -22,18 +23,30 @@ import Empty from '../Component/Empty/Empty';
 import {useUserApi} from '../_hook/useUserApi';
 import {colors} from '../Common/Colors.js';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'MainLayout';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  bottomNav: `${PREFIX}-bottomNav`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+  fab: `${PREFIX}-fab`,
+};
+
+const StyledDiv = styled('div')(({theme}) => ({
+  [`&.${classes.root}`]: {
     display: 'flex',
   },
-  bottomNav: {
+
+  [`& .${classes.bottomNav}`]: {
     width: '100%',
     position: 'fixed',
     bottom: 0,
     left: 0,
     borderTop: 'solid 1px ' + colors.orangePeel,
   },
-  content: {
+
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
@@ -47,14 +60,16 @@ const useStyles = makeStyles((theme) => ({
       marginRight: -drawerWidth,
     },
   },
-  contentShift: {
+
+  [`& .${classes.contentShift}`]: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: 0,
   },
-  fab: {
+
+  [`& .${classes.fab}`]: {
     margin: theme.spacing(1),
     position: 'fixed',
     bottom: theme.spacing(1),
@@ -64,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLayout = ({children}) => {
-  const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const {token, setLoading, setOpenDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
@@ -80,7 +94,7 @@ const MainLayout = ({children}) => {
 
   if (token !== null) {
     return (
-      <div className={classes.root}>
+      <StyledDiv className={classes.root}>
         <div>
           <DrawerComponent />
         </div>
@@ -100,7 +114,7 @@ const MainLayout = ({children}) => {
           </Hidden>
         </main>
         <CalendarEvents />
-      </div>
+      </StyledDiv>
     );
   } else {
     setLoading(true);

@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import Typography from '@mui/material/Typography';
@@ -10,24 +11,30 @@ import {taskHighlighter} from '../../Common/Helper';
 
 import {task} from '../../_proptypes/task';
 
-const useStyles = makeStyles((theme) => ({
-  taskChip: {
+const PREFIX = 'CalendarTask';
+
+const classes = {
+  taskChip: `${PREFIX}-taskChip`,
+  tag: `${PREFIX}-tag`,
+};
+
+const StyledChip = styled(Chip)(({theme}) => ({
+  [`&.${classes.taskChip}`]: {
     display: 'inline-flex',
     marginTop: theme.spacing(1),
     maxWidth: '100%',
     border: 0,
   },
-  tag: {
+
+  [`& .${classes.tag}`]: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
 }));
 
 const CalendarTask = ({task}) => {
-  const classes = useStyles();
-
   return (
-    <Chip
+    <StyledChip
       size="small"
       color="secondary"
       classes={{root: classes.taskChip}}
@@ -38,7 +45,8 @@ const CalendarTask = ({task}) => {
             __html: taskHighlighter(task.description, classes.tag),
           }}
         />
-      } />
+      }
+    />
   );
 };
 

@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import {useHistory, useLocation} from 'react-router-dom';
@@ -17,8 +18,14 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import {pagination} from '../../_proptypes/search';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = 'SearchHeader';
+
+const classes = {
+  title: `${PREFIX}-title`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -33,7 +40,6 @@ function useQuery() {
 }
 
 const SearchHeader = ({pagination}) => {
-  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
 
@@ -52,7 +58,7 @@ const SearchHeader = ({pagination}) => {
   const onPressEnter = (e) => e.keyCode === 13 && goToSearch();
 
   return (
-    <Grid container spacing={3}>
+    <StyledGrid container spacing={3}>
       <Grid container item xs={12}>
         <Typography variant="h2" component="h1" className={classes.title}>
           {t('search.title')}
@@ -83,7 +89,7 @@ const SearchHeader = ({pagination}) => {
           }}
         />
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

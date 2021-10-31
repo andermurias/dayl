@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import classNames from 'classnames';
 
 import {useTranslation} from 'react-i18next';
@@ -30,46 +31,65 @@ import {useCalendarApi} from '../../_hook/useCalendarApi';
 
 import {ADD_TASK, EDIT_TASK, useTaskProcessor} from '../../_hook/useTaskProcessor';
 
-export const drawerWidth = 320;
+const PREFIX = 'CalendarEvents';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    marginLeft: -theme.spacing(2),
-    marginRight: -theme.spacing(2),
+const classes = {
+  title: `${PREFIX}-title`,
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  eventList: `${PREFIX}-eventList`,
+  event: `${PREFIX}-event`,
+  eventTitle: `${PREFIX}-eventTitle`,
+  eventText: `${PREFIX}-eventText`,
+  eventIcon: `${PREFIX}-eventIcon`,
+};
+
+const StyledMuiDrawer = styled(MuiDrawer)(({theme}) => ({
+  [`& .${classes.title}`]: {
+    marginLeft: theme.spacing(-2),
+    marginRight: theme.spacing(-2),
   },
-  drawer: {
+
+  [`&.${classes.drawer}`]: {
     width: drawerWidth,
     maxWidth: '100%',
     flexShrink: 0,
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     width: drawerWidth,
     maxWidth: '100%',
     justifyContent: 'space-between',
   },
-  eventList: {
+
+  [`& .${classes.eventList}`]: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  event: {
+
+  [`& .${classes.event}`]: {
     background: lighten(colors.orangePeel, 0.3),
     borderRadius: 4,
     marginTop: theme.spacing(2),
     paddingRight: theme.spacing(11),
   },
-  eventTitle: {
+
+  [`& .${classes.eventTitle}`]: {
     fontWeight: '600',
   },
-  eventText: {
+
+  [`& .${classes.eventText}`]: {
     color: colors.mineShaft,
   },
-  eventIcon: {
+
+  [`& .${classes.eventIcon}`]: {
     fill: colors.mineShaft,
   },
 }));
 
+export const drawerWidth = 320;
+
 const CalendarEvents = () => {
-  const classes = useStyles();
   const theme = useTheme();
   const {t} = useTranslation();
   const {getCalendarEvents} = useCalendarApi();
@@ -118,7 +138,7 @@ const CalendarEvents = () => {
   };
 
   return (
-    <MuiDrawer
+    <StyledMuiDrawer
       className={classes.drawer}
       variant={isMediumOrDown ? 'temporary' : 'persistent'}
       open={openCalendarEvents}
@@ -140,12 +160,8 @@ const CalendarEvents = () => {
             secondaryTypographyProps={{variant: 'body2'}}
           />
           <ListItemSecondaryAction>
-            <IconButton
-              edge="end"
-              aria-label="close"
-              onClick={() => setOpenCalendarEvents(false)}
-              size="large">
-              <CloseIcon/>
+            <IconButton edge="end" aria-label="close" onClick={() => setOpenCalendarEvents(false)} size="large">
+              <CloseIcon />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -163,26 +179,22 @@ const CalendarEvents = () => {
               />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="Edit" onClick={setEventToEdit(item)} size="large">
-                  <EditOutlinedIcon className={classes.eventIcon}/>
+                  <EditOutlinedIcon className={classes.eventIcon} />
                 </IconButton>
                 {/*<IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(false)(item)}>*/}
                 {/*  <AddIcon className={classes.eventIcon} />*/}
                 {/*</IconButton>*/}
-                <IconButton
-                  edge="end"
-                  aria-label="Save"
-                  onClick={addEventToTaskList(true)(item)}
-                  size="large">
-                  <PlaylistAddCheckIcon className={classes.eventIcon}/>
+                <IconButton edge="end" aria-label="Save" onClick={addEventToTaskList(true)(item)} size="large">
+                  <PlaylistAddCheckIcon className={classes.eventIcon} />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           ))
         ) : (
-          <LinearProgress color="secondary"/>
+          <LinearProgress color="secondary" />
         )}
       </List>
-    </MuiDrawer>
+    </StyledMuiDrawer>
   );
 };
 export default React.memo(CalendarEvents);

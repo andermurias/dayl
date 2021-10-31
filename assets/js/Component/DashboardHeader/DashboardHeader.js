@@ -1,11 +1,13 @@
 import React from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 import classNames from 'classnames/bind';
 
 import moment from 'moment';
-import { parse} from 'date-fns';
+import {parse} from 'date-fns';
 import {format, endOfWeek, startOfWeek} from '../../Common/Time';
 
 import Box from '@mui/material/Box';
@@ -16,11 +18,22 @@ import {makeStyles, useTheme} from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Paper from '@mui/material/Paper';
 
-
 import {useTaskApi} from '../../_hook/useTaskApi';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = 'DashboardHeader';
+
+const classes = {
+  title: `${PREFIX}-title`,
+  subtitle: `${PREFIX}-subtitle`,
+  left: `${PREFIX}-left`,
+  right: `${PREFIX}-right`,
+  titleSecondary: `${PREFIX}-titleSecondary`,
+  datePicker: `${PREFIX}-datePicker`,
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -28,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  subtitle: {
+
+  [`& .${classes.subtitle}`]: {
     width: '100%',
     textTransform: 'uppercase',
     lineHeight: 1.5,
@@ -36,26 +50,31 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  left: {
+
+  [`& .${classes.left}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'left',
     },
   },
-  right: {
+
+  [`& .${classes.right}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'right',
     },
   },
-  titleSecondary: {
+
+  [`& .${classes.titleSecondary}`]: {
     opacity: '.3',
     fontWeight: 'regular',
   },
-  datePicker: {
+
+  [`& .${classes.datePicker}`]: {
     display: 'none',
   },
-  paper: {
+
+  [`&.${classes.paper}`]: {
     width: '100%',
     padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
     background: 'transparent',
@@ -63,14 +82,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardHeader = ({currentDate}) => {
-  const classes = useStyles();
   const theme = useTheme();
   const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   const {t} = useTranslation();
 
   return (
-    <Paper className={classes.paper} elevation={0}>
+    <StyledPaper className={classes.paper} elevation={0}>
       <Grid container spacing={1}>
         <Grid container item xs={12}>
           <Typography variant="h2" component="h1" className={classes.title}>
@@ -79,8 +97,9 @@ const DashboardHeader = ({currentDate}) => {
         </Grid>
         <Grid container item xs={12} alignItems="center">
           <Typography variant="h6" component="h2" className={classes.title}>
-            <span
-              className={classes.titleSecondary}>{t('dashboard.date', {date: format(currentDate, isSmallOrUp ? 'PP' : 'P')})}</span>
+            <span className={classes.titleSecondary}>
+              {t('dashboard.date', {date: format(currentDate, isSmallOrUp ? 'PP' : 'P')})}
+            </span>
           </Typography>
         </Grid>
       </Grid>
@@ -100,7 +119,7 @@ const DashboardHeader = ({currentDate}) => {
           </Grid>
         </Box>
       </Hidden>
-    </Paper>
+    </StyledPaper>
   );
 };
 

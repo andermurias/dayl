@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -32,8 +34,20 @@ import {useTaskApi} from '../../_hook/useTaskApi';
 
 import Link from '../../Atom/Link';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = 'TaskListHeader';
+
+const classes = {
+  title: `${PREFIX}-title`,
+  subtitle: `${PREFIX}-subtitle`,
+  left: `${PREFIX}-left`,
+  right: `${PREFIX}-right`,
+  titleSecondary: `${PREFIX}-titleSecondary`,
+  datePicker: `${PREFIX}-datePicker`,
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -41,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  subtitle: {
+
+  [`& .${classes.subtitle}`]: {
     width: '100%',
     textTransform: 'uppercase',
     lineHeight: 1.5,
@@ -49,26 +64,31 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  left: {
+
+  [`& .${classes.left}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'left',
     },
   },
-  right: {
+
+  [`& .${classes.right}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'right',
     },
   },
-  titleSecondary: {
+
+  [`& .${classes.titleSecondary}`]: {
     opacity: '.3',
     fontWeight: 'regular',
   },
-  datePicker: {
+
+  [`& .${classes.datePicker}`]: {
     display: 'none',
   },
-  paper: {
+
+  [`&.${classes.paper}`]: {
     width: '100%',
     padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
     background: 'transparent',
@@ -76,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TaskListHeader = ({currentDate}) => {
-  const classes = useStyles();
   const theme = useTheme();
   const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
   const {getExportTask} = useTaskApi();
@@ -106,7 +125,7 @@ const TaskListHeader = ({currentDate}) => {
   };
 
   return (
-    <Paper className={classes.paper} elevation={0}>
+    <StyledPaper className={classes.paper} elevation={0}>
       <Grid container spacing={1}>
         <Grid container item xs={10} sm={8}>
           <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
@@ -119,7 +138,8 @@ const TaskListHeader = ({currentDate}) => {
             aria-controls="tasks-menu"
             aria-haspopup="true"
             onClick={handleMoreMenuClick}
-            size="large">
+            size="large"
+          >
             <MoreVertIcon fontSize="large" />
           </IconButton>
           <Menu
@@ -146,21 +166,21 @@ const TaskListHeader = ({currentDate}) => {
           </Menu>
         </Grid>
         <Grid container item xs={6} sm={8} alignItems="center">
-            <DatePicker
-              autoOk
-              label="Date Picker"
-              showTodayButton={true}
-              todayLabel={t('tasks.today')}
-              cancelLabel={t('tasks.cancel')}
-              okLabel={t('tasks.ok')}
-              value={selectedDate}
-              open={pickerStatus}
-              onOpen={() => setPickerStatus(true)}
-              onAccept={() => setPickerStatus(false)}
-              onClose={() => setPickerStatus(false)}
-              onChange={onChangeDate}
-              renderInput={props => null}
-            />
+          <DatePicker
+            autoOk
+            label="Date Picker"
+            showTodayButton={true}
+            todayLabel={t('tasks.today')}
+            cancelLabel={t('tasks.cancel')}
+            okLabel={t('tasks.ok')}
+            value={selectedDate}
+            open={pickerStatus}
+            onOpen={() => setPickerStatus(true)}
+            onAccept={() => setPickerStatus(false)}
+            onClose={() => setPickerStatus(false)}
+            onChange={onChangeDate}
+            renderInput={(props) => null}
+          />
           <Typography variant="h6" component="h2" className={classes.title} onClick={() => setPickerStatus(true)}>
             <span className={classes.titleSecondary}>({format(currentDate, isSmallOrUp ? 'PPPPPP' : 'P')})</span>
           </Typography>
@@ -190,7 +210,7 @@ const TaskListHeader = ({currentDate}) => {
           </Grid>
         </Box>
       </Hidden>
-    </Paper>
+    </StyledPaper>
   );
 };
 

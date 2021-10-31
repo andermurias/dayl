@@ -1,4 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
@@ -15,11 +16,17 @@ import CalendarHeader from '../Component/CalendarHeader/CalendarHeader';
 import Empty from '../Component/Empty/Empty';
 import CCalendar from '../Component/Calendar/Calendar';
 import {CalendarProvider} from '../_context/CalendarContext';
-import { addDays, addMonths, endOfMonth, getDaysInMonth, parse, startOfMonth, subMonths } from 'date-fns';
+import {addDays, addMonths, endOfMonth, getDaysInMonth, parse, parseISO, startOfMonth, subMonths} from 'date-fns';
 import {format} from '../Common/Time';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'Calendar';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -42,50 +49,48 @@ const generateDateRangeForDate = (date) => {
 };
 
 const filterTasksForCurrentDate = (currentDate) => (task) =>
-  format(parse(task.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd');
+  format(parseISO(task.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd');
 
 const generateCalendarStructureFromRange = ({start, end, days, tasks}) => {
-  
   const startDate = parse(start, 'yyyy-MM-dd', new Date());
 
   return {
-  month: {
-    name: format(startDate, 'LLLL'),
-    nameShort: format(startDate, 'LLL'),
-    number: parseInt(format(startDate, 'LL')),
-    start: startDate,
-    end: end,
-    days: days,
-    tasksTotal: tasks.length,
-    pagination: {
-      current: format(startDate, 'yyyy-MM-dd'),
-      next: format(addMonths(startDate, 1), 'yyyy-MM-dd'),
-      prev: format(subMonths(startDate, 1), 'yyyy-MM-dd'),
+    month: {
+      name: format(startDate, 'LLLL'),
+      nameShort: format(startDate, 'LLL'),
+      number: parseInt(format(startDate, 'LL')),
+      start: startDate,
+      end: end,
+      days: days,
+      tasksTotal: tasks.length,
+      pagination: {
+        current: format(startDate, 'yyyy-MM-dd'),
+        next: format(addMonths(startDate, 1), 'yyyy-MM-dd'),
+        prev: format(subMonths(startDate, 1), 'yyyy-MM-dd'),
+      },
     },
-  },
-  days: new Array(days)
-    .fill({
-      start,
-      end,
-    })
-    .map(({start, end}, i) => {
-      const currentDate = addDays(startDate, i);
-      console.log(currentDate, format(currentDate, 'e'));
-      return {
-        i: i,
-        date: currentDate,
-        monthDay: parseInt(format(currentDate, 'd')),
-        weekDay: parseInt(format(currentDate, 'e')),
-        weekDayStr: format(currentDate, 'EEEE'),
-        url: '/tasks/' + format(currentDate, 'yyyy-MM-dd'),
-        tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
-      };
-    }),
+    days: new Array(days)
+      .fill({
+        start,
+        end,
+      })
+      .map(({start, end}, i) => {
+        const currentDate = addDays(startDate, i);
+        console.log(currentDate, format(currentDate, 'e'));
+        return {
+          i: i,
+          date: currentDate,
+          monthDay: parseInt(format(currentDate, 'd')),
+          weekDay: parseInt(format(currentDate, 'e')),
+          weekDayStr: format(currentDate, 'EEEE'),
+          url: '/tasks/' + format(currentDate, 'yyyy-MM-dd'),
+          tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
+        };
+      }),
+  };
 };
-}
 
 const Calendar = () => {
-  const classes = useStyles();
   const query = useParams();
 
   const {i18n} = useTranslation();
@@ -113,10 +118,10 @@ const Calendar = () => {
   return (
     <CalendarProvider>
       {!!calendarData.days.length ? (
-        <Paper classes={{root: classes.paper}} elevation={0}>
+        <StyledPaper classes={{root: classes.paper}} elevation={0}>
           <CalendarHeader month={calendarData.month} />
           <CCalendar calendarData={calendarData} />
-        </Paper>
+        </StyledPaper>
       ) : (
         <Empty />
       )}

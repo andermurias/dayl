@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 
 import {format} from '../../Common/Time';
@@ -43,6 +44,50 @@ import {
 import {taskHighlighter} from '../../Common/Helper';
 import {colors} from '../../Common/Colors';
 
+const PREFIX = 'TaskItemDialog';
+
+const classes = {
+  tag: `${PREFIX}-tag`,
+  dialogContainer: `${PREFIX}-dialogContainer`,
+  dialogPaper: `${PREFIX}-dialogPaper`,
+  dialogTitle: `${PREFIX}-dialogTitle`,
+  dialogContent: `${PREFIX}-dialogContent`,
+  divider: `${PREFIX}-divider`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')(({theme}) => ({
+  [`& .${classes.tag}`]: {
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+
+  [`& .${classes.dialogContainer}`]: {
+    alignItems: 'flex-end',
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'center',
+    },
+  },
+
+  [`& .${classes.dialogPaper}`]: {
+    height: 'auto',
+  },
+
+  [`& .${classes.dialogTitle}`]: {
+    backgroundColor: colors.orangePeel,
+    color: colors.mineShaft,
+  },
+
+  [`& .${classes.dialogContent}`]: {
+    padding: theme.spacing(1),
+  },
+
+  [`& .${classes.divider}`]: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+}));
+
 const UPDATE_DATE_TASK = 'update_date';
 const UPDATE_DUE_DATE_TASK = 'update_due_date';
 
@@ -56,33 +101,6 @@ const createOption = ({icon, text, action, color, type}) => ({
 
 const createDivider = () => createOption({type: 'divider'});
 
-const useStyles = makeStyles((theme) => ({
-  tag: {
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  dialogContainer: {
-    alignItems: 'flex-end',
-    [theme.breakpoints.up('md')]: {
-      alignItems: 'center',
-    },
-  },
-  dialogPaper: {
-    height: 'auto',
-  },
-  dialogTitle: {
-    backgroundColor: colors.orangePeel,
-    color: colors.mineShaft,
-  },
-  dialogContent: {
-    padding: theme.spacing(1),
-  },
-  divider: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -90,7 +108,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const TaskItemDialog = () => {
   const {t} = useTranslation();
   const theme = useTheme();
-  const classes = useStyles();
 
   const {setOptionTask, optionTask, editTask} = useContext(AppContext);
 
@@ -171,7 +188,7 @@ const TaskItemDialog = () => {
     setDeadlinePickerStatus(false);
   };
   return (
-    <>
+    <Root>
       <Dialog
         fullWidth={true}
         fullScreen={isSmallOrDown}
@@ -185,21 +202,21 @@ const TaskItemDialog = () => {
         }}
       >
         <DialogTitle id="task-option-dialog" classes={{root: classes.dialogTitle}}>
-          <Typography dangerouslySetInnerHTML={{__html: taskHighlighter(optionTask?.description, classes.tag)}}/>
+          <Typography dangerouslySetInnerHTML={{__html: taskHighlighter(optionTask?.description, classes.tag)}} />
         </DialogTitle>
-        <Divider/>
+        <Divider />
         <DialogContent classes={{root: classes.dialogContent}}>
           <List>
             {(isSmallOrDown ? options.reverse() : options).map(({icon: Icon, text, action, color, type}, i) => {
               switch (type) {
                 case 'divider':
-                  return <Divider classes={{root: classes.divider}} key={i}/>;
+                  return <Divider classes={{root: classes.divider}} key={i} />;
                   break;
                 default:
                   return (
                     <ListItem button onClick={performAction(action, optionTask)} key={i}>
                       <ListItemIcon>
-                        <Icon style={{color: color}}/>
+                        <Icon style={{color: color}} />
                       </ListItemIcon>
                       <ListItemText
                         disableTypography
@@ -229,7 +246,7 @@ const TaskItemDialog = () => {
         onChange={performSetDeadline}
         clearable={true}
         onClear={performClearDeadline}
-        renderInput={props => null}
+        renderInput={(props) => null}
       />
       <DatePicker
         autoOk
@@ -242,9 +259,9 @@ const TaskItemDialog = () => {
         onAccept={() => setEndDatePickerStatus(false)}
         onClose={() => setEndDatePickerStatus(false)}
         onChange={performMoveTask}
-        renderInput={props => null}
+        renderInput={(props) => null}
       />
-    </>
+    </Root>
   );
 };
 

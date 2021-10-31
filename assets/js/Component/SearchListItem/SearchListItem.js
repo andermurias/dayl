@@ -1,4 +1,5 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
@@ -15,16 +16,26 @@ import {taskHighlighter, getDiffTime} from '../../Common/Helper';
 
 import {task} from '../../_proptypes/task';
 
-const useStyles = makeStyles((theme) => ({
-  secondary: {
+const PREFIX = 'SearchListItem';
+
+const classes = {
+  secondary: `${PREFIX}-secondary`,
+  tag: `${PREFIX}-tag`,
+  listItem: `${PREFIX}-listItem`,
+};
+
+const StyledListItem = styled(ListItem)(({theme}) => ({
+  [`& .${classes.secondary}`]: {
     opacity: '.5',
     paddingTop: theme.spacing(1),
   },
-  tag: {
+
+  [`& .${classes.tag}`]: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
-  listItem: {
+
+  [`& .${classes.listItem}`]: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -35,14 +46,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchListItem = ({task}) => {
-  const classes = useStyles();
-
   const {i18n} = useTranslation();
 
   const timeDifference = getDiffTime(task.start, task.end);
 
   return (
-    <ListItem button component={Link} to={'/tasks/' + format(parse(task.date,'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}>
+    <StyledListItem
+      button
+      component={Link}
+      to={'/tasks/' + format(parse(task.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}
+    >
       <ListItemText
         classes={{root: classes.listItem}}
         primary={
@@ -59,7 +72,7 @@ const SearchListItem = ({task}) => {
           </Typography>
         }
       />
-    </ListItem>
+    </StyledListItem>
   );
 };
 
