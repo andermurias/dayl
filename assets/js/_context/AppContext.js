@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import moment from 'moment';
+import {format} from '../Common/Time';
 import {saveTheme, THEME_LIGHT} from '../Common/Helper';
 
 export const AppContext = React.createContext({});
 
 export const AppProvider = ({children}) => {
-  const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
+  const [currentDate, setCurrentDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [loading, setLoading] = useState(false);
   const [editTask, setEditTask] = useState(null);
   const [optionTask, setOptionTask] = useState(null);

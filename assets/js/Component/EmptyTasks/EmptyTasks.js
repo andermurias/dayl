@@ -1,39 +1,48 @@
 import React from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import {useTranslation} from 'react-i18next';
 
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import {makeStyles} from '@mui/styles';
 
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import {colors} from '../../Common/Colors';
 
-const useStyles = makeStyles((theme) => ({
-  noTasks: {
+const PREFIX = 'EmptyTasks';
+
+const classes = {
+  noTasks: `${PREFIX}-noTasks`,
+  icon: `${PREFIX}-icon`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.noTasks}`]: {
     textAlign: 'center',
   },
-  icon: {
-    margin: `0 ${theme.spacing(1)}px`,
+
+  [`& .${classes.icon}`]: {
+    margin: `0 ${theme.spacing(1)}`,
     opacity: '0.3',
-    fill: theme.palette.type === 'dark' ? colors.gallery : colors.mineShaft,
+    fill: theme.palette.mode === 'dark' ? colors.gallery : colors.mineShaft,
   },
 }));
 
 const EmptyTasks = () => {
-  const classes = useStyles();
   const {t} = useTranslation();
 
   return (
-    <Grid container justify="center" alignItems="center" direction="column">
-      <Grid container item xs={8} justify="center" alignItems="center">
+    <StyledGrid container justifyContent="center" alignItems="center" direction="column">
+      <Grid container item xs={8} justifyContent="center" alignItems="center">
         <PlaylistAddIcon fontSize="large" classes={{root: classes.icon}} />
         <Typography variant="overline" align="left" classes={{root: classes.noTasks}}>
           {t('table.noTasks')}
         </Typography>
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

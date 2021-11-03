@@ -1,12 +1,18 @@
 import React from 'react';
+import {adaptV4Theme} from '@mui/material/styles';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
+import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {ThemeProvider, StyledEngineProvider} from '@mui/material';
+
+import {createTheme} from '@mui/material/styles';
 
 import {theme} from './_config/theme';
 import {checkAndUpdateTheme, getForcedTheme, getSavedTheme, THEME_DARK} from './Common/Helper';
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import AuthorizedComponent from './_hoc/AuthorizedComponent';
 
@@ -17,8 +23,17 @@ import Calendar from './Template/Calendar';
 import ModalLoader from './Component/ModalLoader/ModalLoader';
 import SearchTasks from './Template/SearchTasks';
 import MainLayout from './Layout/MainLayout';
+import Dashboard from './Template/Dashboard';
+
+import {locales} from './Common/Time';
+
+import {useTranslation} from 'react-i18next';
 
 const routerConfiguration = [
+  {
+    route: '/dashboard',
+    component: Dashboard,
+  },
   {
     route: '/tasks/:date?',
     component: DateTasks,
@@ -39,33 +54,41 @@ const RoutedApp = () => {
 
   const prefersDarkMode = forceTheme ? forceTheme === THEME_DARK : useMediaQuery('(prefers-color-scheme: dark)');
 
-  const muiTheme = createMuiTheme(theme(prefersDarkMode));
+  const muiTheme = createTheme(theme(prefersDarkMode));
+
+  const {i18n} = useTranslation();
+
+  window.__localeId__ = i18n.language;
 
   return (
-    <MuiThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <Router>
-        <Switch>
-          <Route path="/login" exact>
-            <Login />
-          </Route>
-          <Route>
-            <AuthorizedComponent>
-              <MainLayout>
-                <Switch>
-                  {routerConfiguration.map((route, j) => (
-                    <Route path={route.route} key={j}>
-                      <route.component route={route} />
-                    </Route>
-                  ))}
-                </Switch>
-              </MainLayout>
-            </AuthorizedComponent>
-          </Route>
-        </Switch>
-        <ModalLoader />
-      </Router>
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={muiTheme}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} locale={locales[i18n.language]}>
+          <CssBaseline />
+          <Router>
+            <Switch>
+              <Route path="/login" exact>
+                <Login />
+              </Route>
+              <Route>
+                <AuthorizedComponent>
+                  <MainLayout>
+                    <Switch>
+                      {routerConfiguration.map((route, j) => (
+                        <Route path={route.route} key={j}>
+                          <route.component route={route} />
+                        </Route>
+                      ))}
+                    </Switch>
+                  </MainLayout>
+                </AuthorizedComponent>
+              </Route>
+            </Switch>
+            <ModalLoader />
+          </Router>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

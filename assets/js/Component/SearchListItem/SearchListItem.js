@@ -1,50 +1,58 @@
 import React from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
-import moment from 'moment';
+import {parseISO} from 'date-fns';
+import {format} from '../../Common/Time';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@mui/styles';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 import {taskHighlighter, getDiffTime} from '../../Common/Helper';
 
 import {task} from '../../_proptypes/task';
 
-const useStyles = makeStyles((theme) => ({
-  secondary: {
+const PREFIX = 'SearchListItem';
+
+const classes = {
+  secondary: `${PREFIX}-secondary`,
+  tag: `${PREFIX}-tag`,
+  listItem: `${PREFIX}-listItem`,
+};
+
+const StyledListItem = styled(ListItem)(({theme}) => ({
+  [`& .${classes.secondary}`]: {
     opacity: '.5',
-    paddingTop: theme.spacing(1),
+    // paddingTop: theme.spacing(1),
   },
-  tag: {
+
+  [`& .${classes.tag}`]: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
-  listItem: {
+
+  [`& .${classes.listItem}`]: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
 }));
 
 const SearchListItem = ({task}) => {
-  const classes = useStyles();
-
   const {i18n} = useTranslation();
 
-  moment.locale(i18n.language);
-
-  const timeDifference = moment(getDiffTime(task.start, task.end)).format('HH:mm');
+  const timeDifference = getDiffTime(task.start, task.end);
 
   return (
-    <ListItem button component={Link} to={'/tasks/' + moment(task.date).format('YYYY-MM-DD')}>
+    <StyledListItem button component={Link} to={'/tasks/' + format(parseISO(task.date, new Date()), 'yyyy-MM-dd')}>
       <ListItemText
         classes={{root: classes.listItem}}
         primary={
@@ -61,7 +69,7 @@ const SearchListItem = ({task}) => {
           </Typography>
         }
       />
-    </ListItem>
+    </StyledListItem>
   );
 };
 

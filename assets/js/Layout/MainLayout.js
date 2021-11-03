@@ -1,18 +1,19 @@
 import React, {useContext} from 'react';
+import {styled} from '@mui/material/styles';
 import classNames from 'classnames';
 import {useHistory} from 'react-router-dom';
 
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {makeStyles, useTheme} from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Fab from '@material-ui/core/Fab';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Hidden from '@material-ui/core/Hidden';
+import Fab from '@mui/material/Fab';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Hidden from '@mui/material/Hidden';
 
-import MenuIcon from '@material-ui/icons/Menu';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@mui/icons-material/Menu';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SearchIcon from '@mui/icons-material/Search';
 
 import Footer from '../Component/Footer/Footer';
 import DrawerComponent from '../Component/Drawer/Drawer';
@@ -22,18 +23,31 @@ import Empty from '../Component/Empty/Empty';
 import {useUserApi} from '../_hook/useUserApi';
 import {colors} from '../Common/Colors.js';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'MainLayout';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  bottomNav: `${PREFIX}-bottomNav`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+  fab: `${PREFIX}-fab`,
+};
+
+const StyledDiv = styled('div')(({theme}) => ({
+  [`&.${classes.root}`]: {
     display: 'flex',
   },
-  bottomNav: {
+
+  [`& .${classes.bottomNav}`]: {
     width: '100%',
     position: 'fixed',
     bottom: 0,
     left: 0,
     borderTop: 'solid 1px ' + colors.orangePeel,
+    zIndex: 10,
   },
-  content: {
+
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
@@ -47,14 +61,16 @@ const useStyles = makeStyles((theme) => ({
       marginRight: -drawerWidth,
     },
   },
-  contentShift: {
+
+  [`& .${classes.contentShift}`]: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: 0,
   },
-  fab: {
+
+  [`& .${classes.fab}`]: {
     margin: theme.spacing(1),
     position: 'fixed',
     bottom: theme.spacing(1),
@@ -64,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLayout = ({children}) => {
-  const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const {token, setLoading, setOpenDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
@@ -73,14 +88,14 @@ const MainLayout = ({children}) => {
 
   const rToken = localStorage.getItem('refreshToken');
 
-  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('md'));
+  const isMediumOrDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   const goToSearch = () => history.push('/search');
   const openCalendarEventsDrawer = () => setOpenCalendarEvents(true);
 
   if (token !== null) {
     return (
-      <div className={classes.root}>
+      <StyledDiv className={classes.root}>
         <div>
           <DrawerComponent />
         </div>
@@ -100,7 +115,7 @@ const MainLayout = ({children}) => {
           </Hidden>
         </main>
         <CalendarEvents />
-      </div>
+      </StyledDiv>
     );
   } else {
     setLoading(true);

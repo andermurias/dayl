@@ -1,10 +1,10 @@
 import {colors} from '../Common/Colors';
-import {fade} from '@material-ui/core';
+import {alpha} from '@mui/material';
 
-export const isDarkTheme = (theme) => theme.palette.type === 'dark';
+export const isDarkTheme = (theme) => theme.palette.mode === 'dark';
 
 export const theme = (prefersDarkMode) => ({
-  props: {
+  components: {
     MuiButton: {
       disableElevation: true,
     },
@@ -33,31 +33,35 @@ export const theme = (prefersDarkMode) => ({
       fontFamily: '"Montserrat"',
     },
   },
-  overrides: {
+  components: {
     MuiInputBase: {
-      input: {
-        '&:-webkit-autofill': {
-          WebkitBoxShadow: '0 0 0 100px #424242 inset!important',
-          WebkitTextFillColor: '#fff',
+      styleOverrides: {
+        input: {
+          '&:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 100px #424242 inset!important',
+            WebkitTextFillColor: '#fff',
+          },
         },
       },
     },
     MuiTableRow: {
-      root: {
-        '& td': {
-          borderColor: prefersDarkMode ? fade(colors.gallery, 0.05) : fade(colors.mineShaft, 0.05),
-        },
-        '& th': {
-          borderColor: prefersDarkMode ? fade(colors.gallery, 0.05) : fade(colors.mineShaft, 0.05),
-        },
-        '&:last-child td': {
-          borderBottom: 0,
+      styleOverrides: {
+        root: {
+          '& td': {
+            borderColor: prefersDarkMode ? alpha(colors.gallery, 0.05) : alpha(colors.mineShaft, 0.05),
+          },
+          '& th': {
+            borderColor: prefersDarkMode ? alpha(colors.gallery, 0.05) : alpha(colors.mineShaft, 0.05),
+          },
+          '&:last-child td': {
+            borderBottom: 0,
+          },
         },
       },
     },
   },
   palette: {
-    type: prefersDarkMode ? 'dark' : 'light',
+    mode: prefersDarkMode ? 'dark' : 'light',
     background: {
       default: prefersDarkMode ? colors.mineShaft : colors.gallery,
       paper: prefersDarkMode ? colors.mineShaftLighter : colors.wildSand,

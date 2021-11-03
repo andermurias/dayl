@@ -1,11 +1,15 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import {addSeconds, differenceInSeconds, intervalToDuration, parse} from 'date-fns';
+import {format} from '../Common/Time';
+
+import {makeStyles} from '@mui/styles';
+import Paper from '@mui/material/Paper';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 
@@ -19,9 +23,16 @@ import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
 import TasksTable from '../Component/TasksTable/TasksTable';
 import Accordion from '../Component/Accordion/Accordion';
+import {formatDurationToHours} from '../Common/Helper';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'DateTasks';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -29,28 +40,26 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     maxWidth: 1000,
     width: '100%',
-    margin: `${theme.spacing(1)}px auto`,
+    margin: `${theme.spacing(1)} auto`,
     background: 'transparent',
   },
 }));
 
-const getDiffTime = (start, end) => moment(end, 'HH:mm').diff(moment(start, 'HH:mm'));
+const getDiffTime = (start, end) =>
+  differenceInSeconds(parse(end, 'HH:mm', new Date()), parse(start, 'HH:mm', new Date()));
 
 const getTotalTaskDuration = (tasks) => {
   const sumTime = tasks
     .map((t) => (t.start && t.end ? getDiffTime(t.start, t.end) : 0))
     .reduce((sum, time) => sum + time, 0);
 
-  const spendTime = moment.utc(sumTime);
-  return spendTime.format('HH:mm');
+  var spendTime = intervalToDuration({start: 0, end: sumTime * 1000});
+
+  return formatDurationToHours(spendTime);
 };
 
 const DateTasks = () => {
-  const classes = useStyles();
-
   const {t, i18n} = useTranslation();
-
-  moment.locale(i18n.language);
 
   const [doneTasks] = useContext(DoneTaskContext);
   const [pendingTasks] = useContext(PendingTaskContext);
@@ -61,12 +70,12 @@ const DateTasks = () => {
   const {getTasksForDateAndSave} = useTaskApi();
 
   const query = useParams();
-  const currentDate = moment(query.date);
+  const currentDate = query.date ? parse(query.date, 'yyyy-MM-dd', new Date()) : new Date();
 
   useEffect(() => {
     setLoading(true);
-    const currentDate = moment(query.date);
-    const newDate = currentDate.format('YYYY-MM-DD');
+    const currentDate = query.date ? parse(query.date, 'yyyy-MM-dd', new Date()) : new Date();
+    const newDate = format(currentDate, 'yyyy-MM-dd');
     setCurrentDate(newDate);
     getTasksForDateAndSave(newDate).then(() => setLoading(false));
   }, [query.date]);
@@ -74,7 +83,7 @@ const DateTasks = () => {
   const spendTimeFormat = getTotalTaskDuration(doneTasks);
 
   return (
-    <Paper classes={{root: classes.paper}}>
+    <StyledPaper classes={{root: classes.paper}}>
       <TaskListHeader currentDate={currentDate} />
       <Accordion
         expanded={!!editTask || taskFormOpen}
@@ -95,7 +104,7 @@ const DateTasks = () => {
         <TasksTable done={true} tasks={doneTasks} />
       </Accordion>
       <TaskItemDialog />
-    </Paper>
+    </StyledPaper>
   );
 };
 

@@ -21,7 +21,8 @@
     "export": "Exportar a CSV",
     "days": "días",
     "day": "día",
-    "remaining": "días restantes"
+    "remaining": "días restantes",
+    "clear": "Quitar"
   },
   "form": {
     "description": "¿Que has hecho?",
@@ -71,12 +72,14 @@
       "calendar": "Calendario"
     },
     "today": "Hoy",
+    "dashboard": "Dashboard",
     "calendar": "Calendario",
     "tasks": "Tareas",
     "search": "Buscador",
     "exit": "Logout",
     "github": "Github",
     "theme": "Tema",
+    "export": "Exportar",
     "calendarevents": "Eventos"
   },
   "calendar": {
@@ -86,6 +89,22 @@
     "goto": "Ir a %s",
     "popover": {
       "count": "Hay %s Tareas"
-    }
+    },
+    "weekdays": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "weekdaysShort": ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"]
+  },
+  "dashboard": {
+    "hello": "Hola",
+    "date": "Hoy es {{date}}",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "calendar": "Eventos",
+    "empty": "No hay elementos"
+  },
+  "export": {
+    "title": "Exportar a CSV",
+    "message": "Selecciona la fecha de inicio y fin (Ambas inclusive) que quieres que se exporten a un archivo CSV",
+    "cancel": "Cancelar",
+    "save": "Guardar"
   }
 }

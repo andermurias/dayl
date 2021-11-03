@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SvgIcon from '@material-ui/core/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 
 const GoogleIcon = ({...props}) => (
   <SvgIcon {...props} viewBox="0 0 533.5 544.3">

@@ -1,12 +1,13 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 import {AppContext} from '../_context/AppContext';
@@ -15,9 +16,17 @@ import CalendarHeader from '../Component/CalendarHeader/CalendarHeader';
 import Empty from '../Component/Empty/Empty';
 import CCalendar from '../Component/Calendar/Calendar';
 import {CalendarProvider} from '../_context/CalendarContext';
+import {addDays, addMonths, endOfMonth, getDaysInMonth, parse, parseISO, startOfMonth, subMonths} from 'date-fns';
+import {format} from '../Common/Time';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'Calendar';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -25,63 +34,65 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     maxWidth: 1200,
     width: '100%',
-    margin: `${theme.spacing(1)}px auto`,
+    margin: `${theme.spacing(1)} auto`,
     background: 'transparent',
   },
 }));
 
 const generateDateRangeForDate = (date) => {
-  const dateObject = moment(date, 'YYYY-MM-DD');
+  const dateObject = parse(date, 'yyyy-MM-dd', new Date());
   return {
-    start: dateObject.startOf('month').format('YYYY-MM-DD'),
-    end: dateObject.endOf('month').format('YYYY-MM-DD'),
-    days: dateObject.daysInMonth(),
+    start: format(startOfMonth(dateObject), 'yyyy-MM-dd'),
+    end: format(endOfMonth(dateObject), 'yyyy-MM-dd'),
+    days: getDaysInMonth(dateObject),
   };
 };
 
 const filterTasksForCurrentDate = (currentDate) => (task) =>
-  moment(task.date).format('YYYY-MM-DD') === currentDate.format('YYYY-MM-DD');
+  format(parseISO(task.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd');
 
-const generateCalendarStructureFromRange = ({start, end, days, tasks}) => ({
-  month: {
-    name: moment(start).format('MMMM'),
-    nameShort: moment(start).format('MMM'),
-    number: parseInt(moment(start).format('MM')),
-    start: start,
-    end: end,
-    days: days,
-    tasksTotal: tasks.length,
-    pagination: {
-      current: moment(start).format('YYYY-MM-DD'),
-      next: moment(moment(start)).add(1, 'month').format('YYYY-MM-DD'),
-      prev: moment(moment(start)).subtract(1, 'month').format('YYYY-MM-DD'),
+const generateCalendarStructureFromRange = ({start, end, days, tasks}) => {
+  const startDate = parse(start, 'yyyy-MM-dd', new Date());
+
+  return {
+    month: {
+      name: format(startDate, 'LLLL'),
+      nameShort: format(startDate, 'LLL'),
+      number: parseInt(format(startDate, 'LL')),
+      start: startDate,
+      end: end,
+      days: days,
+      tasksTotal: tasks.length,
+      pagination: {
+        current: format(startDate, 'yyyy-MM-dd'),
+        next: format(addMonths(startDate, 1), 'yyyy-MM-dd'),
+        prev: format(subMonths(startDate, 1), 'yyyy-MM-dd'),
+      },
     },
-  },
-  days: new Array(days)
-    .fill({
-      start,
-      end,
-    })
-    .map(({start, end}, i) => {
-      const currentDate = moment(moment(start, 'YYYY-MM-DD').add(i, 'days').toDate());
-      return {
-        i: i,
-        date: currentDate,
-        monthDay: parseInt(currentDate.format('D')),
-        weekDay: parseInt(currentDate.format('e')),
-        weekDayStr: currentDate.format('dddd'),
-        url: '/tasks/' + currentDate.format('YYYY-MM-DD'),
-        tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
-      };
-    }),
-});
+    days: new Array(days)
+      .fill({
+        start,
+        end,
+      })
+      .map(({start, end}, i) => {
+        const currentDate = addDays(startDate, i);
+        return {
+          i: i,
+          date: currentDate,
+          monthDay: parseInt(format(currentDate, 'd')),
+          weekDay: parseInt(format(currentDate, 'e')),
+          weekDayStr: format(currentDate, 'EEEE'),
+          url: '/tasks/' + format(currentDate, 'yyyy-MM-dd'),
+          tasks: tasks.filter(filterTasksForCurrentDate(currentDate)),
+        };
+      }),
+  };
+};
 
 const Calendar = () => {
-  const classes = useStyles();
   const query = useParams();
 
   const {i18n} = useTranslation();
-  moment.locale(i18n.language);
 
   const {currentDate, setLoading} = useContext(AppContext);
 
@@ -106,10 +117,10 @@ const Calendar = () => {
   return (
     <CalendarProvider>
       {!!calendarData.days.length ? (
-        <Paper classes={{root: classes.paper}} elevation={0}>
+        <StyledPaper classes={{root: classes.paper}} elevation={0}>
           <CalendarHeader month={calendarData.month} />
           <CCalendar calendarData={calendarData} />
-        </Paper>
+        </StyledPaper>
       ) : (
         <Empty />
       )}

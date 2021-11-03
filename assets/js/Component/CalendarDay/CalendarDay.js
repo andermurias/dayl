@@ -1,19 +1,21 @@
 import React, {useContext} from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 import classNames from 'classnames';
 
 import moment from 'moment';
+import {format} from '../../Common/Time';
 
-import {darken, lighten} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-import Grid from '@material-ui/core/Grid';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useTheme from '@material-ui/core/styles/useTheme';
+import {darken, lighten} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/styles/useTheme';
 
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 
 import {colors} from '../../Common/Colors';
 
@@ -25,21 +27,30 @@ import {CalendarContext} from '../../_context/CalendarContext';
 import {day} from '../../_proptypes/calendar';
 import {isDarkTheme} from '../../_config/theme';
 
-const dayWidth = 14.28;
-const maxTasks = 3;
+const PREFIX = 'CalendarDay';
 
-const useStyles = makeStyles((theme) => ({
-  dayItem: {
+const classes = {
+  dayItem: `${PREFIX}-dayItem`,
+  dayItemLink: `${PREFIX}-dayItemLink`,
+  dayItemDay: `${PREFIX}-dayItemDay`,
+  dayItemToday: `${PREFIX}-dayItemToday`,
+  tasksContainer: `${PREFIX}-tasksContainer`,
+  taskMore: `${PREFIX}-taskMore`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`&.${classes.dayItem}`]: {
     flexGrow: 0,
     maxWidth: `${dayWidth}%`,
     flexBasis: `${dayWidth}%`,
     border: 'solid 1px ' + (isDarkTheme(theme) ? lighten(colors.mineShaft, 0.05) : darken(colors.gallery, 0.03)),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       border: 'none',
       justifyContent: 'center',
     },
   },
-  dayItemLink: {
+
+  [`& .${classes.dayItemLink}`]: {
     textDecoration: 'none',
     color: theme.palette.text.primary,
     border: 'solid 1px transparent',
@@ -48,7 +59,8 @@ const useStyles = makeStyles((theme) => ({
       borderColor: colors.orangePeel,
     },
   },
-  dayItemDay: {
+
+  [`& .${classes.dayItemDay}`]: {
     padding: theme.spacing(0.5),
     borderRadius: '100%',
     height: theme.spacing(4),
@@ -57,23 +69,26 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  dayItemToday: {
+
+  [`& .${classes.dayItemToday}`]: {
     background: colors.orangePeel,
     color: colors.richBlack,
   },
-  tasksContainer: {
+
+  [`& .${classes.tasksContainer}`]: {
     width: '100%',
     display: 'flex',
-    height: theme.spacing(4) * (maxTasks + 1),
+    height: theme.spacing(4 * (maxTasks + 1)),
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: theme.spacing(4),
       alignItems: 'center',
     },
   },
-  taskMore: {
+
+  [`& .${classes.taskMore}`]: {
     display: 'inline-flex',
     marginTop: theme.spacing(1),
     maxWidth: '100%',
@@ -81,25 +96,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const isToday = (date) => date.format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+const dayWidth = 14.28;
+const maxTasks = 3;
+
+const isToday = (date) => format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
 
 const CalendarDay = ({day}) => {
-  const classes = useStyles();
   const theme = useTheme();
 
-  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmlOrDown = useMediaQuery(theme.breakpoints.down('md'));
   const maxTasksResponsive = isSmlOrDown ? 0 : maxTasks;
 
   const {handleMoreClick} = useContext(CalendarContext);
 
   const {t, i18n} = useTranslation();
-  moment.locale(i18n.language);
 
   return (
-    <Grid
+    <StyledGrid
       container
       item
-      justify="flex-end"
+      justifyContent="flex-end"
       alignItems="flex-start"
       classes={{root: classes.dayItem}}
       style={{marginLeft: day.monthDay === 1 ? `${dayWidth * day.weekDay}%` : null}}
@@ -134,7 +150,7 @@ const CalendarDay = ({day}) => {
           />
         )}
       </div>
-    </Grid>
+    </StyledGrid>
   );
 };
 

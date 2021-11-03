@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import {useHistory, useLocation} from 'react-router-dom';
@@ -6,19 +7,25 @@ import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {makeStyles} from '@mui/styles';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 
 import {pagination} from '../../_proptypes/search';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = 'SearchHeader';
+
+const classes = {
+  title: `${PREFIX}-title`,
+};
+
+const StyledGrid = styled(Grid)(({theme}) => ({
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -33,15 +40,12 @@ function useQuery() {
 }
 
 const SearchHeader = ({pagination}) => {
-  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
 
   const [search, setSearch] = useState(useQuery().get('s') || '');
 
   const {t, i18n} = useTranslation();
-
-  moment.locale(i18n.language);
 
   const goToSearch = () => {
     const searchParams = new URLSearchParams({
@@ -54,7 +58,7 @@ const SearchHeader = ({pagination}) => {
   const onPressEnter = (e) => e.keyCode === 13 && goToSearch();
 
   return (
-    <Grid container spacing={3}>
+    <StyledGrid container spacing={3}>
       <Grid container item xs={12}>
         <Typography variant="h2" component="h1" className={classes.title}>
           {t('search.title')}
@@ -77,7 +81,7 @@ const SearchHeader = ({pagination}) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton aria-label="search" onClick={goToSearch}>
+                <IconButton aria-label="search" onClick={goToSearch} size="large">
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
@@ -85,7 +89,7 @@ const SearchHeader = ({pagination}) => {
           }}
         />
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

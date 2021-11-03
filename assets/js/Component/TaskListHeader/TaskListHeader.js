@@ -1,38 +1,53 @@
 import React, {useState} from 'react';
 
+import {styled} from '@mui/material/styles';
+
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import classNames from 'classnames/bind';
 
 import moment from 'moment';
-import MomentUtils from '@date-io/moment';
+import {subDays, addDays} from 'date-fns';
+import {format, startOfWeek, endOfWeek} from '../../Common/Time';
 
-import Box from '@material-ui/core/Box';
-import Hidden from '@material-ui/core/Hidden';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Paper from '@material-ui/core/Paper';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@mui/material/Box';
+import Hidden from '@mui/material/Hidden';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import {makeStyles, useTheme} from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Paper from '@mui/material/Paper';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 
 import {useTaskApi} from '../../_hook/useTaskApi';
 
 import Link from '../../Atom/Link';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = 'TaskListHeader';
+
+const classes = {
+  title: `${PREFIX}-title`,
+  subtitle: `${PREFIX}-subtitle`,
+  left: `${PREFIX}-left`,
+  right: `${PREFIX}-right`,
+  titleSecondary: `${PREFIX}-titleSecondary`,
+  datePicker: `${PREFIX}-datePicker`,
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -40,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  subtitle: {
+
+  [`& .${classes.subtitle}`]: {
     width: '100%',
     textTransform: 'uppercase',
     lineHeight: 1.5,
@@ -48,34 +64,38 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  left: {
+
+  [`& .${classes.left}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'left',
     },
   },
-  right: {
+
+  [`& .${classes.right}`]: {
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
       textAlign: 'right',
     },
   },
-  titleSecondary: {
+
+  [`& .${classes.titleSecondary}`]: {
     opacity: '.3',
     fontWeight: 'regular',
   },
-  datePicker: {
+
+  [`& .${classes.datePicker}`]: {
     display: 'none',
   },
-  paper: {
+
+  [`&.${classes.paper}`]: {
     width: '100%',
-    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px`,
+    padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
     background: 'transparent',
   },
 }));
 
 const TaskListHeader = ({currentDate}) => {
-  const classes = useStyles();
   const theme = useTheme();
   const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
   const {getExportTask} = useTaskApi();
@@ -83,15 +103,15 @@ const TaskListHeader = ({currentDate}) => {
   const history = useHistory();
   const {t} = useTranslation();
 
-  const [selectedDate, setSelectedDate] = useState(moment(currentDate).format('YYYY-MM-DD'));
+  const [selectedDate, setSelectedDate] = useState(format(currentDate, 'yyyy-MM-dd'));
   const [pickerStatus, setPickerStatus] = useState(false);
 
-  const prevDate = moment(currentDate).subtract(1, 'day').format('YYYY-MM-DD');
-  const nexDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
+  const prevDate = format(subDays(currentDate, 1), 'yyyy-MM-dd');
+  const nexDate = format(addDays(currentDate, 1), 'yyyy-MM-dd');
 
   const onChangeDate = (date) => {
     setSelectedDate(date);
-    history.push('/tasks/' + moment(date).format('YYYY-MM-DD'));
+    history.push('/tasks/' + format(date, 'yyyy-MM-dd'));
   };
 
   const [moreMenuAnchorEl, setMoreMenuAnchorEl] = useState(null);
@@ -105,15 +125,21 @@ const TaskListHeader = ({currentDate}) => {
   };
 
   return (
-    <Paper className={classes.paper} elevation={0}>
+    <StyledPaper className={classes.paper} elevation={0}>
       <Grid container spacing={1}>
         <Grid container item xs={10} sm={8}>
           <Typography variant="h2" component="h1" className={classes.title} onClick={() => setPickerStatus(true)}>
-            {currentDate.format('dddd')}
+            {format(currentDate, 'EEEE')}
           </Typography>
         </Grid>
-        <Grid container item xs={2} sm={4} justify="flex-end" alignItems="flex-end">
-          <IconButton aria-label="more" aria-controls="tasks-menu" aria-haspopup="true" onClick={handleMoreMenuClick}>
+        <Grid container item xs={2} sm={4} justifyContent="flex-end" alignItems="flex-end">
+          <IconButton
+            aria-label="more"
+            aria-controls="tasks-menu"
+            aria-haspopup="true"
+            onClick={handleMoreMenuClick}
+            size="large"
+          >
             <MoreVertIcon fontSize="large" />
           </IconButton>
           <Menu
@@ -122,7 +148,6 @@ const TaskListHeader = ({currentDate}) => {
             keepMounted
             open={Boolean(moreMenuAnchorEl)}
             onClose={handleMoreMenuClose}
-            getContentAnchorEl={null}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'right',
@@ -132,7 +157,7 @@ const TaskListHeader = ({currentDate}) => {
               horizontal: 'right',
             }}
           >
-            <MenuItem onClick={() => getExportTask(currentDate.format('YYYY-MM-DD'))}>
+            <MenuItem onClick={() => getExportTask(format(currentDate, 'yyyy-MM-dd'))}>
               <ListItemIcon>
                 <ImportExportIcon fontSize="small" />
               </ListItemIcon>
@@ -141,53 +166,52 @@ const TaskListHeader = ({currentDate}) => {
           </Menu>
         </Grid>
         <Grid container item xs={6} sm={8} alignItems="center">
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <DatePicker
-              autoOk
-              label="Date Picker"
-              showTodayButton={true}
-              todayLabel={t('tasks.today')}
-              cancelLabel={t('tasks.cancel')}
-              okLabel={t('tasks.ok')}
-              value={selectedDate}
-              open={pickerStatus}
-              onOpen={() => setPickerStatus(true)}
-              onAccept={() => setPickerStatus(false)}
-              onClose={() => setPickerStatus(false)}
-              onChange={onChangeDate}
-              TextFieldComponent={() => null}
-            />
-          </MuiPickersUtilsProvider>
+          <MobileDatePicker
+            autoOk
+            label="Date Picker"
+            showTodayButton={true}
+            todayText={t('tasks.today')}
+            cancelText={t('tasks.cancel')}
+            okText={t('tasks.ok')}
+            value={selectedDate}
+            open={pickerStatus}
+            disableMaskedInput={true}
+            onOpen={() => setPickerStatus(true)}
+            onAccept={() => setPickerStatus(false)}
+            onClose={() => setPickerStatus(false)}
+            onChange={onChangeDate}
+            renderInput={(props) => null}
+          />
           <Typography variant="h6" component="h2" className={classes.title} onClick={() => setPickerStatus(true)}>
-            <span className={classes.titleSecondary}>({moment(currentDate).format(isSmallOrUp ? 'LL' : 'L')})</span>
+            <span className={classes.titleSecondary}>({format(currentDate, isSmallOrUp ? 'PPPPPP' : 'P')})</span>
           </Typography>
         </Grid>
-        <Grid container item xs={6} sm={4} justify="flex-end">
-          <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate}>
+        <Grid container item xs={6} sm={4} justifyContent="flex-end">
+          <IconButton aria-label="prev" component={Link} to={'/tasks/' + prevDate} size="large">
             <ChevronLeftIcon fontSize="large" />
           </IconButton>
-          <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate}>
+          <IconButton aria-label="next" component={Link} to={'/tasks/' + nexDate} size="large">
             <ChevronRightIcon fontSize="large" />
           </IconButton>
         </Grid>
       </Grid>
-      <Hidden xsDown>
+      <Hidden smDown>
         <Box my={2}>
           <Grid container spacing={1}>
             <Grid container item sm={6} xs={12}>
               <Typography variant="overline" component="h3" className={classNames(classes.subtitle, classes.left)}>
-                {t('tasks.header.week')} {moment(currentDate).format('w')}
+                {t('tasks.header.week')} {format(currentDate, 'w')}
               </Typography>
             </Grid>
             <Grid container item sm={6} xs={12}>
               <Typography variant="overline" component="h3" className={classNames(classes.subtitle, classes.right)}>
-                {moment(currentDate).startOf('week').format('L')} - {moment(currentDate).endOf('week').format('L')}
+                {format(startOfWeek(currentDate), 'P')} - {format(endOfWeek(currentDate), 'P')}
               </Typography>
             </Grid>
           </Grid>
         </Box>
       </Hidden>
-    </Paper>
+    </StyledPaper>
   );
 };
 

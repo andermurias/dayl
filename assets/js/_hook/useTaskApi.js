@@ -24,6 +24,18 @@ export const useTaskApi = () => {
       })
       .catch(console.log);
 
+  const getExportTaskForRange = (start, end) =>
+    client
+      .get(`/api/task/export/range?start=${start}&end=${end}`)
+      .then((res) => {
+        const hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + escape(res.data);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = `${start}_${end}.csv`.replaceAll('-', '');
+        hiddenElement.click();
+      })
+      .catch(console.log);
+
   const deleteTask = (task) => client.delete('/api/task/delete/' + task.id);
 
   const updateTask = (task) =>
@@ -45,6 +57,9 @@ export const useTaskApi = () => {
     });
 
   const getTasksForDate = (date) => Promise.all([getTasks('pending', null), getTasks('done', date)]);
+
+  const getTasksForDashboard = (currentDate, targetDate) =>
+    Promise.all([getTasks('pending', null), getTasks('done', currentDate), getTasks('done', targetDate)]);
 
   const getTasksForDateAndSave = (date) =>
     getTasksForDate(date).then(([pending, done]) => {
@@ -79,5 +94,7 @@ export const useTaskApi = () => {
     getExportTask,
     getTasksForSearch,
     getTasksForRange,
+    getTasksForDashboard,
+    getExportTaskForRange,
   };
 };

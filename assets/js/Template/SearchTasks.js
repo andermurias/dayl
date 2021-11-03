@@ -1,13 +1,14 @@
 import React, {useEffect, useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useHistory, useLocation} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
 
-import {makeStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Pagination from '@material-ui/lab/Pagination';
-import Grid from '@material-ui/core/Grid';
+import {makeStyles} from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+import Grid from '@mui/material/Grid';
 
 import {useTaskApi} from '../_hook/useTaskApi';
 import {AppContext} from '../_context/AppContext';
@@ -17,8 +18,15 @@ import SearchHeader from '../Component/SearchHeader/SearchHeader';
 import {withLayout} from '../_hoc/withLayout';
 import MainLayout from '../Layout/MainLayout';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
+const PREFIX = 'SearchTasks';
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  title: `${PREFIX}-title`,
+};
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  [`&.${classes.paper}`]: {
     boxShadow: 'none',
     border: 0,
     flexGrow: 1,
@@ -26,10 +34,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     maxWidth: 800,
     width: '100%',
-    margin: `${theme.spacing(1)}px auto`,
+    margin: `${theme.spacing(1)} auto`,
     background: 'transparent',
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
@@ -44,7 +53,6 @@ function useQuery() {
 }
 
 const SearchTasks = () => {
-  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
 
@@ -55,8 +63,6 @@ const SearchTasks = () => {
   });
 
   const {i18n} = useTranslation();
-
-  moment.locale(i18n.language);
 
   const {setLoading} = useContext(AppContext);
   const {getTasksForSearch} = useTaskApi();
@@ -85,7 +91,7 @@ const SearchTasks = () => {
   };
 
   return (
-    <Paper classes={{root: classes.paper}}>
+    <StyledPaper classes={{root: classes.paper}}>
       <Grid container spacing={3}>
         <Grid container item xs={12}>
           <SearchHeader pagination={pagination} />
@@ -93,7 +99,7 @@ const SearchTasks = () => {
         <Grid container item xs={12}>
           <SearchList tasks={searchTasks} />
         </Grid>
-        <Grid container item xs={12} justify="center">
+        <Grid container item xs={12} justifyContent="center">
           {!!pagination.totalPages && (
             <Pagination
               count={pagination.totalPages}
@@ -104,7 +110,7 @@ const SearchTasks = () => {
           )}
         </Grid>
       </Grid>
-    </Paper>
+    </StyledPaper>
   );
 };
 

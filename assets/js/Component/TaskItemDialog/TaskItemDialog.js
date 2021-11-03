@@ -1,34 +1,37 @@
 import React, {useContext, useState} from 'react';
+import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 
-import MomentUtils from '@date-io/moment';
-import moment from 'moment';
+import {format} from '../../Common/Time';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import Typography from '@material-ui/core/Typography';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import Divider from '@material-ui/core/Divider';
-import {makeStyles} from '@material-ui/core/styles';
-import {useTheme} from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {parseISO} from 'date-fns';
 
-import {DatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Typography from '@mui/material/Typography';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import Divider from '@mui/material/Divider';
+import {makeStyles} from '@mui/styles';
+import {useTheme} from '@mui/material';
+import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import EditIcon from '@material-ui/icons/Edit';
-import ClearIcon from '@material-ui/icons/Clear';
-import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import EventIcon from '@material-ui/icons/Event';
-import EventNoteIcon from '@material-ui/icons/EventNote';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
+
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import EventIcon from '@mui/icons-material/Event';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 import {AppContext} from '../../_context/AppContext';
 import {
@@ -43,6 +46,50 @@ import {
 import {taskHighlighter} from '../../Common/Helper';
 import {colors} from '../../Common/Colors';
 
+const PREFIX = 'TaskItemDialog';
+
+const classes = {
+  tag: `${PREFIX}-tag`,
+  dialogContainer: `${PREFIX}-dialogContainer`,
+  dialogPaper: `${PREFIX}-dialogPaper`,
+  dialogTitle: `${PREFIX}-dialogTitle`,
+  dialogContent: `${PREFIX}-dialogContent`,
+  divider: `${PREFIX}-divider`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const StyledDialog = styled(Dialog)(({theme}) => ({
+  [`& .${classes.tag}`]: {
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+
+  [`& .${classes.dialogContainer}`]: {
+    alignItems: 'flex-end',
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'center',
+    },
+  },
+
+  [`& .${classes.dialogPaper}`]: {
+    height: 'auto',
+  },
+
+  [`& .${classes.dialogTitle}`]: {
+    backgroundColor: colors.orangePeel,
+    color: colors.mineShaft,
+  },
+
+  [`& .${classes.dialogContent}`]: {
+    padding: theme.spacing(0),
+  },
+
+  [`& .${classes.divider}`]: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+}));
+
 const UPDATE_DATE_TASK = 'update_date';
 const UPDATE_DUE_DATE_TASK = 'update_due_date';
 
@@ -56,33 +103,6 @@ const createOption = ({icon, text, action, color, type}) => ({
 
 const createDivider = () => createOption({type: 'divider'});
 
-const useStyles = makeStyles((theme) => ({
-  tag: {
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  dialogContainer: {
-    alignItems: 'flex-end',
-    [theme.breakpoints.up('md')]: {
-      alignItems: 'center',
-    },
-  },
-  dialogPaper: {
-    height: 'auto',
-  },
-  dialogTitle: {
-    backgroundColor: colors.orangePeel,
-    color: colors.mineShaft,
-  },
-  dialogContent: {
-    padding: theme.spacing(1),
-  },
-  divider: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -90,14 +110,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const TaskItemDialog = () => {
   const {t} = useTranslation();
   const theme = useTheme();
-  const classes = useStyles();
 
   const {setOptionTask, optionTask, editTask} = useContext(AppContext);
 
   const [endDatePickerStatus, setEndDatePickerStatus] = useState(false);
   const [deadlinePickerStatus, setDeadlinePickerStatus] = useState(false);
 
-  const isSmallOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallOrDown = useMediaQuery(theme.breakpoints.down('md'));
 
   const {processTask} = useTaskProcessor();
 
@@ -125,9 +144,9 @@ const TaskItemDialog = () => {
     createOption({
       icon: EventNoteIcon,
       text:
-        optionTask?.deadline === null
-          ? t('dialog.deadline.set')
-          : t('dialog.deadline.change') + ' (' + moment(optionTask?.deadline).format('L') + ')',
+        optionTask && optionTask.deadline
+          ? t('dialog.deadline.change') + ' (' + format(parseISO(optionTask.deadline, new Date()), 'P') + ')'
+          : t('dialog.deadline.set'),
       action: UPDATE_DUE_DATE_TASK,
     }),
     createDivider(),
@@ -163,18 +182,15 @@ const TaskItemDialog = () => {
     }
   };
 
-  const performMoveTask = (date) => performAction(UPDATE_TASK, {...optionTask, date: date.format('YYYY-MM-DD')})();
+  const performMoveTask = (date) => performAction(UPDATE_TASK, {...optionTask, date: format(date, 'yyyy-MM-dd')})();
   const performSetDeadline = (date) =>
-    performAction(UPDATE_TASK, {...optionTask, deadline: date.format('YYYY-MM-DD')})();
-  const performClearDeadline = () => {
-    performAction(UPDATE_TASK, {...optionTask, deadline: null})();
-    setDeadlinePickerStatus(false);
-  };
+    performAction(UPDATE_TASK, {...optionTask, deadline: date ? format(date, 'yyyy-MM-dd') : null})();
+
   return (
     <>
-      <Dialog
+      <StyledDialog
         fullWidth={true}
-        fullScreen={isSmallOrDown}
+        fullScreen={false}
         onClose={handleClose}
         open={optionTask !== null}
         aria-labelledby="task-option-dialog"
@@ -215,39 +231,37 @@ const TaskItemDialog = () => {
             })}
           </List>
         </DialogContent>
-      </Dialog>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <DatePicker
-          autoOk
-          label="Date Picker"
-          showTodayButton={true}
-          todayLabel={t('tasks.today')}
-          cancelLabel={t('tasks.cancel')}
-          okLabel={t('tasks.ok')}
-          open={deadlinePickerStatus}
-          onOpen={() => setDeadlinePickerStatus(true)}
-          onAccept={() => setDeadlinePickerStatus(false)}
-          onClose={() => setDeadlinePickerStatus(false)}
-          onChange={performSetDeadline}
-          clearable={true}
-          onClear={performClearDeadline}
-          TextFieldComponent={() => null}
-        />
-        <DatePicker
-          autoOk
-          label="Date Picker"
-          showTodayButton={true}
-          todayLabel={t('tasks.today')}
-          cancelLabel={t('tasks.cancel')}
-          okLabel={t('tasks.ok')}
-          open={endDatePickerStatus}
-          onOpen={() => setEndDatePickerStatus(true)}
-          onAccept={() => setEndDatePickerStatus(false)}
-          onClose={() => setEndDatePickerStatus(false)}
-          onChange={performMoveTask}
-          TextFieldComponent={() => null}
-        />
-      </MuiPickersUtilsProvider>
+      </StyledDialog>
+      <MobileDatePicker
+        autoOk
+        showTodayButton={true}
+        todayText={t('tasks.today')}
+        cancelText={t('tasks.cancel')}
+        okText={t('tasks.ok')}
+        clearText={t('tasks.clear')}
+        open={deadlinePickerStatus}
+        disableCloseOnSelect={false}
+        onOpen={() => setDeadlinePickerStatus(true)}
+        onAccept={() => setDeadlinePickerStatus(false)}
+        onClose={() => setDeadlinePickerStatus(false)}
+        onChange={performSetDeadline}
+        clearable={true}
+        renderInput={(props) => null}
+      />
+      <MobileDatePicker
+        autoOk
+        showTodayButton={true}
+        todayText={t('tasks.today')}
+        cancelText={t('tasks.cancel')}
+        okText={t('tasks.ok')}
+        open={endDatePickerStatus}
+        disableCloseOnSelect={false}
+        onOpen={() => setEndDatePickerStatus(true)}
+        onAccept={() => setEndDatePickerStatus(false)}
+        onClose={() => setEndDatePickerStatus(false)}
+        onChange={performMoveTask}
+        renderInput={(props) => null}
+      />
     </>
   );
 };

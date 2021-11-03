@@ -1,11 +1,20 @@
 import React from 'react';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {styled} from '@mui/material/styles';
+
+import {makeStyles} from '@mui/styles';
 
 import logo from '../../../static/img/logo/dayl_logo_full_white.svg';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'Empty';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  logo: `${PREFIX}-logo`,
+};
+
+const Root = styled('div')(({theme}) => ({
+  [`&.${classes.root}`]: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -13,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     padding: theme.spacing(0, 0),
   },
-  logo: {
+
+  [`& .${classes.logo}`]: {
     opacity: '.02',
     width: '50%',
     maxWidth: 300,
@@ -21,12 +31,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Empty = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <Root className={classes.root}>
       <img src={logo} alt="Dayl" className={classes.logo} />
-    </div>
+    </Root>
   );
 };
 
