@@ -44,6 +44,7 @@ const StyledDiv = styled('div')(({theme}) => ({
     bottom: 0,
     left: 0,
     borderTop: 'solid 1px ' + colors.orangePeel,
+    zIndex: 10,
   },
 
   [`& .${classes.content}`]: {

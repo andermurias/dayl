@@ -3,21 +3,23 @@ import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
-import {addDays, parse} from 'date-fns';
+import {parse, subDays} from 'date-fns';
 import {format} from '../Common/Time';
 
 import {makeStyles} from '@mui/styles';
 import Paper from '@mui/material/Paper';
 
 import {useTaskApi} from '../_hook/useTaskApi';
+import {useCalendarApi} from '../_hook/useCalendarApi';
 
 import {AppContext} from '../_context/AppContext';
 
 import TaskItemDialog from '../Component/TaskItemDialog/TaskItemDialog';
 
-import TasksTable from '../Component/TasksTable/TasksTable';
+import DashboardTable from '../Component/DashboardTable/DashboardTable';
 import Accordion from '../Component/Accordion/Accordion';
 import DashboardHeader from '../Component/DashboardHeader/DashboardHeader';
+import {Grid} from '@mui/material';
 
 const PREFIX = 'Dashboard';
 
@@ -45,38 +47,47 @@ const Dashboard = () => {
   const [todayTasks, setTodayTasks] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
   const [pastDayTask, setPastDayTask] = useState([]);
+  const [calendarEvents, setCalendarEvents] = useState([]);
 
   const {setLoading} = useContext(AppContext);
 
   const {getTasksForDashboard} = useTaskApi();
+  const {getCalendarEvents} = useCalendarApi();
 
   const currentDate = new Date();
   const newDate = format(currentDate, 'yyyy-MM-dd');
-  const pastDate = format(addDays(currentDate, 1), 'yyyy-MM-dd');
+  const pastDate = format(subDays(currentDate, 1), 'yyyy-MM-dd');
 
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true);
 
-    getTasksForDashboard(newDate, pastDate).then(([pending, done, pastDone]) => {
-      setTodayTasks(done.data);
-      setPastDayTask(pastDone.data);
-      setPendingTasks(pending.data);
-      setLoading(false);
-    });
+    const [pending, done, pastDone] = await getTasksForDashboard(newDate, pastDate);
+    const calendarEvents = await getCalendarEvents(newDate);
+
+    setTodayTasks(done.data);
+    setPastDayTask(pastDone.data);
+    setPendingTasks(pending.data);
+    setCalendarEvents(calendarEvents.data.map((e) => ({description: e.name, ...e})));
+    setLoading(false);
   }, []);
 
   return (
     <StyledPaper classes={{root: classes.paper}}>
       <DashboardHeader currentDate={currentDate} />
-      <Accordion defaultExpanded={true} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'}>
-        <TasksTable tasks={pendingTasks} withActions={false} />
-      </Accordion>
-      <Accordion defaultExpanded={true} title={t('dashboard.today') + ' (' + todayTasks.length + ')'}>
-        <TasksTable done={true} tasks={todayTasks} withActions={false} />
-      </Accordion>
-      <Accordion defaultExpanded={true} title={t('dashboard.yesterday') + ' (' + pastDayTask.length + ')'}>
-        <TasksTable done={true} tasks={pastDayTask} withActions={false} />
-      </Accordion>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={6}>
+          <DashboardTable tasks={pendingTasks} title={t('tasks.pending') + ' (' + pendingTasks.length + ')'} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <DashboardTable tasks={calendarEvents} title={t('dashboard.calendar')} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <DashboardTable tasks={pastDayTask} title={t('dashboard.yesterday') + ' (' + pastDayTask.length + ')'} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <DashboardTable tasks={todayTasks} title={t('dashboard.today') + ' (' + todayTasks.length + ')'} />
+        </Grid>
+      </Grid>
       <TaskItemDialog />
     </StyledPaper>
   );

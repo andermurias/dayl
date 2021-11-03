@@ -23,7 +23,7 @@ import Paper from '@mui/material/Paper';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import DatePicker from '@mui/lab/DatePicker';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -166,15 +166,16 @@ const TaskListHeader = ({currentDate}) => {
           </Menu>
         </Grid>
         <Grid container item xs={6} sm={8} alignItems="center">
-          <DatePicker
+          <MobileDatePicker
             autoOk
             label="Date Picker"
             showTodayButton={true}
-            todayLabel={t('tasks.today')}
-            cancelLabel={t('tasks.cancel')}
-            okLabel={t('tasks.ok')}
+            todayText={t('tasks.today')}
+            cancelText={t('tasks.cancel')}
+            okText={t('tasks.ok')}
             value={selectedDate}
             open={pickerStatus}
+            disableMaskedInput={true}
             onOpen={() => setPickerStatus(true)}
             onAccept={() => setPickerStatus(false)}
             onClose={() => setPickerStatus(false)}

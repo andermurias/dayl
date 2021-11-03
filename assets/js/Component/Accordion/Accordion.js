@@ -23,7 +23,7 @@ const classes = {
 };
 
 const StyledMuiAccordion = styled(MuiAccordion)(({theme}) => ({
-  [`& .${classes.accordion}`]: {
+  [`&.${classes.accordion}`]: {
     boxShadow: 'none',
     margin: `${theme.spacing(1)} 0`,
     '&.Mui-expanded': {
@@ -57,7 +57,7 @@ const StyledMuiAccordion = styled(MuiAccordion)(({theme}) => ({
 
   [`& .${classes.accordionSummaryContent}`]: {
     marginLeft: 0,
-    paddingLeft: theme.spacing(3),
+    paddingLeft: theme.spacing(1),
   },
 }));
 

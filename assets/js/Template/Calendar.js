@@ -76,7 +76,6 @@ const generateCalendarStructureFromRange = ({start, end, days, tasks}) => {
       })
       .map(({start, end}, i) => {
         const currentDate = addDays(startDate, i);
-        console.log(currentDate, format(currentDate, 'e'));
         return {
           i: i,
           date: currentDate,

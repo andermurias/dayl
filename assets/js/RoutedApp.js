@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {ThemeProvider, StyledEngineProvider} from '@mui/material';
 
-import { createTheme } from '@mui/material/styles';
+import {createTheme} from '@mui/material/styles';
 
 import {theme} from './_config/theme';
 import {checkAndUpdateTheme, getForcedTheme, getSavedTheme, THEME_DARK} from './Common/Helper';
@@ -23,8 +23,11 @@ import Calendar from './Template/Calendar';
 import ModalLoader from './Component/ModalLoader/ModalLoader';
 import SearchTasks from './Template/SearchTasks';
 import MainLayout from './Layout/MainLayout';
-import Dashboard from "./Template/Dashboard";
-import { useTranslation } from 'react-i18next';
+import Dashboard from './Template/Dashboard';
+
+import {locales} from './Common/Time';
+
+import {useTranslation} from 'react-i18next';
 
 const routerConfiguration = [
   {
@@ -60,12 +63,12 @@ const RoutedApp = () => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={muiTheme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <CssBaseline/>
+        <LocalizationProvider dateAdapter={AdapterDateFns} locale={locales[i18n.language]}>
+          <CssBaseline />
           <Router>
             <Switch>
               <Route path="/login" exact>
-                <Login/>
+                <Login />
               </Route>
               <Route>
                 <AuthorizedComponent>
@@ -73,7 +76,7 @@ const RoutedApp = () => {
                     <Switch>
                       {routerConfiguration.map((route, j) => (
                         <Route path={route.route} key={j}>
-                          <route.component route={route}/>
+                          <route.component route={route} />
                         </Route>
                       ))}
                     </Switch>
@@ -81,7 +84,7 @@ const RoutedApp = () => {
                 </AuthorizedComponent>
               </Route>
             </Switch>
-            <ModalLoader/>
+            <ModalLoader />
           </Router>
         </LocalizationProvider>
       </ThemeProvider>

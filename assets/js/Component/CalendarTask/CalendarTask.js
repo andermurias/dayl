@@ -16,6 +16,7 @@ const PREFIX = 'CalendarTask';
 const classes = {
   taskChip: `${PREFIX}-taskChip`,
   tag: `${PREFIX}-tag`,
+  taskText: `${PREFIX}-taskText`,
 };
 
 const StyledChip = styled(Chip)(({theme}) => ({
@@ -24,6 +25,11 @@ const StyledChip = styled(Chip)(({theme}) => ({
     marginTop: theme.spacing(1),
     maxWidth: '100%',
     border: 0,
+  },
+
+  [`& .${classes.taskText}`]: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 
   [`& .${classes.tag}`]: {
@@ -41,6 +47,7 @@ const CalendarTask = ({task}) => {
       label={
         <Typography
           variant="inherit"
+          classes={{root: classes.taskText}}
           dangerouslySetInnerHTML={{
             __html: taskHighlighter(task.description, classes.tag),
           }}

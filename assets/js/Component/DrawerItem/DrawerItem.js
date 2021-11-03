@@ -52,7 +52,7 @@ const Root = styled('div')(({theme}) => ({
   },
 }));
 
-const DrawerItem = ({item: {text, Icon, url, type, action, checked}, ...rest}) => {
+const DrawerItem = ({item: {text, Icon, url, type, action, checked, closeDrawer}, ...rest}) => {
   const location = useLocation();
   const {setCloseDrawer} = useContext(AppContext);
 
@@ -69,7 +69,9 @@ const DrawerItem = ({item: {text, Icon, url, type, action, checked}, ...rest}) =
             to={url}
             onClick={() => {
               action();
-              setCloseDrawer();
+              if (closeDrawer) {
+                setCloseDrawer();
+              }
             }}
             classes={{root: isUrlSelected(url) ? classes.selectedListItem : ''}}
             {...rest}

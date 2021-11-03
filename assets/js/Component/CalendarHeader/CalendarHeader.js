@@ -63,9 +63,9 @@ const CalendarHeader = ({month}) => {
           views={['year', 'month']}
           label="Date Picker"
           showTodayButton={true}
-          todayLabel={t('tasks.today')}
-          cancelLabel={t('tasks.cancel')}
-          okLabel={t('tasks.ok')}
+          todayText={t('tasks.today')}
+          cancelText={t('tasks.cancel')}
+          okText={t('tasks.ok')}
           value={selectedDate}
           open={pickerStatus}
           onOpen={() => setPickerStatus(true)}

@@ -1,5 +1,5 @@
-
-import {differenceInDays, intervalToDuration, parse} from 'date-fns';
+import {differenceInDays, intervalToDuration, parse, parseISO} from 'date-fns';
+import {format} from './Time';
 
 export const logout = () => {
   localStorage.clear();
@@ -32,19 +32,21 @@ export const taskHighlighter = (description, classes) =>
 
 export const generateList = (length) => Object.keys(new Array(length).fill());
 
-export const formatDurationToHours = (duration) =>  ("" + duration.hours).padStart(2, "0") + ":" + ("" + duration.minutes).padStart(2, "0");
+export const formatDurationToHours = (duration) =>
+  ('' + duration.hours).padStart(2, '0') + ':' + ('' + duration.minutes).padStart(2, '0');
 
 export const getDiffTime = (start, end) => {
- const duration = intervalToDuration({end: parse(end, 'HH:mm', new Date()), start: parse(start, 'HH:mm', new Date())})
+  const duration = intervalToDuration({end: parse(end, 'HH:mm', new Date()), start: parse(start, 'HH:mm', new Date())});
 
- return formatDurationToHours(duration);
-}
-export const getDiffDays = (start, end) => differenceInDays(parse(start, 'YYYY-MM-DD', new Date()), parse(end, 'YYYY-MM-DD', new Date()));
+  return formatDurationToHours(duration);
+};
+export const getDiffDays = (start, end) =>
+  differenceInDays(parse(start, 'yyyy-MM-dd', new Date()), parse(end, 'yyyy-MM-dd', new Date()));
 
-export const getDeadlineTextAsDate = (task) => task.deadline && format(parse(task.deadline, 'yyyy-MM-dd'), 'P');
+export const getDeadlineTextAsDate = (task) => task.deadline && format(parseISO(task.deadline, new Date()), 'P');
 
 export const getDeadlineTextAsTimeDiff = (task) =>
-  task.deadline ? getDiffDays(task.deadline, format(new Date(), 'YYYY-MM-DD')) : null;
+  task.deadline ? differenceInDays(parseISO(task.deadline, new Date()), new Date()) : null;
 
 export const getDeadlineData = (task) => ({
   date: getDeadlineTextAsDate(task),
@@ -53,5 +55,4 @@ export const getDeadlineData = (task) => ({
 
 export const displayRemainingDays = (task) => !task.date && task.deadline != null;
 
-export const getTaskDuration = (task) =>
-  task.start && task.end && getDiffTime(task.start, task.end);
+export const getTaskDuration = (task) => task.start && task.end && getDiffTime(task.start, task.end);

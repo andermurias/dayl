@@ -118,7 +118,7 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     paddingTop: theme.spacing(1),
   },
 
-  [`& .${classes.tableRow}`]: {
+  [`&.${classes.tableRow}`]: {
     minHeight: 60.5,
   },
 }));
@@ -132,7 +132,7 @@ const deadlineCellWidth = 110;
 const getFixedCellsSize = () =>
   timeCellWidth * timeCellWidth + durationCellWidth + actionCellWidth + checkboxCellWidth + deadlineCellWidth;
 
-const TaskListItem = ({done, task, withActions}) => {
+const TaskRowItem = ({done, task, withActions}) => {
   const {t} = useTranslation();
 
   const labelId = `checkbox-list-label-${task.id}`;
@@ -151,9 +151,11 @@ const TaskListItem = ({done, task, withActions}) => {
         <TableCell padding="checkbox" classes={{root: classes.checkboxCell}}>
           <WrapSkeletonOnLoading>
             <Checkbox
+              color="secondary"
               edge="start"
               checked={done}
               onClick={() => processTask(UPDATE_STATUS_TASK, task)}
+              tabIndex={-1}
               tabIndex={-1}
               disableRipple
               inputProps={{'aria-labelledby': labelId}}
@@ -272,14 +274,14 @@ const TaskListItem = ({done, task, withActions}) => {
   );
 };
 
-TaskListItem.propTypes = {
+TaskRowItem.propTypes = {
   done: PropTypes.bool,
   tasks: PropTypes.arrayOf(PropTypes.shape(task)),
   withActions: PropTypes.bool,
 };
 
-TaskListItem.defaultProps = {
+TaskRowItem.defaultProps = {
   withActions: true,
 };
 
-export default React.memo(TaskListItem);
+export default React.memo(TaskRowItem);

@@ -355,6 +355,81 @@ class ApiTaskController extends AbstractController
     }
 
     /**
+     * @Route("/export/range", name="export", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all done tasks of an User and specific range",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
+     *     )
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="start",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="end",
+     *     in="query",
+     *     type="string",
+     *     description="Day to request (YYYY-MM-DD)"
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
+     */
+    public function exportTasksForRange(Request $request)
+    {
+        $start = $request->get('start');
+        $end = $request->get('end');
+
+        if (!Helper::isValidDate($start) || !Helper::isValidDate($end)) {
+            throw new \JsonException('If sent, date param MUST be YYYY-MM-DD format');
+        }
+
+        $datetimeStart = new \DateTime($start ?? date('Y-m-d'));
+        $datetimeEnd = new \DateTime($end ?? date('Y-m-d'));
+
+        $userTasks = $this->taskRepository->finByUserAndRange($this->getUser(), $datetimeStart, $datetimeEnd);
+
+        $f = fopen('php://output', 'w');
+
+        fputcsv($f, [
+            'description',
+            'start',
+            'end',
+            'date',
+            'deadline',
+        ]);
+
+        foreach ($userTasks as $task) {
+            // generate csv lines from the inner arrays
+            fputcsv($f, [
+                Helper::cleanString($task->getDescription()),
+                $task->getStart() ? $task->getStart()->format('H:i') : '08:00',
+                $task->getEnd() ? $task->getEnd()->format('H:i') : '08:00',
+                $task->getDate()->format('Y-m-d'),
+                $task->getDeadline() ? $task->getDeadline()->format('Y-m-d') : '',
+            ]);
+        }
+
+        fclose($f);
+
+        $filename = $datetimeStart->format('YYYYMMDD').'-'.$datetimeEnd->format('YYYYMMDD').'.csv';
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
+
+        return $response;
+    }
+
+    /**
      * @Route("/range", name="range", methods={"GET"})
      *
      * @SWG\Response(

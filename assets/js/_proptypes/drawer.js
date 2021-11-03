@@ -6,4 +6,5 @@ export const item = {
   url: PropTypes.string,
   type: PropTypes.string,
   action: PropTypes.func,
+  closeDrawer: PropTypes.bool,
 };

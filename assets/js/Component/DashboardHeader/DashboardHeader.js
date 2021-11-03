@@ -34,7 +34,6 @@ const classes = {
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   [`& .${classes.title}`]: {
-    textTransform: 'capitalize',
     textAlign: 'left',
     width: '100%',
     '&:hover': {
@@ -76,7 +75,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
 
   [`&.${classes.paper}`]: {
     width: '100%',
-    padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
+    padding: `${theme.spacing(2)} ${theme.spacing(2)}`,
     background: 'transparent',
   },
 }));
@@ -98,7 +97,7 @@ const DashboardHeader = ({currentDate}) => {
         <Grid container item xs={12} alignItems="center">
           <Typography variant="h6" component="h2" className={classes.title}>
             <span className={classes.titleSecondary}>
-              {t('dashboard.date', {date: format(currentDate, isSmallOrUp ? 'PP' : 'P')})}
+              {t('dashboard.date', {date: format(currentDate, isSmallOrUp ? 'PPP' : 'P')})}
             </span>
           </Typography>
         </Grid>

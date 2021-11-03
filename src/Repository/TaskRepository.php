@@ -85,6 +85,7 @@ class TaskRepository extends ServiceEntityRepository
     {
         return $this
             ->searchQueryByDescription($user, $search)
+            ->addGroupBy('t.user')
             ->select('count(t.id)')
             ->getQuery()
             ->getSingleScalarResult();

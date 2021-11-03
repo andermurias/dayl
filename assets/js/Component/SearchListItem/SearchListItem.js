@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
-import moment from 'moment';
+import {parseISO} from 'date-fns';
+import {format} from '../../Common/Time';
 
 import {makeStyles} from '@mui/styles';
 
@@ -27,7 +28,7 @@ const classes = {
 const StyledListItem = styled(ListItem)(({theme}) => ({
   [`& .${classes.secondary}`]: {
     opacity: '.5',
-    paddingTop: theme.spacing(1),
+    // paddingTop: theme.spacing(1),
   },
 
   [`& .${classes.tag}`]: {
@@ -51,11 +52,7 @@ const SearchListItem = ({task}) => {
   const timeDifference = getDiffTime(task.start, task.end);
 
   return (
-    <StyledListItem
-      button
-      component={Link}
-      to={'/tasks/' + format(parse(task.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}
-    >
+    <StyledListItem button component={Link} to={'/tasks/' + format(parseISO(task.date, new Date()), 'yyyy-MM-dd')}>
       <ListItemText
         classes={{root: classes.listItem}}
         primary={

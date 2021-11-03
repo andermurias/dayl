@@ -21,7 +21,8 @@
     "export": "Export to CSV",
     "days": "days",
     "day": "day",
-    "remaining": "remaining days"
+    "remaining": "remaining days",
+    "clear": "Remove"
   },
   "form": {
     "description": "What have you done?",
@@ -78,6 +79,7 @@
     "exit": "Logout",
     "github": "Github",
     "theme": "Theme",
+    "export": "Export",
     "calendarevents": "Events"
   },
   "calendar": {
@@ -88,29 +90,21 @@
     "popover": {
       "count": "%s Tasks"
     },
-    "weekdays" : [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ],
-    "weekdaysShort" : [
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-      "Sun"
-    ]
+    "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "weekdaysShort": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   },
   "dashboard": {
     "hello": "Hello",
     "date": "Today is {{date}}",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "calendar": "Today's events",
+    "empty": "There are no elements"
+  },
+  "export": {
+    "title": "Export to CSV",
+    "message": "Select a date range to generate a CSV file with the tasks from the selected dates",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

@@ -48,7 +48,7 @@
     "serve:notls": "symfony serve --no-tls",
     "build": "yarn encore dev",
     "build:prod": "yarn encore production",
-    "start": "yarn encore dev --watch",
+    "start": "yarn encore dev --watch --hot",
     "lint:js": "node_modules/.bin/prettier --config .prettierrc --write \"./assets/js/**/*.{js,jsx}\"\n",
     "lint:php": "./vendor/bin/php-cs-fixer fix --config .php_cs --allow-risky=yes",
     "lint:js:staged": "node_modules/.bin/prettier --config .prettierrc --write",

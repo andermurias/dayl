@@ -4,6 +4,8 @@ import {useTranslation} from 'react-i18next';
 
 import {format} from '../../Common/Time';
 
+import {parseISO} from 'date-fns';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -19,7 +21,7 @@ import {useTheme} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import DatePicker from '@mui/lab/DatePicker';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
@@ -56,7 +58,7 @@ const classes = {
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')(({theme}) => ({
+const StyledDialog = styled(Dialog)(({theme}) => ({
   [`& .${classes.tag}`]: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
@@ -79,7 +81,7 @@ const Root = styled('div')(({theme}) => ({
   },
 
   [`& .${classes.dialogContent}`]: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0),
   },
 
   [`& .${classes.divider}`]: {
@@ -142,9 +144,9 @@ const TaskItemDialog = () => {
     createOption({
       icon: EventNoteIcon,
       text:
-        optionTask?.deadline === null
-          ? t('dialog.deadline.set')
-          : t('dialog.deadline.change') + ' (' + format(optionTask?.deadline || new Date(), 'P') + ')',
+        optionTask && optionTask.deadline
+          ? t('dialog.deadline.change') + ' (' + format(parseISO(optionTask.deadline, new Date()), 'P') + ')'
+          : t('dialog.deadline.set'),
       action: UPDATE_DUE_DATE_TASK,
     }),
     createDivider(),
@@ -182,16 +184,13 @@ const TaskItemDialog = () => {
 
   const performMoveTask = (date) => performAction(UPDATE_TASK, {...optionTask, date: format(date, 'yyyy-MM-dd')})();
   const performSetDeadline = (date) =>
-    performAction(UPDATE_TASK, {...optionTask, deadline: format(date, 'yyyy-MM-dd')})();
-  const performClearDeadline = () => {
-    performAction(UPDATE_TASK, {...optionTask, deadline: null})();
-    setDeadlinePickerStatus(false);
-  };
+    performAction(UPDATE_TASK, {...optionTask, deadline: date ? format(date, 'yyyy-MM-dd') : null})();
+
   return (
-    <Root>
-      <Dialog
+    <>
+      <StyledDialog
         fullWidth={true}
-        fullScreen={isSmallOrDown}
+        fullScreen={false}
         onClose={handleClose}
         open={optionTask !== null}
         aria-labelledby="task-option-dialog"
@@ -232,36 +231,38 @@ const TaskItemDialog = () => {
             })}
           </List>
         </DialogContent>
-      </Dialog>
-      <DatePicker
+      </StyledDialog>
+      <MobileDatePicker
         autoOk
         showTodayButton={true}
-        todayLabel={t('tasks.today')}
-        cancelLabel={t('tasks.cancel')}
-        okLabel={t('tasks.ok')}
+        todayText={t('tasks.today')}
+        cancelText={t('tasks.cancel')}
+        okText={t('tasks.ok')}
+        clearText={t('tasks.clear')}
         open={deadlinePickerStatus}
+        disableCloseOnSelect={false}
         onOpen={() => setDeadlinePickerStatus(true)}
         onAccept={() => setDeadlinePickerStatus(false)}
         onClose={() => setDeadlinePickerStatus(false)}
         onChange={performSetDeadline}
         clearable={true}
-        onClear={performClearDeadline}
         renderInput={(props) => null}
       />
-      <DatePicker
+      <MobileDatePicker
         autoOk
         showTodayButton={true}
-        todayLabel={t('tasks.today')}
-        cancelLabel={t('tasks.cancel')}
-        okLabel={t('tasks.ok')}
+        todayText={t('tasks.today')}
+        cancelText={t('tasks.cancel')}
+        okText={t('tasks.ok')}
         open={endDatePickerStatus}
+        disableCloseOnSelect={false}
         onOpen={() => setEndDatePickerStatus(true)}
         onAccept={() => setEndDatePickerStatus(false)}
         onClose={() => setEndDatePickerStatus(false)}
         onChange={performMoveTask}
         renderInput={(props) => null}
       />
-    </Root>
+    </>
   );
 };
 

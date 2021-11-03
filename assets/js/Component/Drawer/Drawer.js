@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {styled} from '@mui/material/styles';
 
@@ -9,6 +9,17 @@ import {makeStyles} from '@mui/styles';
 
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import DatePicker from '@mui/lab/DatePicker';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
@@ -21,6 +32,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 
 import {colors} from '../../Common/Colors';
 
@@ -33,6 +45,9 @@ import DrawerItem from '../DrawerItem/DrawerItem';
 import logoDark from '../../../static/img/logo/dayl_logo_full_dark.svg';
 import logo from '../../../static/img/logo/dayl_logo_full.svg';
 import {isDarkTheme} from '../../_config/theme';
+import {style} from '@mui/system';
+import {useTaskApi} from '../../_hook/useTaskApi';
+import {format} from 'date-fns';
 
 const PREFIX = 'Drawer';
 
@@ -47,6 +62,11 @@ const classes = {
   bottomList: `${PREFIX}-bottomList`,
 };
 
+const dialogClasses = {
+  dateSelector: `${PREFIX}-dateSelector`,
+  dialogText: `${PREFIX}-dialogText`,
+};
+
 const StyledMuiDrawer = styled(MuiDrawer)(({theme}) => ({
   [`&.${classes.drawer}`]: {
     width: drawerWidth,
@@ -55,6 +75,7 @@ const StyledMuiDrawer = styled(MuiDrawer)(({theme}) => ({
 
   [`& .${classes.drawerPaper}`]: {
     width: drawerWidth,
+    backgroundImage: 'none',
     justifyContent: 'space-between',
   },
 
@@ -88,15 +109,26 @@ const StyledMuiDrawer = styled(MuiDrawer)(({theme}) => ({
   },
 }));
 
+const StyledDialog = styled(Dialog)(({theme}) => ({
+  [`& .${dialogClasses.dialogText}`]: {
+    marginBottom: theme.spacing(4),
+  },
+
+  [`& .${dialogClasses.dateSelector}`]: {
+    width: '100%',
+  },
+}));
+
 const drawerWidth = 180;
 
-const generateMenuItem = ({text, icon, url, type, subtext, checked, action}) => ({
+const generateMenuItem = ({text, icon, url, type, subtext, checked, action, closeDrawer}) => ({
   text: text,
   subtext: subtext || null,
   Icon: icon,
   url: url || '#',
   type: type || 'item',
   checked: checked || false,
+  closeDrawer: closeDrawer === true || closeDrawer === false ? closeDrawer : true,
   action: action || (() => {}),
 });
 const generateMenuHeader = ({text}) => generateMenuItem({text: text, type: 'header'});
@@ -111,7 +143,19 @@ const Drawer = () => {
   const theme = useTheme();
   const {currentDate, openDrawer, setCloseDrawer, openCalendarEvents, setOpenCalendarEvents} = useContext(AppContext);
 
+  const {getExportTaskForRange} = useTaskApi();
+
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [startDate, handleStartDateChange] = useState(new Date());
+  const [endDate, handleEndDateChange] = useState(new Date());
+
+  const closeExportDialog = () => setExportDialogOpen(false);
+
   const isSmlOrDown = useMediaQuery(theme.breakpoints.down('md'));
+
+  const generateCsvFile = () => {
+    getExportTaskForRange(format(startDate, 'yyyy-MM-dd'), format(endDate, 'yyyy-MM-dd'));
+  };
 
   const mainMenu = [
     generateMenuItem({
@@ -149,6 +193,14 @@ const Drawer = () => {
     }),
     generateMenuHeader({
       text: t('menu.header.more'),
+    }),
+    generateMenuItem({
+      text: t('menu.export'),
+      icon: ImportExportIcon,
+      closeDrawer: false,
+      action: () => {
+        setExportDialogOpen(true);
+      },
     }),
     generateMenuItem({
       text: t('menu.theme'),
@@ -210,6 +262,45 @@ const Drawer = () => {
           <DrawerItem item={item} key={i} />
         ))}
       </div>
+      <StyledDialog open={exportDialogOpen} onClose={closeExportDialog}>
+        <DialogTitle>{t('export.title')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText classes={{root: dialogClasses.dialogText}}>{t('export.message')}</DialogContentText>
+          <Grid container spacing={2}>
+            <Grid container item xs={12} sm={12} md={6}>
+              <DatePicker
+                id="export-start"
+                label={t('form.start')}
+                minutesStep={5}
+                classes={{root: dialogClasses.dateSelector}}
+                ampm={false}
+                value={startDate}
+                onChange={handleStartDateChange}
+                renderInput={(props) => <TextField classes={{root: dialogClasses.dateSelector}} {...props} />}
+                fullWidth
+                autoOk
+              />
+            </Grid>
+            <Grid container item xs={12} sm={12} md={6}>
+              <DatePicker
+                id="export-end"
+                label={t('form.end')}
+                minutesStep={5}
+                ampm={false}
+                value={endDate}
+                onChange={handleEndDateChange}
+                renderInput={(props) => <TextField classes={{root: dialogClasses.dateSelector}} {...props} />}
+                fullWidth
+                autoOk
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeExportDialog}>{t('export.cancel')}</Button>
+          <Button onClick={generateCsvFile}>{t('export.save')}</Button>
+        </DialogActions>
+      </StyledDialog>
     </StyledMuiDrawer>
   );
 };

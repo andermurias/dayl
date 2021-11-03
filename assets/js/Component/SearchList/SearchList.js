@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 
 import {styled} from '@mui/material/styles';
 
-import moment from 'moment';
+import {parseISO} from 'date-fns';
+import {format} from '../../Common/Time';
 
 import {makeStyles} from '@mui/styles';
 import List from '@mui/material/List';
@@ -17,6 +18,8 @@ const PREFIX = 'SearchList';
 const classes = {
   root: `${PREFIX}-root`,
   date: `${PREFIX}-date`,
+  dividder: `${PREFIX}-divider`,
+  title: `${PREFIX}-title`,
 };
 
 const StyledList = styled(List)(({theme}) => ({
@@ -24,12 +27,29 @@ const StyledList = styled(List)(({theme}) => ({
     width: '100%',
   },
 
+  [`& .${classes.title}`]: {
+    position: 'relative',
+  },
+
+  [`& .${classes.title}::after`]: {
+    content: '""',
+    display: 'block',
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    height: '1px',
+    backgroundColor: colors.orangePeel,
+    width: 'calc(100% - 150px)',
+  },
+
   [`& .${classes.date}`]: {
-    borderBottom: 'solid 1px ' + theme.palette.background.paper,
-    paddingTop: theme.spacing(1),
+    // borderBottom: 'solid 1px ' + theme.palette.background.paper,
+    paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(1),
     backgroundColor: colors.mineShaft,
   },
+
+  [`& .${classes.divider}`]: {},
 }));
 
 const SearchList = ({tasks}) => {
@@ -41,8 +61,8 @@ const SearchList = ({tasks}) => {
         <React.Fragment key={i}>
           {listDate !== task.date ? (
             <ListSubheader classes={{root: classes.date}}>
-              <Typography variant="h5">
-                {(listDate = task.date) && format(parse(listDate, 'yyyy-MM-dd', new Date()), 'P')}
+              <Typography variant="h5" classes={{root: classes.title}}>
+                {(listDate = task.date) && format(parseISO(listDate, new Date()), 'P')}
               </Typography>
             </ListSubheader>
           ) : null}
