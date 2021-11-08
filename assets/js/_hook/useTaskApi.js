@@ -12,6 +12,8 @@ export const useTaskApi = () => {
 
   const getTasks = (type, date) => client.get('/api/task/' + type + (date ? '?date=' + date : '')).catch(console.log);
 
+  const getPreviousDayTasks = () => client.get('/api/task/previous_day').catch(console.log);
+
   const getExportTask = (date) =>
     client
       .get('/api/task/export?date=' + date)
@@ -58,8 +60,8 @@ export const useTaskApi = () => {
 
   const getTasksForDate = (date) => Promise.all([getTasks('pending', null), getTasks('done', date)]);
 
-  const getTasksForDashboard = (currentDate, targetDate) =>
-    Promise.all([getTasks('pending', null), getTasks('done', currentDate), getTasks('done', targetDate)]);
+  const getTasksForDashboard = (currentDate) =>
+    Promise.all([getTasks('pending', null), getTasks('done', currentDate), getPreviousDayTasks()]);
 
   const getTasksForDateAndSave = (date) =>
     getTasksForDate(date).then(([pending, done]) => {

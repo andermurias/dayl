@@ -97,6 +97,40 @@ class ApiTaskController extends AbstractController
     }
 
     /**
+     * @Route("/previous_day", name="previousDay", methods={"GET"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all done tasks of an User and previous day",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Task::class))
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Tasks")
+     * @Security(name="Bearer")
+     */
+    public function tasksForPreviousDay(Request $request)
+    {
+
+        $date = $this->taskRepository->findPreviousDay($this->getUser())[1];
+        $tasks = [];
+        if ($date) {
+            $tasks = $this->taskRepository->finByUserAndDate($this->getUser(), new \DateTimeImmutable($date));
+        }
+
+        $data = [
+            'date'  => $date,
+            'tasks' => $tasks,
+        ];
+
+        $serializedTask = $this->serializer->serialize($data, 'json');
+
+        return new JsonResponse($serializedTask, 200, [], true);
+    }
+
+    /**
      * @Route("/{id}", name="update", requirements={"id"="\d+"}, methods={"PATCH"})
      *
      * @SWG\Response(
@@ -349,7 +383,7 @@ class ApiTaskController extends AbstractController
 
         $response = new Response();
         $response->headers->set('Content-Type', 'application/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="'.$datetime->format('YYYYMMDD').'.csv";');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $datetime->format('YYYYMMDD') . '.csv";');
 
         return $response;
     }
@@ -420,11 +454,11 @@ class ApiTaskController extends AbstractController
 
         fclose($f);
 
-        $filename = $datetimeStart->format('YYYYMMDD').'-'.$datetimeEnd->format('YYYYMMDD').'.csv';
+        $filename = $datetimeStart->format('YYYYMMDD') . '-' . $datetimeEnd->format('YYYYMMDD') . '.csv';
 
         $response = new Response();
         $response->headers->set('Content-Type', 'application/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '";');
 
         return $response;
     }
@@ -534,15 +568,15 @@ class ApiTaskController extends AbstractController
         $totalPages = (int) ceil($userTasksCount / $elements);
 
         $paginationInfo = [
-            'currentPage' => $page,
-            'prevPage' => $page > 1 ? $page - 1 : null,
-            'nextPage' => $page < $totalPages ? $page + 1 : null,
-            'totalPages' => $totalPages,
+            'currentPage'  => $page,
+            'prevPage'     => $page > 1 ? $page - 1 : null,
+            'nextPage'     => $page < $totalPages ? $page + 1 : null,
+            'totalPages'   => $totalPages,
             'totalResults' => $userTasksCount,
         ];
 
         $serializedTask = $this->serializer->serialize([
-            'info' => $paginationInfo,
+            'info'    => $paginationInfo,
             'results' => $userTasks,
         ], 'json');
 

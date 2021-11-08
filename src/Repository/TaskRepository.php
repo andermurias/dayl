@@ -23,6 +23,20 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * @return Task[] Returns an array of Task objects
      */
+    public function findPreviousDay(UserInterface $user)
+    {
+         return $this->createQueryBuilder('t')
+            ->select('MAX(t.date)')
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('date(t.date) < CURRENT_DATE()')
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+        }
+     * @return Task[] Returns an array of Task objects
+     */
     public function finByUserAndDate(UserInterface $user, ?\DateTimeInterface $dateTime)
     {
         $queryBuilder = $this->createQueryBuilder('t')

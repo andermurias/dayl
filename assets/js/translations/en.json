@@ -98,6 +98,7 @@
     "date": "Today is {{date}}",
     "today": "Today",
     "yesterday": "Yesterday",
+    "pastDay": "Past Day",
     "calendar": "Today's events",
     "empty": "There are no elements"
   },

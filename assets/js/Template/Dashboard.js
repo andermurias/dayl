@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import {useTranslation} from 'react-i18next';
 
 import moment from 'moment';
-import {parse, subDays} from 'date-fns';
+import {parse, parseISO, subDays} from 'date-fns';
 import {format} from '../Common/Time';
 
 import {makeStyles} from '@mui/styles';
@@ -46,7 +46,7 @@ const Dashboard = () => {
 
   const [todayTasks, setTodayTasks] = useState([]);
   const [pendingTasks, setPendingTasks] = useState([]);
-  const [pastDayTask, setPastDayTask] = useState([]);
+  const [pastDayTask, setPastDayTask] = useState({date: null, tasks: []});
   const [calendarEvents, setCalendarEvents] = useState([]);
 
   const {setLoading} = useContext(AppContext);
@@ -61,7 +61,7 @@ const Dashboard = () => {
   useEffect(async () => {
     setLoading(true);
 
-    const [pending, done, pastDone] = await getTasksForDashboard(newDate, pastDate);
+    const [pending, done, pastDone] = await getTasksForDashboard(newDate);
     const calendarEvents = await getCalendarEvents(newDate);
 
     setTodayTasks(done.data);
@@ -82,7 +82,15 @@ const Dashboard = () => {
           <DashboardTable tasks={calendarEvents} title={t('dashboard.calendar')} />
         </Grid>
         <Grid item xs={12} lg={6}>
-          <DashboardTable tasks={pastDayTask} title={t('dashboard.yesterday') + ' (' + pastDayTask.length + ')'} />
+          <DashboardTable
+            tasks={pastDayTask.tasks}
+            title={
+              t('dashboard.pastDay') +
+              ' (' +
+              ((pastDayTask && pastDayTask.date && format(parseISO(pastDayTask.date, new Date()), 'P')) || '') +
+              ')'
+            }
+          />
         </Grid>
         <Grid item xs={12} lg={6}>
           <DashboardTable tasks={todayTasks} title={t('dashboard.today') + ' (' + todayTasks.length + ')'} />
