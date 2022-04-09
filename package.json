@@ -33,7 +33,7 @@
     "i18next-browser-languagedetector": "^6.1.2",
     "lodash": "^4.17.21",
     "mdi-material-ui": "^6.22.1",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "moment-locales-webpack-plugin": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
